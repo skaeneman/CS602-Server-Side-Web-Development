@@ -46,11 +46,13 @@ module.exports = {
             employee_array.push(data[i].id);
         }
         // find the max id in the array using the Spread operator
-        max_id = Math.max(...employee_array);
-        new_employee_id = max_id + 1;  // create a new id 1 greater than the max_id
+        max_id = Math.max(...employee_array);  
+        // create a new id one greater than the current max_id
+        new_employee_id = max_id + 1;  
         // push the new employee object into the data array
         data.push({ id: new_employee_id, firstName: emp_firstName, lastName: emp_lastName });
-        return `adding employee ${emp_firstName} ${emp_lastName}`;
+        // output the new employee using string interpolation
+        return `Adding employee ${emp_firstName} ${emp_lastName}`;
     }    
 };
 
