@@ -23,8 +23,8 @@ module.exports = {
      * Parameter: employee_lastName <String>
      * Returns: employee's if one or more exist, or []
      *******************************************************/
-    lookupByLastname: (employee_lastName) => {
-        var emp_lastName = _.pluck(data, { lastName: employee_lastName });
+    lookupByLastName: (employee_lastName) => {
+        var emp_lastName = _.where(data, { lastName: employee_lastName });
         return emp_lastName;
     },
     /****************************************************************
@@ -39,7 +39,7 @@ module.exports = {
         var max_id = _.max(emp_ids, function (employee_id) { return employee_id; });
         // increment id by 1
         var new_emp_id = max_id + 1;  
-        // pushes the new employee onto the data array
+        // pushes the new employee into the data array
         data.push({id: new_emp_id, firstName: employee_firstName, lastName: employee_lastName});
         return `Adding employee ${employee_firstName} ${employee_lastName}`;
     } 
