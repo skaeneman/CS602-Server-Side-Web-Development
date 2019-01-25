@@ -9,7 +9,7 @@ var data = [
 module.exports = {
     /*****************************************************************************
     * Finds a user by searching for their id in an array.
-    * Argument: takes an integer id.
+    * Parameter: takes an integer id.
     * Returns: first name, last name, and id of a user in the array, or undefined.
     ******************************************************************************/
     lookupById: (user_id) => {
@@ -21,7 +21,7 @@ module.exports = {
     },
     /*****************************************************************************
     * Finds one or more users by searching for matching last names in an array.
-    * Argument: takes a name as a String.
+    * Parameter: takes a name as a String.
     * Returns: first name, last name, and id of users in the array, or an empty array.
     ******************************************************************************/
     lookupByLastName: (user_lastName) => {
@@ -36,7 +36,7 @@ module.exports = {
     },    
     /*****************************************************************************
     * Adds a new employee into the data array.
-    * Argument: takes a users first and last name as a String.
+    * Parameters: takes a users first and last name as a String.
     * Returns: a message that the user has been added to the data array.
     ******************************************************************************/
     addEmployee: (emp_firstName, emp_lastName) => {
