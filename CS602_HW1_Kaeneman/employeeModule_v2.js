@@ -27,4 +27,5 @@ module.exports = {
         var emp_lastName = _.where(data, { lastName: employee_lastName });
         return emp_lastName;
     }
+    .
 };
