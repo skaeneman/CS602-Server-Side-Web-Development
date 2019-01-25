@@ -34,11 +34,23 @@ module.exports = {
         }
         return user_array;
     },    
-
-    addEmployee: (firstName, lastName) => {
-        data.firstName = firstName;
-        data.lastName = lastName;
-        //calculate id
+    /*****************************************************************************
+    * Adds a new employee into the data array.
+    * Argument: takes a users first and last name as a String.
+    * Returns: a message that the user has been added to the data array.
+    ******************************************************************************/
+    addEmployee: (emp_firstName, emp_lastName) => {
+        employee_array = [];  // create an empty array to hold id's
+        for (var i in data) {
+            // populate the array with the current employee id's
+            employee_array.push(data[i].id);
+        }
+        // find the max id in the array using the Spread operator
+        max_id = Math.max(...employee_array);
+        new_employee_id = max_id + 1;  // create a new id 1 greater than the max_id
+        // push the new employee object into the data array
+        data.push({ id: new_employee_id, firstName: emp_firstName, lastName: emp_lastName });
+        return `adding employee ${emp_firstName} ${emp_lastName}`;
     }    
 };
 
