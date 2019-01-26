@@ -1,7 +1,8 @@
+
 var EmployeeEmitter = require('./employeeEmitter').EmployeeEmitter;
 var colors = require('colors/safe');
 
-var data = [
+let data = [
     { id: 1, firstName: 'John', lastName: 'Smith' },
     { id: 2, firstName: 'Jane', lastName: 'Smith' },
     { id: 3, firstName: 'John', lastName: 'Doe' }
@@ -17,7 +18,7 @@ emitter.on('lookupByLastName', (emp_lastName) => {
 
 // Subscribe to addEmployee event handler
 emitter.on('addEmployee', (emp_firstName, emp_lastName) => {
-    console.log(colors.blue(`Event addEmployee raised! ${emp_firstName} ${emp_lastName}`));
+    console.log(colors.blue(`Event addEmployee raised! ${emp_firstName},${emp_lastName}`));
 });
 
 // Subscribe to lookupById event handler
@@ -32,7 +33,8 @@ console.log(emitter.lookupByLastName('Smith'));
 console.log('');
 
 // Emit addEmployee
-console.log(emitter.addEmployee('William', 'Smith'));
+console.log(colors.magenta('Adding employee William Smith'));
+emitter.addEmployee('William', 'Smith');
 console.log('');
 
 // Emit lookupByLastName
@@ -44,3 +46,4 @@ console.log('');
 console.log(colors.magenta('Lookup by id (2)'));
 console.log(emitter.lookupById(2));
 console.log('');
+

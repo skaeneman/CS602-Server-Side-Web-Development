@@ -8,7 +8,8 @@ console.log(output.lookupByLastName('Smith'));
 console.log('');
 
 // Add a new employee with first name, William, and last name, Smith.
-console.log(colors.blue(output.addEmployee('William', 'Smith')));
+console.log(colors.blue('Adding employee William Smith'));
+output.addEmployee('William', 'Smith');
 console.log('');
 
 // Lookup by last name, Smith, and print the results.
@@ -25,7 +26,12 @@ console.log('');
 
 // Using the above variable, change the first name to Mary
 console.log(colors.blue("Changing first name..."));
-id_variable.firstName = 'Mary'
+// check to ensure id_variable exists before changing name
+if (id_variable === undefined || id_variable === null) {
+    console.log(colors.red('first name is null'));
+} else {
+    id_variable.firstName = 'Mary';
+}
 console.log('');
 
 // Lookup again by id, 2, and print the result.

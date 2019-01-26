@@ -26,7 +26,12 @@ console.log('');
 
 // Using the above variable, change the first name to Mary
 console.log(colors.red("Changing first name..."));
-id_variable.firstName = 'Mary'
+// check to ensure id_variable exists before changing name
+if (id_variable === undefined || id_variable === null) {
+    console.log(colors.yellow('first name is null'));
+} else {
+    id_variable.firstName = 'Mary';
+}
 console.log('');
 
 // Lookup again by id, 2, and print the result.

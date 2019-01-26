@@ -45,10 +45,9 @@ module.exports = {
             // populate the array with the current employee id's
             employee_array.push(data[i].id);
         }
-        // find the max id in the array using the Spread operator
-        max_id = Math.max(...employee_array);  
-        // create a new id one greater than the current max_id
-        new_employee_id = max_id + 1;  
+        // if at least 1 element exists in employee_array find the max id using the spread operator, add 1 to it.
+        // if there are no elements in employee_array create a max_id with a value of 1.
+        const new_employee_id = employee_array !== undefined && employee_array.length > 0 ? max_id = Math.max(...employee_array) + 1 : max_id = 1;
         // push the new employee object into the data array
         data.push({ id: new_employee_id, firstName: emp_firstName, lastName: emp_lastName });
         // output the new employee using string interpolation
