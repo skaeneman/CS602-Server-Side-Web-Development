@@ -15,7 +15,7 @@ emitter.on('lookupById', function (emp_id) {
     console.log(colors.blue(`Event lookupById raised! ${emp_id}`));
 });
 
-// Emit lookupById. 
+// Emit lookupById 
 console.log(colors.magenta('Lookup by id (2)'));
 console.log(emitter.lookupById(2));
 
