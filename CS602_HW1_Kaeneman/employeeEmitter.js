@@ -1,9 +1,10 @@
 const EventEmitter = require('events').EventEmitter;
 const _ = require('underscore');
+var colors = require('colors/safe');
 
 // creates the class
 class EmployeeEmitter extends EventEmitter {
-    
+
     // create a constructor 
     constructor(args) {
         super();
@@ -27,7 +28,7 @@ class EmployeeEmitter extends EventEmitter {
      * Returns: employee's if one or more exist, or []
      *******************************************************/
     lookupByLastName (employee_lastName) {
-        this.emmit('lookupByLastName', employee_lastName);
+        this.emit('lookupByLastName', employee_lastName);
         var emp_lastName = _.where(this.data, { lastName: employee_lastName });
         return emp_lastName;
     }
@@ -38,7 +39,7 @@ class EmployeeEmitter extends EventEmitter {
      * Returns: a string stating the new employee is in the data array
      *****************************************************************/
     addEmployee (employee_firstName, employee_lastName) {
-        this.emmit('addEmployee', employee_firstName, employee_lastName);
+        this.emit('addEmployee', employee_firstName, employee_lastName);
         // gets an array of id's
         var emp_ids = _.pluck(this.data, 'id');
         // finds the maximum id in the array
@@ -46,8 +47,8 @@ class EmployeeEmitter extends EventEmitter {
         // increment id by 1
         var new_emp_id = max_id + 1;
         // pushes the new employee into the data array
-        data.push({ id: new_emp_id, firstName: employee_firstName, lastName: employee_lastName });
-        return `Adding employee ${employee_firstName} ${employee_lastName}`;
+        this.data.push({ id: new_emp_id, firstName: employee_firstName, lastName: employee_lastName });
+        return colors.magenta(`Adding employee ${employee_firstName} ${employee_lastName}`);
     } 
 } // ends EmployeeEmitter class
 
