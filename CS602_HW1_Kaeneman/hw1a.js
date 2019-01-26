@@ -9,7 +9,8 @@ console.log(foo.lookupByLastName('Smith'));
 console.log('');
 
 // Add a new employee with first name, William, and last name, Smith.
-console.log(colors.red(foo.addEmployee('William', 'Smith')));
+console.log(colors.red('Adding employee William Smith'));
+foo.addEmployee('William', 'Smith');
 console.log('');
 
 // Lookup by last name, Smith, and print the results.
