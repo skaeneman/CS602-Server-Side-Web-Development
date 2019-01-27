@@ -29,7 +29,7 @@ console.log('');
 console.log(colors.red("Changing first name..."));
 // check to ensure id_variable exists before changing name
 if (id_variable === undefined || id_variable === null) {
-    console.log(colors.yellow('first name is null'));
+    console.log(colors.magenta('first name is null...can\'t be changed!'));
 } else {
     id_variable.firstName = 'Mary';
 }

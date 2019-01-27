@@ -1,13 +1,19 @@
 
 Both the lookupById and lookupByName functions have the same issues when it comes to objects not
-being immutable and being able to be updated.
+being immutable and being able to be modified.
 
-When testing how to make an object immutable I found that Object.freeze() worked to keep the original
+To prevent changes on an object returned by the modules functions an "object factory" could be used to 
+export a function instead of an object.  By doing this the exported function returns a new object each 
+time.  When the module is loaded into memory and a reference to the data array is created and stored in
+some variable the objects original state is not modified.  Each time the module is loaded and invoked an 
+object will be returned with the original value.  
+
+Also, when testing how to make an object immutable I found that Object.freeze() worked to keep the original
 value.  for example, in my lookupById function I'm looping through all the employee id's searching
 for a match then simply returning that id.  however, if I were to assign what the function returns
 to a new object and then call Object.freeze(my_obj) it will prevent a user from modifying its value.
 
-Here is an example of my lookupById function modified to prevent any changes.  
+Here is an example of my lookupById function modified to prevent any changes by using freeze.  
 
     lookupById: (user_id) => {
         for (var i in data) {
@@ -17,9 +23,6 @@ Here is an example of my lookupById function modified to prevent any changes.
             }
         } 
     }
-
-Another way to prevent changes would be to clone the object, this would allow for the original
-object to hold its value while the clone copy is returned to the user. 
 
 there's also a package called "immutable-js' written by Facebook developers for JavaScript that provides
 some data structures to prevent an object from being altered.  https://github.com/facebook/immutable-js 
