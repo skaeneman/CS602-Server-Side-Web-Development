@@ -1,4 +1,7 @@
 
+Both the lookupById and lookupByName functions have the same issues when it comes to objects not
+being immutable and being able to be updated.
+
 When testing how to make an object immutable I found that Object.freeze() worked to keep the original
 value.  for example, in my lookupById function I'm looping through all the employee id's searching
 for a match then simply returning that id.  however, if I were to assign what the function returns
