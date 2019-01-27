@@ -1,2 +1,0 @@
-To prevent changes by the user on the objects that the module functions return 
-constants could be used.   

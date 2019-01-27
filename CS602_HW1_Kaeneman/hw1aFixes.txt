@@ -1,0 +1,22 @@
+
+When testing how to make an object immutable I found that Object.freeze() worked to keep the original
+value.  for example, in my lookupById function I'm looping through all the employee id's searching
+for a match then simply returning that id.  however, if I were to assign what the function returns
+to a new object and then call Object.freeze(my_obj) it will prevent a user from modifying its value.
+
+Here is an example of my lookupById function modified to prevent any changes.  
+
+    lookupById: (user_id) => {
+        for (var i in data) {
+            if (data[i].id == user_id) {
+                var output = data[i]; 
+                return Object.freeze(output);
+            }
+        } 
+    }
+
+Another way to prevent changes would be to clone the object, this would allow for the original
+object to hold its value while the clone copy is returned to the user. 
+
+there's also a package called "immutable-js' written by Facebook developers for JavaScript that provides
+some data structures to prevent an object from being altered.  https://github.com/facebook/immutable-js 
