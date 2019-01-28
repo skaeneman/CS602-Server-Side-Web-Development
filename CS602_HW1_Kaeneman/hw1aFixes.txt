@@ -8,6 +8,9 @@ time.  When the module is loaded into memory and a reference to the data array i
 some variable the objects original state is not modified.  Each time the module is loaded and invoked an 
 object will be returned with the original value.  
 
+Using "Module Exports" the data from the module can only be indirectly accessed by the application calling it
+and only has access to whatever properties were exported. 
+
 Also, when testing how to make an object immutable I found that Object.freeze() worked to keep the original
 value.  for example, in my lookupById function I'm looping through all the employee id's searching
 for a match then simply returning that id.  however, if I were to assign what the function returns
