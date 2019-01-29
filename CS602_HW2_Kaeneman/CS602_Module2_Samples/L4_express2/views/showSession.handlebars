@@ -1,0 +1,14 @@
+<h3>Session Data</h3>
+<form action="/" method="post">
+  Your task: <input type="text" name="task"><p>
+  <button type="submit">Submit</button>
+ </form>
+ <hr>
+<b>Tasks:</b>
+<ul>
+    {{#each data}}
+    	<li>{{this}}</li>
+    {{/each}}
+</ul>
+
+
