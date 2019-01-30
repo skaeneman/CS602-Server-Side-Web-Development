@@ -22,9 +22,9 @@ const server = net.createServer(socket => {
         // split the input into an array of strings
         input = strData.split(" ");
 
-        console.log(input.length);
-        console.log(input[0]);
-        console.log(input[1]);
+        // console.log(input.length);
+        // console.log(input[0]);
+        // console.log(input[1]);
 
         // check if the user entered all required params, exit if not.
         if (input.length == 1) {
@@ -40,11 +40,24 @@ const server = net.createServer(socket => {
                     var output = JSON.stringify(employees.lookupById(emp_id));
                     socket.write(output);
                     break;
-                case 'y':
-                    console.log(colors.blue("...Received " + input));
+                case 'lookupByLastName':
+                    console.log(colors.blue("...Received lookupByLastName " + input[1]));
+                    socket.write('...Received\n');
+                    console.log(input[1]);
+                    console.log(typeof input[1]);
+                    var output = JSON.stringify(employees.lookupByLastName(input[1]));
+                    socket.write(output);
                     break;
+                case 'addEmployee':
+                    console.log(colors.blue("...Received addEmployee " + input[1] + " " + input[2]));
+                    socket.write("...Received\n");
+                    console.log(typeof input[1], typeof input[2]);
+                    employees.addEmployee(input[1], input[2]);
+                    // socket.write(output);
+                    break;                    
                 default:
-                // code block
+                    socket.write("Invalid request\n");
+                    socket.end();
             } 
 
 
