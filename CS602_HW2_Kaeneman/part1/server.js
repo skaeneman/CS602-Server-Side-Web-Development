@@ -6,6 +6,8 @@ const net = require('net');
 // create socket to read from and write to the client
 const server = net.createServer(socket => {
     console.log(colors.red("Client connection..."));
+    socket.write("Connected to server\n");
+    socket.write("Enter command: ");
 
     // closes the socket to end the clients connection
     socket.on('end',() => {
@@ -29,10 +31,14 @@ const server = net.createServer(socket => {
             socket.write("Please enter all parameters.  Goodbye.\n");
             socket.end();
         }else{
-
+            // execute the function that the client called
             switch (input[0]) {
                 case 'lookupById':
-                    socket.write("...Received ");
+                    console.log(colors.blue("...Received lookupById " + input[1]));
+                    socket.write("...Received\n");
+                    var emp_id = parseInt(input[1]); // convert to integer
+                    var output = JSON.stringify(employees.lookupById(emp_id));
+                    socket.write(output);
                     break;
                 case 'y':
                     console.log(colors.blue("...Received " + input));
