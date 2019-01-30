@@ -43,9 +43,17 @@ const server = net.createServer(socket => {
                 case 'lookupByLastName':
                     console.log(colors.blue("...Received lookupByLastName " + input[1]));
                     socket.write('...Received\n');
-                    console.log(input[1]);
-                    console.log(typeof input[1]);
+                    // console.log(input[1]);
+                    // console.log(typeof input[1]);
+                    // var output = employees.lookupByLastName('Smith');
+                    socket.write("input from server: " + input[1]);
+                    socket.write("typeof from server: " + typeof input[1]);
+
                     var output = JSON.stringify(employees.lookupByLastName(input[1]));
+
+
+                    // var output = JSON.stringify(employees.lookupByLastName(input[1]));
+                    // console.log(output);
                     socket.write(output);
                     break;
                 case 'addEmployee':
