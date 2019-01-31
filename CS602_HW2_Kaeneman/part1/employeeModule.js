@@ -30,7 +30,7 @@ module.exports = {
     /****************************************************************
      * Adds a new employee to the data array using 'pluck' and 'max'
      * Parameters: employee_firstName, employee_lastName <String>
-     * Returns: a string stating the new employee is in the data array
+     * Returns: the new employee id
      *****************************************************************/
     addEmployee: (employee_firstName, employee_lastName) => {
         // gets an array of id's
