@@ -6,8 +6,7 @@ const net = require('net');
 // create socket to read from and write to the client
 const server = net.createServer(socket => {
     console.log(colors.red("Client connection..."));
-    socket.write("Connected to server\n");
-    socket.write("Enter command: ");
+    // socket.write("Connected to server\n");
 
     // closes the socket to end the clients connection
     socket.on('end',() => {
@@ -43,17 +42,7 @@ const server = net.createServer(socket => {
                 case 'lookupByLastName':
                     console.log(colors.blue("...Received lookupByLastName " + input[1]));
                     socket.write('...Received\n');
-                    // console.log(input[1]);
-                    // console.log(typeof input[1]);
-                    // var output = employees.lookupByLastName('Smith');
-                    socket.write("input from server: " + input[1]);
-                    socket.write("typeof from server: " + typeof input[1]);
-
                     var output = JSON.stringify(employees.lookupByLastName(input[1]));
-
-
-                    // var output = JSON.stringify(employees.lookupByLastName(input[1]));
-                    // console.log(output);
                     socket.write(output);
                     break;
                 case 'addEmployee':
