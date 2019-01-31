@@ -3,15 +3,27 @@ var _ = require('underscore');
 var colors = require('colors/safe');
 const net = require('net');
 
+// stores client connections in array
+const clients = [];
+
 // create socket to read from and write to the client
 const server = net.createServer(socket => {
     console.log(colors.red("Client connection..."));
-    // socket.write("Connected to server\n");
+    // populate clients array with the connection
+    clients.push(socket);
 
     // closes the socket to end the clients connection
-    socket.on('end',() => {
+    socket.on('end', () => {
         console.log(colors.red("Client disconnected..."));
-    });
+
+        // remove socket from list of clients
+        let index = clients.indexOf(socket);
+        console.log("index ", index);
+        if (index != -1) {
+            clients.splice(index, 1);
+            console.log("# Clients after remove: ", clients.length);
+        }
+    });    
 
     // process the data from the client
     socket.on('data', (data) => {
@@ -21,45 +33,30 @@ const server = net.createServer(socket => {
         // split the input into an array of strings
         input = strData.split(" ");
 
-        // console.log(input.length);
-        // console.log(input[0]);
-        // console.log(input[1]);
-
-        // check if the user entered all required params, exit if not.
-        if (input.length == 1) {
-            socket.write("Please enter all parameters.  Goodbye.\n");
-            socket.end();
-        }else{
             // execute the function that the client called
             switch (input[0]) {
                 case 'lookupById':
                     console.log(colors.blue("...Received lookupById " + input[1]));
-                    socket.write("...Received\n");
+                    socket.write(colors.blue("\n...Received"));
                     var emp_id = parseInt(input[1]); // convert to integer
                     var output = JSON.stringify(employees.lookupById(emp_id));
                     socket.write(output);
                     break;
                 case 'lookupByLastName':
                     console.log(colors.blue("...Received lookupByLastName " + input[1]));
-                    socket.write('...Received\n');
+                    socket.write(colors.blue("\n...Received"));
                     var output = JSON.stringify(employees.lookupByLastName(input[1]));
                     socket.write(output);
                     break;
                 case 'addEmployee':
                     console.log(colors.blue("...Received addEmployee " + input[1] + " " + input[2]));
-                    socket.write("...Received\n");
-                    console.log(typeof input[1], typeof input[2]);
-                    employees.addEmployee(input[1], input[2]);
-                    // socket.write(output);
+                    socket.write(colors.blue("\n...Received"));
+                    var output = JSON.stringify(employees.addEmployee(input[1], input[2]));
+                    socket.write(output);
                     break;                    
                 default:
-                    socket.write("Invalid request\n");
-                    socket.end();
+                    socket.write("Invalid request");
             } 
-
-
-        } // ends else
-
     }); // ends data
 }); // ends createServer
 

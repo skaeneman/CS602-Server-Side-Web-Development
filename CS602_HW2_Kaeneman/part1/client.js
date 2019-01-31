@@ -1,7 +1,7 @@
 
 const net = require('net');
+const colors = require('colors');
 const readline = require('readline');
-
 
 const rl = readline.createInterface({
     input: process.stdin,
@@ -37,7 +37,7 @@ client.on('end', () => {
 
 // process the data coming from the server
 client.on('data', (data) => {
-    console.log(data.toString() + "\n");
+    console.log(colors.blue(data.toString()));	
 });
 
 
