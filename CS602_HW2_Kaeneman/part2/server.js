@@ -64,11 +64,12 @@ app.get('/lastName/:lastName', (req, res) => {
         // render as HTML
         'text/html': () => {
             var empLastName = req.params.lastName;
-            // capitalizes first letter in params. 
+            // capitalizes first letter in params 
             var capitalizedLastName = empLastName[0].toUpperCase() + empLastName.slice(1);
             res.render('employeeList', {
                 employees: employees.lookupByLastName(capitalizedLastName),
                 lastName: capitalizedLastName,
+                css: ['style.css', 'employeeList.css']
             });
         },
         // render as XML
