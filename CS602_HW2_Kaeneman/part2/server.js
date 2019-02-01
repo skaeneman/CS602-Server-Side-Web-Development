@@ -51,8 +51,37 @@ app.get('/id/:id', (req, res) => {
         }
                     
     });
+}); 
 
-});
+// GET employee /lastName/:lastName
+app.get('/lastName/:lastName', (req, res) => {
+
+    res.format({
+        // render as JSON
+        'application/json': () => {
+            res.json(employees.lookupByLastName(req.params.lastName));
+        },
+        // render as HTML
+        'text/html': () => {
+            res.render('employeeList', {
+                employee: employees.lookupByLastName(req.params.lastName)
+            });
+        },
+        // render as XML
+        'application/xml': () => {
+            let empXml = '<?xml version="1.0"?>\n<employees>\n' +
+                employees.lookupByLastName(req.params.lastName).map(function (emp) {
+                    return '  <employee id="' + emp.id + '">\n' +
+                        '    <firstName>' + emp.firstName + '</firstName>\n' +
+                        '    <lastName>' + emp.lastName + '</lastName>';
+                }).join('\n') + '\n</employees>\n';
+
+            res.type('application/xml');
+            res.send(empXml);
+        },
+
+    });
+}); 
 
 
 app.listen(3000, () => {
