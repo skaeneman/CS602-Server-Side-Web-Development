@@ -24,7 +24,7 @@ app.get('/', (req, res) => {
 app.get('/id/:id', (req, res) => {
     // convert params to an integer
     var emp_id = parseInt(req.params.id);
-    
+
     res.format({
         // render as JSON
         'application/json': () => {
@@ -35,8 +35,21 @@ app.get('/id/:id', (req, res) => {
             res.render('employee', {
                 employee: employees.lookupById(emp_id)
             });
-        }
+        },
+        // render as XML
+        'application/xml': () => {
+            let employee = employees.lookupById(emp_id);
+            let employeeXml = 
+                '<?xml version="1.0"?>\n<employee>\n' +
+                '<employee id="' + employee.id + '">\n' + 
+                ' <firstName>"' + employee.firstName + '"</firstName>\n' +
+                ' <lastName>"' + employee.lastName + '"</lastName>\n' +
+                '</employee>\n';
 
+            res.type('application/xml');
+            res.send(employeeXml);
+        }
+                    
     });
 
 });
