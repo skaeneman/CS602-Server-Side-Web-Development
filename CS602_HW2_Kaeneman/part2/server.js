@@ -33,7 +33,8 @@ app.get('/id/:id', (req, res) => {
         // render as HTML
         'text/html': () => {
             res.render('employee', {
-                employee: employees.lookupById(emp_id)
+                employee: employees.lookupById(emp_id),
+                id: emp_id
             });
         },
         // render as XML
@@ -53,29 +54,29 @@ app.get('/id/:id', (req, res) => {
     });
 }); 
 
-// GET employee /lastName/:lastName
-app.get('/lastName/:lastName', (req, res) => {
+// GET employee /lastName/:name
+app.get('/lastName/:name', (req, res) => {
 
     res.format({
         // render as JSON
         'application/json': () => {
-            res.json(employees.lookupByLastName(req.params.lastName));
+            res.json(employees.lookupByLastName(req.params.name));
         },
         // render as HTML
         'text/html': () => {
-            var empLastName = req.params.lastName;
+            var empLastName = req.params.name;
             // capitalizes first letter in params 
             var capitalizedLastName = empLastName[0].toUpperCase() + empLastName.slice(1);
             res.render('employeeList', {
                 employees: employees.lookupByLastName(capitalizedLastName),
-                lastName: capitalizedLastName,
+                name: capitalizedLastName,
                 css: ['style.css', 'employeeList.css']
             });
         },
         // render as XML
         'application/xml': () => {
             let empXml = '<?xml version="1.0"?>\n<employees>\n' +
-                employees.lookupByLastName(req.params.lastName).map(function (emp) {
+                employees.lookupByLastName(req.params.name).map(function (emp) {
                     return '  <employee id="' + emp.id + '">\n' +
                         '    <firstName>' + emp.firstName + '</firstName>\n' +
                         '    <lastName>' + emp.lastName + '</lastName>';
@@ -88,6 +89,17 @@ app.get('/lastName/:lastName', (req, res) => {
     });
 }); 
 
+// render the new employee form view template
+app.get('/new', (req, res) => {
+    res.render('newEmployee');
+});
+
+// renders a 404 error page if the request is invalid
+app.use((req, res) => {
+    res.type('text/html');
+    res.status(404);
+    res.send("<b>404 - Not Found</b>");
+});
 
 app.listen(3000, () => {
     console.log('http://localhost:3000');
