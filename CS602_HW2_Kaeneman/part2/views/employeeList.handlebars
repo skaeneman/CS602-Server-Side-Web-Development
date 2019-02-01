@@ -1,6 +1,9 @@
-<h3>Show Employee by Last Name</h3>
+ <strong>Employees with Last Name {{lastName}}</strong>
+<hr />
+
 <ul>
-    <li><strong>Id</strong>: {{employee.id}}
-    <li><strong>Name:</strong> {{employee.firstName}} {{employee.lastName}}</li>
-    </li>
+    {{#each employees}}
+      <li>{{this.firstName}}</li>
+      <li>{{this.lastName}}</li>
+    {{/each}}
 </ul>

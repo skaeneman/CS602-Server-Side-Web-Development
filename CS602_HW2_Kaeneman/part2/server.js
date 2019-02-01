@@ -63,8 +63,12 @@ app.get('/lastName/:lastName', (req, res) => {
         },
         // render as HTML
         'text/html': () => {
+            var empLastName = req.params.lastName;
+            // capitalizes first letter in params. 
+            var capitalizedLastName = empLastName[0].toUpperCase() + empLastName.slice(1);
             res.render('employeeList', {
-                employee: employees.lookupByLastName(req.params.lastName)
+                employees: employees.lookupByLastName(capitalizedLastName),
+                lastName: capitalizedLastName,
             });
         },
         // render as XML
