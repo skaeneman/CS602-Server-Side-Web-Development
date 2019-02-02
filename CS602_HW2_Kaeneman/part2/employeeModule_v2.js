@@ -39,7 +39,17 @@ module.exports = {
         const new_emp_id = _.isEmpty(emp_ids) ? 1 : _.max(emp_ids, function (employee_id) { return employee_id; }) + 1;
         // pushes the new employee into the data array
         data.push({ id: new_emp_id, firstName: employee_firstName, lastName: employee_lastName });
-    } 
+    }, 
+    /****************************************************************
+     * Capitalizes a name
+     * Parameters: name <String>
+     * Returns: a string of the capitalized name
+     *****************************************************************/
+    capitalizeName: (name) => {
+        var capitalizedName = name[0].toUpperCase() + name.slice(1);
+        return capitalizedName;
+    }
+    
 };
 
 

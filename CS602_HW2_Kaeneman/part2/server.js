@@ -66,11 +66,12 @@ app.get('/lastName/:name', (req, res) => {
         'text/html': () => {
             var empLastName = req.params.name;
             // capitalizes first letter in params 
-            var capitalizedLastName = empLastName[0].toUpperCase() + empLastName.slice(1);
+            var capitalizedLastName = employees.capitalizeName(empLastName);
             res.render('employeeList', {
                 employees: employees.lookupByLastName(capitalizedLastName),
-                name: capitalizedLastName,
-                css: ['style.css', 'employeeList.css']
+                name: capitalizedLastName
+                // ,
+                // css: ['style.css', 'employeeList.css']
             });
         },
         // render as XML
@@ -90,8 +91,18 @@ app.get('/lastName/:name', (req, res) => {
 }); 
 
 // render the new employee form view template
-app.get('/new', (req, res) => {
+app.get('/addEmployee', (req, res) => {
     res.render('newEmployee');
+});
+
+// post the new employee to the data array
+app.post('/addEmployee/', (req, res) => {
+    // capitalizes the first and last names before saving to array
+    var firstName = employees.capitalizeName(req.body.firstName);
+    var lastName = employees.capitalizeName(req.body.lastName);
+    // push the employee into the data array
+    employees.addEmployee(firstName, lastName);
+    res.redirect(('/lastName/') + lastName);
 });
 
 // renders a 404 error page if the request is invalid
