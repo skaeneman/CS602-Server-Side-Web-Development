@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const employees = require('./employeeModule_v2');
+const _ = require('underscore');
 
 // to parse request body
 const bodyParser = require("body-parser");
@@ -97,12 +98,42 @@ app.get('/addEmployee', (req, res) => {
 
 // post the new employee to the data array
 app.post('/addEmployee/', (req, res) => {
-    // capitalizes the first and last names before saving to array
-    var firstName = employees.capitalizeName(req.body.firstName);
-    var lastName = employees.capitalizeName(req.body.lastName);
-    // push the employee into the data array
-    employees.addEmployee(firstName, lastName);
-    res.redirect(('/lastName/') + lastName);
+    var firstName = req.body.firstName;
+    var lastName = req.body.lastName;
+
+    console.log(firstName.length);
+
+    var firstNameMissing = false;
+    var lastNameMissing = false;
+   
+    // ensure that both first and last names exist 
+    if (firstName.length == 0) {
+        firstNameMissing = true;
+    }
+    if (lastName.length == 0) {
+        lastNameMissing = true;
+    }
+    console.log("first " + firstName);
+    console.log("last " + lastName);
+    console.log("first miss " + firstNameMissing);
+    console.log("last miss " + lastNameMissing);
+
+    if (firstNameMissing == false && lastNameMissing == false) {
+        // capitalizes the first and last names before saving to the array
+        firstName = employees.capitalizeName(firstName);
+        lastName = employees.capitalizeName(lastName)
+
+        // push the employee into the data array
+        employees.addEmployee(firstName, lastName);
+        res.redirect(('/lastName/') + lastName);
+    }
+    else {
+        //render the newEmployee template and display errors
+        res.render('newEmployee', { firstMissing: firstNameMissing, 
+            lastMissing: lastNameMissing, firstName: firstName, lastName: lastName }); 
+    }
+
+
 });
 
 // renders a 404 error page if the request is invalid
