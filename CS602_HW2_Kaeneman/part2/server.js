@@ -111,8 +111,12 @@ app.post('/addEmployee/', (req, res) => {
         lastNameMissing = true;
     }
 
-    // if both first and last names were submitted process the params
+    // if both first and last names were submitted process the request
     if (firstNameMissing == false && lastNameMissing == false) {
+        // set user params to lowercase
+        firstName = firstName.toLowerCase();
+        lastName = lastName.toLowerCase();
+
         // capitalizes the first and last names before saving to the array
         firstName = employees.capitalizeName(firstName);
         lastName = employees.capitalizeName(lastName)
@@ -134,7 +138,8 @@ app.post('/addEmployee/', (req, res) => {
 app.use((req, res) => {
     res.type('text/html');
     res.status(404);
-    res.send("<b>404 - Not Found</b>");
+    res.send("<img src='/images/gremlin.jpg' height='250' width='350'>" +
+    "<br><br><h1><b>404 - Not Found</b></h1>");
 });
 
 // listen on port 3000 for connections
