@@ -1,4 +1,17 @@
+<link rel="stylesheet" href="../css/errors.css">
+
 <h3>Add a New Employee</h3>
+
+{{#if error }}
+	{{#if firstMissing }}
+	  <div class="error_msg">Error: first name is missing!</div>
+	{{/if}}
+	{{#if lastMissing }}
+	  <div class="error_msg">Error: last name is missing!</div>
+	{{/if}}
+	<br>
+{{/if}}
+
 <form method="POST" action="/addEmployee">
   <table>
 	<tr>

@@ -70,9 +70,8 @@ app.get('/lastName/:name', (req, res) => {
             var capitalizedLastName = employees.capitalizeName(empLastName);
             res.render('employeeList', {
                 employees: employees.lookupByLastName(capitalizedLastName),
-                name: capitalizedLastName
-                // ,
-                // css: ['style.css', 'employeeList.css']
+                name: capitalizedLastName,
+                css: ['style.css', 'employeeList.css']
             });
         },
         // render as XML
@@ -100,24 +99,19 @@ app.get('/addEmployee', (req, res) => {
 app.post('/addEmployee/', (req, res) => {
     var firstName = req.body.firstName;
     var lastName = req.body.lastName;
-
-    console.log(firstName.length);
-
     var firstNameMissing = false;
     var lastNameMissing = false;
    
     // ensure that both first and last names exist 
+    // when length == 0 it means there's an empty string
     if (firstName.length == 0) {
         firstNameMissing = true;
     }
     if (lastName.length == 0) {
         lastNameMissing = true;
     }
-    console.log("first " + firstName);
-    console.log("last " + lastName);
-    console.log("first miss " + firstNameMissing);
-    console.log("last miss " + lastNameMissing);
 
+    // if both first and last names were submitted process the params
     if (firstNameMissing == false && lastNameMissing == false) {
         // capitalizes the first and last names before saving to the array
         firstName = employees.capitalizeName(firstName);
@@ -129,11 +123,11 @@ app.post('/addEmployee/', (req, res) => {
     }
     else {
         //render the newEmployee template and display errors
-        res.render('newEmployee', { firstMissing: firstNameMissing, 
-            lastMissing: lastNameMissing, firstName: firstName, lastName: lastName }); 
+        res.render('newEmployee', { error: true, firstMissing: firstNameMissing, 
+            lastMissing: lastNameMissing,
+            css: ['style.css', 'errors.css'] 
+        }); 
     }
-
-
 });
 
 // renders a 404 error page if the request is invalid
@@ -143,6 +137,7 @@ app.use((req, res) => {
     res.send("<b>404 - Not Found</b>");
 });
 
+// listen on port 3000 for connections
 app.listen(3000, () => {
     console.log('http://localhost:3000');
 });
