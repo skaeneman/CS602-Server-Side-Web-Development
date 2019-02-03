@@ -95,10 +95,11 @@ app.get('/addEmployee', (req, res) => {
     res.render('newEmployee');
 });
 
-// post the new employee to the data array
+// POST the new employee to the data array
 app.post('/addEmployee/', (req, res) => {
-    var firstName = req.body.firstName;
-    var lastName = req.body.lastName;
+    // get the request and trim any white space
+    var firstName = req.body.firstName.trim();
+    var lastName = req.body.lastName.trim();
     var firstNameMissing = false;
     var lastNameMissing = false;
    
@@ -119,7 +120,7 @@ app.post('/addEmployee/', (req, res) => {
 
         // capitalizes the first and last names before saving to the array
         firstName = employees.capitalizeName(firstName);
-        lastName = employees.capitalizeName(lastName)
+        lastName = employees.capitalizeName(lastName)       
 
         // push the employee into the data array
         employees.addEmployee(firstName, lastName);
