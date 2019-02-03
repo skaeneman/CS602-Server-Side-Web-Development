@@ -70,8 +70,7 @@ app.get('/lastName/:name', (req, res) => {
             var capitalizedLastName = employees.capitalizeName(empLastName);
             res.render('employeeList', {
                 employees: employees.lookupByLastName(capitalizedLastName),
-                name: capitalizedLastName,
-                css: ['style.css', 'employeeList.css']
+                name: capitalizedLastName
             });
         },
         // render as XML
@@ -129,8 +128,7 @@ app.post('/addEmployee/', (req, res) => {
     else {
         //render the newEmployee template and display errors
         res.render('newEmployee', { error: true, firstMissing: firstNameMissing, 
-            lastMissing: lastNameMissing,
-            css: ['style.css', 'errors.css'] 
+            lastMissing: lastNameMissing
         }); 
     }
 });
