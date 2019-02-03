@@ -62,14 +62,11 @@ const server = net.createServer(socket => {
                     break;                   
                 default:
                     if (input[0] === 'bye') {
-                        console.log(colors.blue("...Received bye"));
-                        socket.write(colors.blue("...Received"));
-                        socket.write("\nInvalid request");                        
+                        console.log(colors.blue("...Received bye"));                       
                     }
-                    else {
-                        socket.write(colors.blue("...Received"));
-                        socket.write("\nInvalid request");
-                    }
+                    socket.write(colors.blue("...Received"));
+                    socket.write("\nInvalid request");                     
+
             } // ends switch
     }); // ends data
 }); // ends createServer
