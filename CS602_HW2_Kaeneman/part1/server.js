@@ -18,10 +18,10 @@ const server = net.createServer(socket => {
 
         // remove socket from list of clients
         let index = clients.indexOf(socket);
-        console.log("index ", index);
+        // console.log("index ", index);
         if (index != -1) {
             clients.splice(index, 1);
-            console.log("# Clients after remove: ", clients.length);
+            // console.log("# Clients after remove: ", clients.length);
         }
     });    
 
@@ -37,26 +37,40 @@ const server = net.createServer(socket => {
             switch (input[0]) {
                 case 'lookupById':
                     console.log(colors.blue("...Received lookupById " + input[1]));
-                    socket.write(colors.blue("\n...Received"));
+                    socket.write(colors.blue("...Received"));
                     var emp_id = parseInt(input[1]); // convert to integer
-                    var output = JSON.stringify(employees.lookupById(emp_id));
-                    socket.write(output);
+                    // lookup employee in data array by id
+                    try {
+                        var output = JSON.stringify(employees.lookupById(emp_id));
+                        socket.write(output);
+                    }catch(e) {
+                        // gracefully handle error when a user enters an undefined id 
+                        socket.write(colors.red("Oops...that ID does not exist!\n" + e.message));
+                    }
                     break;
                 case 'lookupByLastName':
                     console.log(colors.blue("...Received lookupByLastName " + input[1]));
-                    socket.write(colors.blue("\n...Received"));
+                    socket.write(colors.blue("...Received"));
                     var output = JSON.stringify(employees.lookupByLastName(input[1]));
                     socket.write(output);
                     break;
                 case 'addEmployee':
                     console.log(colors.blue("...Received addEmployee " + input[1] + " " + input[2]));
-                    socket.write(colors.blue("\n...Received"));
+                    socket.write(colors.blue("...Received"));
                     var output = JSON.stringify(employees.addEmployee(input[1], input[2]));
                     socket.write(output);
-                    break;                    
+                    break;                   
                 default:
-                    socket.write("Invalid request");
-            } 
+                    if (input[0] === 'bye') {
+                        console.log(colors.blue("...Received bye"));
+                        socket.write(colors.blue("...Received"));
+                        socket.write("\nInvalid request");                        
+                    }
+                    else {
+                        socket.write(colors.blue("...Received"));
+                        socket.write("\nInvalid request");
+                    }
+            } // ends switch
     }); // ends data
 }); // ends createServer
 

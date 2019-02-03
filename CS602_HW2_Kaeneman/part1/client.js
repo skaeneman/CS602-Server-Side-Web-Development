@@ -8,6 +8,7 @@ const rl = readline.createInterface({
     output: process.stdout
 });
 
+// loop to read user input and write to server
 const readMessage = (client) => {
     rl.question("Enter Command: ", (line) => {
         // send user input to the server
