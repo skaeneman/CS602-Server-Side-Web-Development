@@ -5,4 +5,3 @@ module.exports = {
 	password: 'cs602_secret',
 	database: 'cs602db'
 }
-
