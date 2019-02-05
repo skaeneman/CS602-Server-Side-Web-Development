@@ -28,7 +28,7 @@ connection.on("open", () => {
   
 	employee = new Employee({
 		firstName: 'John',
-		lastName: 'Smith'
+		lastName: 'Doe'
 	}); 
 	employee.save((err) => {
 		connection.close();
