@@ -6,7 +6,7 @@ const dbUrl = 'mongodb://' + credentials.username +
 
 const connection = mongoose.createConnection(dbUrl);
 
-const EmployeeDb = require('./employeesDb.js');
+const EmployeeDb = require('./routes/employeesDb.js');
 const Employee = EmployeeDb.getModel(connection);
 
 connection.on("open", () => {

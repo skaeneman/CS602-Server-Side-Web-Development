@@ -16,7 +16,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 // Routing
-var routes = require('./ex13_routes/index');
+var routes = require('./routes/index');
 app.use('/', routes);
 
 app.use((req, res) => {
