@@ -1,0 +1,29 @@
+ <div class="table-responsive">
+  <form method="post" action="/courses/add">
+    <table class="table table-condensed">
+      <tbody>
+       <tr>
+        <th>Course Number: </th>
+        <td><input type="text" name="cnumber" required 
+              placeholder="Enter course number"></td>
+       </tr>
+       <tr>
+         <th>Course Name: </th>
+         <td><input type="text" name="cname" required 
+              placeholder="Enter course name"></td>
+       </tr>
+      </tbody>
+      <tfooter>
+        <tr>
+          <td></td>
+          <td>
+           <input type="submit" value="Save" 
+              class="btn btn-success">
+           <input type="button" value="Cancel" 
+              class="btn btn-danger" onclick="cancelAdd()">
+          </td>
+        </tr>
+      </tfooter>
+    </table>
+  </form>
+</div>
