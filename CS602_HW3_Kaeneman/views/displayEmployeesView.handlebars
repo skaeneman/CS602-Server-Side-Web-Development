@@ -39,35 +39,46 @@
 {{/if}} --}}
 
 
-<div>
-	<div class="table-responsive">
-		<table class="table table-condensed">
-			<thead>
-				<tr>
-					<th>First Name</th>
-					<th>Last Name</th>
-					<th></th>
-				</tr>
-			</thead>
-			<tbody>
-				{{#each data}}
-					<tr>
-						<td>{{this.firstName}}</td>
-						<td>{{this.lastName}}</td>
-						</td>
-						<td>
+<br />
+<div class="container">
+  <div class="row">
+     <div class="col-sm-12">
+
+		{{!-- headers --}}
+		<div class="card bg-light mb-3">
+			<div class="card-body">
+				<div class="row">
+					<div class="col-sm-4"><strong>First Name</strong></div>
+					<div class="col-sm-4"><strong>Last Name</strong></div>
+					<div class="col-sm-4"></div>
+				</div>
+			</div>
+		</div>
+
+		{{!-- list employees --}}
+		{{#each data}}
+			<div class="card">
+				<div class="card-body">
+					<div class="row">
+						<div class="col-sm-4">
+							{{this.firstName}}
+						</div>
+						<div class="col-sm-4">
+							{{this.lastName}}
+						</div>
+						<div class="col-sm-4">
 							<a href="/employees/edit/{{this.id}}">Edit</a>
 							<a href="/employees/delete/{{this.id}}">Delete</a>
-						</td>
-					</tr>
-				{{/each}}
-			</tbody>
-			<tfooter>
-				<tr><td>
-				<button class="btn btn-outline-primary" 
-						onClick="addEmployee();">Add</button>
-				</td></tr>
-			</tfooter>
-		</table>
-	</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		{{/each}}
+
+		<div>
+			<br>
+			<button class="btn btn-block btn-outline-primary" onClick="addEmployee();">Add</button>
+		</div>
+     </div>
+  </div>
 </div>
