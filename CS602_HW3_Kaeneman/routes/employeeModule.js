@@ -9,18 +9,18 @@ module.exports.addEmployee =
 	};
 
 
-module.exports.deleteCourse = 
+module.exports.deleteEmployee = 
 	(req , res , next) => {
 	    
 	    let id = req.params.id;
 	    
-	    Course.findById(id,  (err, course) => {
+	    Employee.findById(id,  (err, employee) => {
 	      if(err)
 	        console.log("Error Selecting : %s ", err); 
-	      if (!course)
+				if (!employee)
 	        return res.render('404');
 	      
-	      course.remove( (err) => {
+				employee.remove( (err) => {
 	        if (err)
 	          console.log("Error deleting : %s ",err );
 	        res.redirect('/employees');

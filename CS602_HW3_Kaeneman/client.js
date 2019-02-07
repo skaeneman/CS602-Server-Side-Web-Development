@@ -1,3 +1,8 @@
+/*****************************************************************
+ *  Connects to a MongoDB database, uses the Mongooseschema,
+ *  and creates and saves the data for three employees.
+ *****************************************************************/
+
 const mongoose = require('mongoose');
 const credentials = require("./credentials.js");
 
