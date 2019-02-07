@@ -4,7 +4,7 @@ const Employee = DB.getModel();
 module.exports.addEmployee = 
 	(req , res , next) => {
 
-	  	res.render('addCourseView', 
+	  	res.render('addEmployeeView', 
 	  		{title:"Add an Employee"});
 	};
 
@@ -43,7 +43,7 @@ module.exports.displayEmployees =
 	      	}
 	      });
 
-	      res.render('displayCoursesView',
+	      res.render('displayEmployeesView',
 	      	{title:"List of Employees", data:results});
 	    });
 	};
@@ -59,7 +59,7 @@ module.exports.editEmployee =
 				if (!employee)
 	        return res.render('404');
 
-	      res.render('editCourseView',
+	      res.render('editEmployeeView',
 	          {title:"Edit Employee", 
 	           data: { id: employee._id,
 							 			firstName: employee.firstName,
