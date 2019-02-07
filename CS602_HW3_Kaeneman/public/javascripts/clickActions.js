@@ -1,8 +1,8 @@
-function addCourse(){
-    window.location.href = '/courses/add';
+function addEmployee(){
+    window.location.href = '/employees/add';
 }
 
 function cancelAdd(){
-    window.location.href = '/courses';
+    window.location.href = '/employees';
 }
 

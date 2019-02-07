@@ -5,22 +5,22 @@ const router = express.Router();
 
 const employeeModule = require("./employeeModule");
 
-const displayCourses = employeeModule.displayCourses;
-const addCourse = employeeModule.addCourse;
-const saveCourse = employeeModule.saveCourse;
+const displayEmployees = employeeModule.displayEmployees;
+const addEmployee = employeeModule.addEmployee;
+const saveEmployee = employeeModule.saveEmployee;
 const editCourse = employeeModule.editCourse;
 const saveAfterEdit = employeeModule.saveAfterEdit;
 const deleteCourse 		= employeeModule.deleteCourse;
 
 // router specs
 router.get('/', (req, res, next) => {
-  res.redirect('/courses');
+  res.redirect('/employees');
 });
 
-router.get('/courses', 				displayCourses);
+router.get('/employees', displayEmployees);
 
-router.get('/courses/add', 			addCourse);
-router.post('/courses/add', 		saveCourse);
+router.get('/employees/add', 	addEmployee);
+router.post('/employees/add', saveEmployee);
 
 router.get('/courses/edit/:id', 	editCourse);
 router.post('/courses/edit/:id', 	saveAfterEdit);

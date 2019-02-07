@@ -1,7 +1,7 @@
 const DB = require('./dbConnection.js');
-const Course = DB.getModel();
+const Employee = DB.getModel();
 
-module.exports.addCourse = 
+module.exports.addEmployee = 
 	(req , res , next) => {
 
 	  	res.render('addCourseView', 
@@ -23,23 +23,23 @@ module.exports.deleteCourse =
 	      course.remove( (err) => {
 	        if (err)
 	          console.log("Error deleting : %s ",err );
-	        res.redirect('/courses');
+	        res.redirect('/employees');
 	      });        
 	    });
   	};
 
-module.exports.displayCourses = 
+module.exports.displayEmployees = 
 	(req , res , next) => {
 
-	    Course.find({}, (err , courses) => {
+	    Employee.find({}, (err , employees) => {
 	      if(err)
 	          console.log("Error : %s ",err);
 
-	      let results = courses.map( (course) => {
+				let results = employees.map((employee) => {
 	      	return {
-	      		id: course._id,
-	          	firstName: course.firstName,
-							lastName: course.lastName
+						id: employee._id,
+						firstName: employee.firstName,
+						lastName: employee.lastName
 	      	}
 	      });
 
@@ -69,22 +69,18 @@ module.exports.editCourse =
 	    });
 	};
 
-module.exports.saveCourse = 
+module.exports.saveEmployee = 
 	(req , res , next) => {
 
-		// console.log("inside saveCourse...");
-		// console.log(req.body.firstName);
-		// console.log(req.body.lastName);
-
-	    let course = new Course({
+	    let employee = new Employee({
 				firstName: req.body.firstName,
 				lastName: req.body.lastName
 	    }); 
 	 
-	    course.save((err) => {
+		  employee.save((err) => {
 	      if(err)
 	        console.log("Error : %s ",err);
-	      res.redirect('/courses');
+	      res.redirect('/employees');
 	    });
 
 	  };
