@@ -1,21 +1,16 @@
 <div class="table-responsive">
-  <form method="post" action='/courses/edit/{{data.id}}'>
+  <form method="post" action='/employees/edit/{{data.id}}'>
     <table class="table table-condensed">
       <tbody>
         <tr>
-          <th width="200">Course Number: </td>
-          <td><input type="text" name="cnumber" required 
-                  value="{{data.courseNumber}}"></td>
+          <th width="200">First Name: </td>
+          <td><input type="text" name="firstName" required 
+                  value="{{data.firstName}}"></td>
         </tr>
         <tr>
-          <th>Course Name: </td>
-          <td><input type="text" name="cname" required size="40" 
-                  value="{{data.courseName}}"></td>
-        </tr>
-        <tr>
-          <th>Developers: </td>
-          <td><input type="text" name="cdev" size="40" 
-                  value="{{data.developers}}"></td>
+          <th>Last Name: </td>
+          <td><input type="text" name="lastName" required size="40" 
+                  value="{{data.lastName}}"></td>
         </tr>
       </tbody>
       <tfooter>

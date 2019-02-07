@@ -48,23 +48,22 @@ module.exports.displayEmployees =
 	    });
 	};
 
-module.exports.editCourse = 
+module.exports.editEmployee = 
 	(req , res , next) => {
 
 	    let id = req.params.id;
 
-	    Course.findById(id, (err, course) => {
+	    Employee.findById(id, (err, employee) => {
 	      if(err)
 	        console.log("Error Selecting : %s ", err); 
-	      if (!course)
+				if (!employee)
 	        return res.render('404');
 
 	      res.render('editCourseView',
-	          {title:"Edit Course", 
-	           data: {id: course._id,
-	                  courseNumber: course.courseNumber,
-	                  courseName: course.courseName,
-	                  developers:  course.getDeveloperNames()}
+	          {title:"Edit Employee", 
+	           data: { id: employee._id,
+							 			firstName: employee.firstName,
+	                  lastName: employee.lastName }
 	          });                
 	    });
 	};
@@ -91,29 +90,19 @@ module.exports.saveAfterEdit =
 
 	    let id = req.params.id;
 
-	    Course.findById(id, (err, course) => {
+	    Employee.findById(id, (err, employee) => {
 	      if(err)
 	        console.log("Error Selecting : %s ", err); 
-	      if (!course)
+				if (!employee)
 	        return res.render('404');
 	      
-	        course.courseNumber = req.body.cnumber
-	        course.courseName = req.body.cname;
-	        let developers = req.body.cdev;
-	        if (developers.length > 0) {
-	          developers = 
-	            developers.split(',').map((elem) => {
-	              let names = elem.trim().split(' ');
-	              return {firstName: names[0], 
-	                      lastName: names[1]};
-	            });
-	          course.courseDevelopers = developers;
-	        }
+					employee.firstName = req.body.firstName
+					employee.lastName = req.body.lastName;
 	        
-	        course.save((err) => {
+					employee.save((err) => {
 	          if (err)
 	            console.log("Error updating : %s ",err );
-	          res.redirect('/courses');
+	          res.redirect('/employees');
 	        });
 	    });
 	  };
