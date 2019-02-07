@@ -38,14 +38,13 @@ module.exports.displayCourses =
 	      let results = courses.map( (course) => {
 	      	return {
 	      		id: course._id,
-	          	courseName: course.courseName,
-	          	courseNumber: course.courseNumber,
-	          	developers:  course.getDeveloperNames()
+	          	firstName: course.firstName,
+							lastName: course.lastName
 	      	}
 	      });
 
 	      res.render('displayCoursesView',
-	      	{title:"List of Courses", data:results});
+	      	{title:"List of Employees", data:results});
 	    });
 	};
 
@@ -72,23 +71,14 @@ module.exports.editCourse =
 
 module.exports.saveCourse = 
 	(req , res , next) => {
- 
-	    let developers = req.body.cdev;
-	    // create an array of objects
-	    if (developers.length > 0) {
-	      developers = 
-	        developers.split(',').map((elem) => {
-	          let names = elem.trim().split(' ');
-	          return {firstName: names[0], 
-	                  lastName: names[1]};
-	        });
-	    } else
-	      developers = [];
+
+		// console.log("inside saveCourse...");
+		// console.log(req.body.firstName);
+		// console.log(req.body.lastName);
 
 	    let course = new Course({
-	      courseNumber:     req.body.cnumber,
-	      courseName:       req.body.cname,
-	      courseDevelopers: developers
+				firstName: req.body.firstName,
+				lastName: req.body.lastName
 	    }); 
 	 
 	    course.save((err) => {

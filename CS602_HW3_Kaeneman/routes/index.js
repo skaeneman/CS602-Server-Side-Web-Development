@@ -3,14 +3,14 @@ const router = express.Router();
 
 // other modules
 
-const courseModule = require("./courseModule");
+const employeeModule = require("./employeeModule");
 
-const displayCourses 	= courseModule.displayCourses;
-const addCourse 		= courseModule.addCourse;
-const saveCourse 		= courseModule.saveCourse;
-const editCourse 		= courseModule.editCourse;
-const saveAfterEdit 	= courseModule.saveAfterEdit;
-const deleteCourse 		= courseModule.deleteCourse;
+const displayCourses = employeeModule.displayCourses;
+const addCourse = employeeModule.addCourse;
+const saveCourse = employeeModule.saveCourse;
+const editCourse = employeeModule.editCourse;
+const saveAfterEdit = employeeModule.saveAfterEdit;
+const deleteCourse 		= employeeModule.deleteCourse;
 
 // router specs
 router.get('/', (req, res, next) => {

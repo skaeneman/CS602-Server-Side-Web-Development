@@ -11,30 +11,27 @@ const Schema = mongoose.Schema;
 
 mongoose.Promise = global.Promise;
 
-const courseSchema = new Schema({
-	courseNumber: String,
-	courseName: String,
-	courseDevelopers: [
-		{firstName: String, lastName: String}
-	]
+const employeeSchema = new Schema({
+	firstName: String,
+	lastName: String,
 });
+
 // custom schema method
-courseSchema.methods.getDeveloperNames = 
-		function() {
-			return this.courseDevelopers.map(
-							 (elem) => {
-								return elem.firstName + ' ' + 
-											 elem.lastName;
-							}).join(',');
-		};
+// employeeSchema.methods.getDeveloperNames = 
+// 		function() {
+// 			return this.courseDevelopers.map(
+// 							 (elem) => {
+// 								return elem.firstName + ' ' + 
+// 											 elem.lastName;
+// 							}).join(',');
+// 		};
 
 module.exports.getModel = 
 	() => {
 		if (connection == null) {
-			console.log("Creating connection and model...");
+			console.log("Creating connection and employee model...");
 			connection = mongoose.createConnection(dbUrl);
-			model = connection.model("CourseModel", 
-								courseSchema);
+			model = connection.model("EmployeeModel", employeeSchema);
 		};
 		return model;
 	};
