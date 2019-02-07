@@ -1,3 +1,44 @@
+{{!-- <div class="alert alert-danger">Test message</div> --}}
+
+{{!-- {{#if sessionFlash.message}}
+<div id="flash-messages" class="container">
+	{{#contains sessionFlash.type "info"}}
+	<div class="alert alert-info">
+		{{{sessionFlash.message}}}
+	</div>
+	{{/contains}}
+	{{#contains sessionFlash.type "success"}}
+	<div class="alert alert-success">
+		{{{sessionFlash.message}}}
+	</div>
+	{{/contains}}
+	{{#contains sessionFlash.type "warning"}}
+	<div class="alert alert-warning">
+		{{{sessionFlash.message}}}
+	</div>
+	{{/contains}}
+	{{#contains sessionFlash.type "error"}}
+	<div class="alert alert-danger">
+		{{{sessionFlash.message}}}
+	</div>
+	{{/contains}}
+</div>
+{{/if}}
+
+
+
+
+{{#if expressFlash}}
+<p><strong>FLASH!</strong> {{ expressFlash }}</p>
+{{/if}}
+
+{{#if sessionFlash.message}}
+<div class="{{ sessionFlash.type }}">
+	<strong>FLASH!</strong> {{ sessionFlash.message }}
+</div>
+{{/if}} --}}
+
+
 <div>
 	<div class="table-responsive">
 		<table class="table table-condensed">

@@ -16,6 +16,7 @@ const deleteEmployee 		= employeeModule.deleteEmployee;
 router.get('/', (req, res, next) => {
   res.redirect('/employees');
 });
+
 // get employee index
 router.get('/employees', displayEmployees);
 // get new employee form
