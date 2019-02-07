@@ -5,7 +5,7 @@ module.exports.addEmployee =
 	(req , res , next) => {
 
 	  	res.render('addCourseView', 
-	  		{title:"Add a Course"});
+	  		{title:"Add an Employee"});
 	};
 
 
