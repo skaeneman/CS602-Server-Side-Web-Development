@@ -31,6 +31,15 @@ router.post('/employees/edit/:id', 	saveAfterEdit);
 router.get('/employees/delete/:id', deleteEmployee);
 
 
+/*******************************************************************
+ * admin routes
+ *******************************************************************/
+
+ // GET admin view
+router.get('/admin', (req, res) => {
+  res.render('admin/admin', {title: "Admin"});
+});
+
 
 /*******************************************************************
  * product routes
