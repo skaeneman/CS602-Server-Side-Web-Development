@@ -22,7 +22,7 @@ module.exports.displayProducts =
             res.render('products/displayProducts',
                 { title: "List of Products", data: results });
         });
-    };
+    };    
     
 // render the new product form
 module.exports.addProduct =

@@ -32,30 +32,36 @@ router.get('/employees/delete/:id', deleteEmployee);
 
 
 /*******************************************************************
- * admin routes
- *******************************************************************/
-
- // GET admin view
-router.get('/admin', (req, res) => {
-  res.render('admin/admin', {title: "Admin"});
-});
-
-
-/*******************************************************************
  * product routes
  *******************************************************************/
 const productModel = require('../controllers/products_controller');
 
-const addProduct = productModel.addProduct;
-const saveProduct = productModel.saveProduct;
 const displayProducts = productModel.displayProducts;
 
 // GET product index
 router.get('/products', displayProducts);
+
+/*******************************************************************
+ * admin routes
+ *******************************************************************/
+const adminProducts = require('../controllers/admins_controller');
+
+// GET admin view
+router.get('/admin', (req, res) => {
+  res.render('admins/admin', { title: "Admin" });
+});
+
+// const adminAddProduct = adminProducts.addProduct;
+// const adminSaveProduct = adminProducts.saveProduct;
+const adminDisplayProducts = adminProducts.adminDisplayProducts;
+
+// GET product index
+router.get('/admin/products', adminDisplayProducts);
+
 // GET the 'new product' form 
-router.get('/products/add', addProduct);
+// router.get('/admin/products/add', adminAddProduct);
 // POST to create a new product
-router.post('/products/add', saveProduct);
+// router.post('/admin/products/add', adminSaveProduct);
 
 
 
