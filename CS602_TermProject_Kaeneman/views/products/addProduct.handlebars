@@ -3,18 +3,36 @@
 <div class="container">
     <div class="row">
         <div class="col-sm-12">
-            <form method="post" action="/employees/add">
+            <form method="post" action="/products/add">
                 <div class="form-group row">
-                    <label for="firstName" class="col-sm-2 col-form-label"><strong>First Name:</strong></label>
+                    <label for="productId" class="col-sm-2 col-form-label"><strong>ID:</strong></label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" name="firstName" placeholder="Enter first name"
+                        <input type="text" class="form-control" name="productId" placeholder="Enter unique id"
                             autofocus required>
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label for="lastName" class="col-sm-2 col-form-label"><strong>Last Name:</strong></label>
+                    <label for="name" class="col-sm-2 col-form-label"><strong>Product Name:</strong></label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" name="lastName" placeholder="Enter last name" required>
+                        <input type="text" class="form-control" name="name" placeholder="Enter product name" required>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="description" class="col-sm-2 col-form-label"><strong>Description:</strong></label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" name="description" placeholder="Enter first name" autofocus required>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="price" class="col-sm-2 col-form-label"><strong>Price:</strong></label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" name="price" placeholder="Enter product price" autofocus required>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="quantity" class="col-sm-2 col-form-label"><strong>Quantity:</strong></label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" name="quantity" placeholder="Enter quantity" autofocus required>
                     </div>
                 </div>
                 <div class="float-right">

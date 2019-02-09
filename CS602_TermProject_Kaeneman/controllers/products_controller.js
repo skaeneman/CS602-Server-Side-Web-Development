@@ -14,7 +14,7 @@ module.exports.saveProduct =
     (req, res, next) => {
 
         let product = new Product({
-            id: req.body.id,
+            productId: req.body.productId,
             name: req.body.name,
             description: req.body.description,
             price: req.body.price,
