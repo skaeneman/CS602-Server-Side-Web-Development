@@ -4,14 +4,14 @@
  *****************************************************************/
 
 const mongoose = require('mongoose');
-const credentials = require("./credentials.js");
+const credentials = require("../credentials.js");
 
 const dbUrl = 'mongodb://' + credentials.username +
     ':' + credentials.password + '@' + credentials.host + ':' + credentials.port + '/' + credentials.database;
 
 const connection = mongoose.createConnection(dbUrl, { useNewUrlParser: true });
 
-const ProductDb = require('./models/product.js');
+const ProductDb = require('../models/product.js');
 const Product = ProductDb.getProductModel(connection);
 
 connection.on("open", () => {

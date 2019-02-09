@@ -30,4 +30,22 @@ router.post('/employees/edit/:id', 	saveAfterEdit);
 // get the employee by id to delete 
 router.get('/employees/delete/:id', deleteEmployee);
 
+
+
+/*******************************************************************
+ * product routes
+ *******************************************************************/
+const productModel = require('../controllers/products_controller');
+
+const addProduct = productModel.addProduct;
+const saveProduct = productModel.saveProduct;
+
+// GET the 'new product' form 
+router.get('/products/add', addProduct);
+// POST to create a new product
+router.post('/products/add', saveProduct);
+
+
+
+
 module.exports = router;
