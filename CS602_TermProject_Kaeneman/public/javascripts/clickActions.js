@@ -1,8 +1,8 @@
 function addProduct(){
-    window.location.href = '/products/add';
+    window.location.href = '/admin/products/add';
 }
 
 function cancelAdd(){
-    window.location.href = '/products';
+    window.location.href = '/admin/products';
 }
 

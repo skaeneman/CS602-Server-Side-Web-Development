@@ -51,17 +51,16 @@ router.get('/admin', (req, res) => {
   res.render('admins/admin', { title: "Admin" });
 });
 
-// const adminAddProduct = adminProducts.addProduct;
-// const adminSaveProduct = adminProducts.saveProduct;
+const adminAddProduct = adminProducts.adminAddProduct;
+const adminSaveProduct = adminProducts.adminSaveProduct;
 const adminDisplayProducts = adminProducts.adminDisplayProducts;
 
 // GET product index
 router.get('/admin/products', adminDisplayProducts);
-
 // GET the 'new product' form 
-// router.get('/admin/products/add', adminAddProduct);
+router.get('/admin/products/add', adminAddProduct);
 // POST to create a new product
-// router.post('/admin/products/add', adminSaveProduct);
+router.post('/admin/products/add', adminSaveProduct);
 
 
 
