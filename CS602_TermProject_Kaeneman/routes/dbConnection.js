@@ -2,7 +2,8 @@ const mongoose = require('mongoose');
 const credentials = require("../credentials.js");
 
 const dbUrl = 'mongodb://' + credentials.username +
-	':' + credentials.password + '@' + credentials.host + ':' + credentials.port + '/' + credentials.database;
+	':' + credentials.password + '@' + credentials.host + ':' + credentials.port + '/' + 
+	credentials.database;
 
 let connection = null;
 let model = null;
@@ -30,7 +31,7 @@ module.exports.getModel =
 	() => {
 		if (connection == null) {
 			console.log("Creating connection and employee model...");
-			connection = mongoose.createConnection(dbUrl);
+			connection = mongoose.createConnection(dbUrl, { useNewUrlParser: true });
 			model = connection.model("EmployeeModel", employeeSchema);
 		};
 		return model;

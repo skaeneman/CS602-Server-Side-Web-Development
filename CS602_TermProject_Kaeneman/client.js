@@ -9,7 +9,7 @@ const credentials = require("./credentials.js");
 const dbUrl = 'mongodb://' + credentials.username +
 	':' + credentials.password + '@' + credentials.host + ':' + credentials.port + '/' + credentials.database;
 
-const connection = mongoose.createConnection(dbUrl);
+const connection = mongoose.createConnection(dbUrl, { useNewUrlParser: true });
 
 const EmployeeDb = require('./routes/dbConnection.js');
 const Employee = EmployeeDb.getModel(connection);

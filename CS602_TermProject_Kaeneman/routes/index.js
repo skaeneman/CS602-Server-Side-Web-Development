@@ -3,14 +3,14 @@ const router = express.Router();
 
 // other modules
 
-const employeeModule = require("./employeeModule");
+const musicStoreModule = require("./musicStoreModule");
 
-const displayEmployees = employeeModule.displayEmployees;
-const addEmployee = employeeModule.addEmployee;
-const saveEmployee = employeeModule.saveEmployee;
-const editEmployee = employeeModule.editEmployee;
-const saveAfterEdit = employeeModule.saveAfterEdit;
-const deleteEmployee 		= employeeModule.deleteEmployee;
+const displayEmployees = musicStoreModule.displayEmployees;
+const addEmployee = musicStoreModule.addEmployee;
+const saveEmployee = musicStoreModule.saveEmployee;
+const editEmployee = musicStoreModule.editEmployee;
+const saveAfterEdit = musicStoreModule.saveAfterEdit;
+const deleteEmployee = musicStoreModule.deleteEmployee;
 
 // router specs
 router.get('/', (req, res, next) => {

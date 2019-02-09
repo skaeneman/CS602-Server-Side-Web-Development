@@ -3,5 +3,5 @@ module.exports = {
 	port: 		'27017',
 	username: 'cs602_user',
 	password: 'cs602_secret',
-	database: 'cs602db'
+	database: 'cs602_termproject_db'
 }
