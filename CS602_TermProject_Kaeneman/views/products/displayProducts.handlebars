@@ -1,0 +1,57 @@
+
+<br />
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12">
+
+            {{!-- headers --}}
+            <div class="card bg-light mb-3">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-2"><strong>ID</strong></div>
+                        <div class="col-sm-2"><strong>Product Name</strong></div>
+                        <div class="col-sm-4"><strong>Description</strong></div>
+                        <div class="col-sm-2"><strong>Price</strong></div>
+                        <div class="col-sm-2"><strong>Quantity</strong></div>
+                        <div class="col-sm-2"></div>
+                    </div>
+                </div>
+            </div>
+
+            {{!-- list employees --}}
+            {{#each data}}
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-2">
+                            {{this.productId}}
+                        </div>
+                        <div class="col-sm-2">
+                            {{this.name}}
+                        </div>
+                        <div class="col-sm-4">
+                            {{!-- <textarea cols="36" rows="5">{{this.description}}</textarea> --}}
+                            {{this.description}}
+                        </div>
+                        <div class="col-sm-2">
+                            {{this.quantity}}
+                        </div>
+                        <div class="col-sm-2">
+                            {{this.price}}
+                        </div>
+                        {{!-- <div class="col-sm-4">
+                            <a href="/employees/edit/{{this.id}}">Edit</a>
+                            <a href="/employees/delete/{{this.id}}">Delete</a>
+                        </div> --}}
+                    </div>
+                </div>
+            </div>
+            {{/each}}
+
+            <div>
+                <br>
+                <button class="btn btn-block btn-outline-primary" onClick="addProduct();">Add</button>
+            </div>
+        </div>
+    </div>
+</div>

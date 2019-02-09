@@ -39,7 +39,10 @@ const productModel = require('../controllers/products_controller');
 
 const addProduct = productModel.addProduct;
 const saveProduct = productModel.saveProduct;
+const displayProducts = productModel.displayProducts;
 
+// GET product index
+router.get('/products', displayProducts);
 // GET the 'new product' form 
 router.get('/products/add', addProduct);
 // POST to create a new product
