@@ -44,9 +44,10 @@ module.exports.adminSaveProduct =
         });
 
         product.save((err) => {
-            if (err)
+            if (err) {
                 console.log("Error : %s ", err);
-            res.redirect('admin/products');
+            }
+            res.redirect('/admin/products');
         });
 
     };

@@ -6,9 +6,24 @@ const handlebars = require('express-handlebars');
 
 const app = express();
 
+
+// setup handlebars
+const hbs = handlebars.create({
+    defaultLayout: 'main_logo',
+
+    // create custom handlebars helpers to be used in views
+    helpers : {
+        // truncate text
+        truncate: function(str) {
+            var out = str.substring(0, 4);
+            out = out + "...";
+            return out;
+        }
+    }
+});
+
 // setup handlebars view engine
-app.engine('handlebars', 
-    handlebars({defaultLayout: 'main_logo'}));
+app.engine('handlebars', hbs.engine);
 app.set('view engine', 'handlebars');
 
 // static resources
@@ -20,14 +35,6 @@ app.use(express.static(__dirname + '/public'));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-
-
-// TESTNG FLASH
-// app.all('/express-flash', function (req, res) {
-//     req.flash('success', 'This is a flash message using the express-flash module.');
-//     res.redirect(301, '/');
-// });
-
 
 
 // Routing

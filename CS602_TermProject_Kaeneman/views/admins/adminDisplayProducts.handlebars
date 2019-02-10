@@ -8,10 +8,10 @@
             <div class="card bg-light mb-3">
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-sm-2"><strong>ID</strong></div>
+                        <div class="col-sm-1"><strong>ID</strong></div>
                         <div class="col-sm-2"><strong>Product Name</strong></div>
                         <div class="col-sm-4"><strong>Description</strong></div>
-                        <div class="col-sm-2"><strong>Price</strong></div>
+                        <div class="col-sm-1"><strong>Price</strong></div>
                         <div class="col-sm-2"><strong>Quantity</strong></div>
                         <div class="col-sm-2"></div>
                     </div>
@@ -23,26 +23,26 @@
             <div class="card">
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-sm-2">
+                        <div class="col-sm-1">
                             {{this.productId}}
                         </div>
                         <div class="col-sm-2">
                             {{this.name}}
                         </div>
-                        <div class="col-sm-4">
-                            {{!-- <textarea cols="36" rows="5">{{this.description}}</textarea> --}}
-                            {{this.description}}
+                        <div class="col-sm-4" id="truncate">
+                            {{!-- custom helper function --}}                    
+                            {{truncate this.description}}
+                        </div>
+                        <div class="col-sm-1">
+                            {{this.price}}
                         </div>
                         <div class="col-sm-2">
                             {{this.quantity}}
                         </div>
                         <div class="col-sm-2">
-                            {{this.price}}
-                        </div>
-                        {{!-- <div class="col-sm-4">
                             <a href="/employees/edit/{{this.id}}">Edit</a>
                             <a href="/employees/delete/{{this.id}}">Delete</a>
-                        </div> --}}
+                        </div>
                     </div>
                 </div>
             </div>
