@@ -77,8 +77,12 @@ router.get('/admin/products/delete/:id', adminDeleteProduct);
 const usersController = require('../controllers/users_controller');
 
 const displayUsers = usersController.displayUsers;
+const addUser = usersController.addUser;
 
+// index to display all users
 router.get('/users', displayUsers);
+// render addUser form
+router.get('/users/add', addUser);
 
 
 module.exports = router;

@@ -2,7 +2,7 @@
 const DB = require('../models/user.js');
 const User = DB.getUserModel();
 
-// Get index of users
+// GET index of users
 module.exports.displayUsers =
     (req, res, next) => {
 
@@ -23,3 +23,9 @@ module.exports.displayUsers =
                 { title: "List of Users", data: results });
         });
     };    
+
+// GET user sign up form
+module.exports.addUser = 
+    (req, res, next) => {
+        res.render('users/addUser', { title: 'Add User' });
+    };
