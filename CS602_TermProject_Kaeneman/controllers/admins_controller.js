@@ -1,4 +1,3 @@
-const mongoose = require('mongoose');
 const DB = require('../models/product.js');
 const Product = DB.getProductModel();
 
