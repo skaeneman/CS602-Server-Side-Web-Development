@@ -55,6 +55,7 @@ const adminAddProduct = adminProducts.adminAddProduct;
 const adminSaveProduct = adminProducts.adminSaveProduct;
 const adminDisplayProducts = adminProducts.adminDisplayProducts;
 const adminEditProduct = adminProducts.adminEditProduct
+const adminSaveAfterEdit = adminProducts.adminSaveAfterEdit;
 const adminDeleteProduct = adminProducts.adminDeleteProduct;
 
 // GET product index
@@ -66,8 +67,7 @@ router.post('/admin/products/add', adminSaveProduct);
 // GET the edit admin product form
 router.get('/admin/products/edit/:id', adminEditProduct);
 // POST to save the edits for existing products 
-// router.post('/admin/products/edit/:id', adminSaveAfterEdit);
-
+router.post('/admin/products/edit/:id', adminSaveAfterEdit);
 // GET product by id to delete
 router.get('/admin/products/delete/:id', adminDeleteProduct);
 

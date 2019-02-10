@@ -81,7 +81,7 @@ module.exports.adminEditProduct =
 
 
 // POST the data in the adminEditProduct form
-module.exports.saveAfterEdit =
+module.exports.adminSaveAfterEdit =
     (req, res, next) => {
 
         let id = req.params.id;
