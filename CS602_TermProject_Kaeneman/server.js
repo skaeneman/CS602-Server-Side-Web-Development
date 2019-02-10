@@ -15,9 +15,15 @@ const hbs = handlebars.create({
     helpers : {
         // truncate text helper
         truncate: function(str) {
-            var out = str.substring(0, 80);
-            out = out + "...";
-            return out;
+            var charLimit = 80;
+            if (str.length > charLimit) {
+                var out = str.substring(0, charLimit);
+                out = out + "...";
+                return out;
+            }
+            else {
+                return str;
+            }
         }
     }
 });

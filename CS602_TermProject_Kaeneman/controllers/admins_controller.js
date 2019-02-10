@@ -58,8 +58,6 @@ module.exports.adminEditProduct =
 	(req , res , next) => {
 
 	    let id = req.params.id;
-        console.log(req.params);
-        console.log(id);
 
 	    Product.findById(id, (err, prod) => {
 	      if(err)
@@ -93,7 +91,9 @@ module.exports.adminSaveAfterEdit =
                 return res.render('404');
 
             product.name = req.body.name
-            product.description = req.body.description;
+            product.description = req.body.description,
+            product.price = req.body.price,
+            product.quantity = req.body.quantity            
 
             product.save((err) => {
                 if (err)
