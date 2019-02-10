@@ -12,7 +12,7 @@ module.exports.adminDisplayProducts =
 
             let results = products.map((product) => {
                 return {
-                    // productId: product.productId,
+                    id: product._id,
                     name: product.name,
                     description: product.description,
                     price: product.price,
@@ -86,7 +86,7 @@ module.exports.saveAfterEdit =
 
         let id = req.params.id;
 
-        Employee.findById(id, (err, product) => {
+        Product.findById(id, (err, product) => {
             if (err)
                 console.log("Error Selecting : %s ", err);
             if (!product)
@@ -109,7 +109,7 @@ module.exports.adminDeleteProduct =
 
         let id = req.params.id;
 
-        product.findById(id, (err, product) => {
+        Product.findById(id, (err, product) => {
             if (err)
                 console.log("Error Selecting : %s ", err);
             if (!product)
