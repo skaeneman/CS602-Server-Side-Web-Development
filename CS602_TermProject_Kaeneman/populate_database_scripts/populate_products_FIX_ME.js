@@ -22,7 +22,7 @@ connection.on("open", () => {
     product = new Product({
         id: 1,
         name: 'Guitar',
-        description: 'This is a description',
+        description: 'This is a description of a guitar',
         price: 1000000,
         quantity: 666
     });

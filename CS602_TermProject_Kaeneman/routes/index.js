@@ -34,9 +34,9 @@ router.get('/employees/delete/:id', deleteEmployee);
 /*******************************************************************
  * product routes
  *******************************************************************/
-const productModel = require('../controllers/products_controller');
+const productController = require('../controllers/products_controller');
 
-const displayProducts = productModel.displayProducts;
+const displayProducts = productController.displayProducts;
 
 // GET product index
 router.get('/products', displayProducts);
@@ -54,6 +54,8 @@ router.get('/admin', (req, res) => {
 const adminAddProduct = adminProducts.adminAddProduct;
 const adminSaveProduct = adminProducts.adminSaveProduct;
 const adminDisplayProducts = adminProducts.adminDisplayProducts;
+const adminEditProduct = adminProducts.adminEditProduct
+const adminDeleteProduct = adminProducts.adminDeleteProduct;
 
 // GET product index
 router.get('/admin/products', adminDisplayProducts);
@@ -61,7 +63,13 @@ router.get('/admin/products', adminDisplayProducts);
 router.get('/admin/products/add', adminAddProduct);
 // POST to create a new product
 router.post('/admin/products/add', adminSaveProduct);
+// GET the edit admin product form
+router.get('/admin/products/edit/:id', adminEditProduct);
+// POST to save the edits for existing products 
+// router.post('/admin/products/edit/:id', adminSaveAfterEdit);
 
+// GET product by id to delete
+router.get('/admin/products/delete/:id', adminDeleteProduct);
 
 
 

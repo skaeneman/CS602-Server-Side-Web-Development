@@ -13,9 +13,9 @@ const hbs = handlebars.create({
 
     // create custom handlebars helpers to be used in views
     helpers : {
-        // truncate text
+        // truncate text helper
         truncate: function(str) {
-            var out = str.substring(0, 4);
+            var out = str.substring(0, 80);
             out = out + "...";
             return out;
         }

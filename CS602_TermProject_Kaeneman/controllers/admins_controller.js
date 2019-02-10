@@ -1,3 +1,4 @@
+const mongoose = require('mongoose');
 const DB = require('../models/product.js');
 const Product = DB.getProductModel();
 
@@ -11,7 +12,7 @@ module.exports.adminDisplayProducts =
 
             let results = products.map((product) => {
                 return {
-                    productId: product.productId,
+                    // productId: product.productId,
                     name: product.name,
                     description: product.description,
                     price: product.price,
@@ -36,7 +37,7 @@ module.exports.adminSaveProduct =
     (req, res, next) => {
 
         let product = new Product({
-            productId: req.body.productId,
+            // productId: req.body.productId,
             name: req.body.name,
             description: req.body.description,
             price: req.body.price,
@@ -52,3 +53,72 @@ module.exports.adminSaveProduct =
 
     };
 
+// render the edit product form
+module.exports.adminEditProduct = 
+	(req , res , next) => {
+
+	    let id = req.params.id;
+        console.log(req.params);
+        console.log(id);
+
+	    Product.findById(id, (err, prod) => {
+	      if(err)
+	        console.log("Error Selecting : %s ", err); 
+            if (!prod)
+	        return res.render('404');
+
+            res.render('admins/adminEditProduct',
+	          {title:"Edit prod", 
+                  data: { id: prod._id,
+                        name: prod.name,
+                        description: prod.description,
+                        price: prod.price,
+                        quantity: prod.quantity
+                    }
+	          });                
+	    });
+	};
+
+
+// POST the data in the adminEditProduct form
+module.exports.saveAfterEdit =
+    (req, res, next) => {
+
+        let id = req.params.id;
+
+        Employee.findById(id, (err, product) => {
+            if (err)
+                console.log("Error Selecting : %s ", err);
+            if (!product)
+                return res.render('404');
+
+            product.name = req.body.name
+            product.description = req.body.description;
+
+            product.save((err) => {
+                if (err)
+                    console.log("Error updating : %s ", err);
+                res.redirect('/admin/products');
+            });
+        });
+    };
+
+
+module.exports.adminDeleteProduct =
+    (req, res, next) => {
+
+        let id = req.params.id;
+
+        product.findById(id, (err, product) => {
+            if (err)
+                console.log("Error Selecting : %s ", err);
+            if (!product)
+                return res.render('404');
+
+            product.remove((err) => {
+                if (err)
+                    console.log("Error deleting : %s ", err);
+                res.redirect('/admin/products');
+            });
+        });
+    };

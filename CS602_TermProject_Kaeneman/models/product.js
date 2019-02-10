@@ -13,7 +13,7 @@ const Schema = mongoose.Schema;
 mongoose.Promise = global.Promise;
 
 const productSchema = new Schema({
-    productId: { type: Number, unique: true, required: true},
+    // productId: { type: Number, unique: true, required: true},
     name: { type: String, trim: true, required: true },
     description: { type: String, trim: true, required: true },
     price: { type: Number, trim: true, required: true },
