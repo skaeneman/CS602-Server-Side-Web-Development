@@ -11,7 +11,7 @@ module.exports.displayProducts =
 
             let results = products.map((product) => {
                 return {
-                    productId: product.productId,
+                    id: product._id,
                     name: product.name,
                     description: product.description,
                     price: product.price,
@@ -24,30 +24,30 @@ module.exports.displayProducts =
         });
     };    
     
-// render the new product form
-module.exports.addProduct =
-    (req, res, next) => {
-        res.render('products/addProduct',
-        { title: "Add a product" });
-    };
+// // render the new product form
+// module.exports.addProduct =
+//     (req, res, next) => {
+//         res.render('products/addProduct',
+//         { title: "Add a product" });
+//     };
 
-// creates a new product
-module.exports.saveProduct =
-    (req, res, next) => {
+// // creates a new product
+// module.exports.saveProduct =
+//     (req, res, next) => {
 
-        let product = new Product({
-            productId: req.body.productId,
-            name: req.body.name,
-            description: req.body.description,
-            price: req.body.price,
-            quantity: req.body.quantity
-        });
+//         let product = new Product({
+//             productId: req.body.productId,
+//             name: req.body.name,
+//             description: req.body.description,
+//             price: req.body.price,
+//             quantity: req.body.quantity
+//         });
 
-        product.save((err) => {
-            if (err)
-                console.log("Error : %s ", err);
-            res.redirect('/products');
-        });
+//         product.save((err) => {
+//             if (err)
+//                 console.log("Error : %s ", err);
+//             res.redirect('/products');
+//         });
 
-    };
+//     };
 

@@ -30,7 +30,6 @@ router.post('/employees/edit/:id', 	saveAfterEdit);
 // get the employee by id to delete 
 router.get('/employees/delete/:id', deleteEmployee);
 
-
 /*******************************************************************
  * product routes
  *******************************************************************/
@@ -71,6 +70,15 @@ router.post('/admin/products/edit/:id', adminSaveAfterEdit);
 // GET product by id to delete
 router.get('/admin/products/delete/:id', adminDeleteProduct);
 
+/*******************************************************************
+ * user routes
+ *******************************************************************/
+
+const usersController = require('../controllers/users_controller');
+
+const displayUsers = usersController.displayUsers;
+
+router.get('/users', displayUsers);
 
 
 module.exports = router;
