@@ -21,7 +21,7 @@ const userSchema = new Schema({
 module.exports.getUserModel =
     () => {
         if (connection == null) {
-            console.log("Creating connection and user model...");
+            console.log("Creating user model connection...");
             connection = mongoose.createConnection(dbUrl, { useNewUrlParser: true });
             model = connection.model("UserModel", userSchema);
         };

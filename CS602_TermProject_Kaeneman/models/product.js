@@ -22,7 +22,7 @@ const productSchema = new Schema({
 module.exports.getProductModel =
     () => {
         if (connection == null) {
-            console.log("Creating connection and product model...");
+            console.log("Creating product model connection...");
             connection = mongoose.createConnection(dbUrl, { useNewUrlParser: true });
             model = connection.model("ProductModel", productSchema);
         };

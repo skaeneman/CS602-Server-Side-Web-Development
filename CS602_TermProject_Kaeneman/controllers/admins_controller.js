@@ -4,6 +4,10 @@ const Product = ProductDb.getProductModel();
 const UserDb = require('../models/user.js');
 const User = UserDb.getUserModel();
 
+/******************************************************
+ *  product functions
+ ******************************************************/
+
 // Get index of admin products
 module.exports.adminDisplayProducts =
     (req, res, next) => {
@@ -125,7 +129,9 @@ module.exports.adminDeleteProduct =
         });
     };
 
-
+/******************************************************
+ *  User functions
+ ******************************************************/
 
 // GET index of users
 module.exports.adminDisplayUsers =
@@ -148,3 +154,5 @@ module.exports.adminDisplayUsers =
                 { title: "List of Users", userData: results });
         });
     };      
+
+    

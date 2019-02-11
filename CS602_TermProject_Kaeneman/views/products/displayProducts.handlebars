@@ -2,10 +2,10 @@
 <br />
 <div class="container">
     <div class="row">
-        <div class="col-sm-12">
+        {{!-- <div class="col-sm-12"> --}}
 
             {{!-- headers --}}
-            <div class="card bg-light mb-3">
+            {{!-- <div class="card bg-light mb-3">
                 <div class="card-body">
                     <div class="row">
                         <div class="col-sm-2"><strong>ID</strong></div>
@@ -16,10 +16,10 @@
                         <div class="col-sm-2"></div>
                     </div>
                 </div>
-            </div>
+            </div> --}}
 
-            {{!-- list employees --}}
-            {{#each data}}
+            {{!-- list products --}}
+            {{!-- {{#each data}}
             <div class="card">
                 <div class="card-body">
                     <div class="row">
@@ -31,22 +31,57 @@
                         </div>
                         <div class="col-sm-4">
                             {{!-- <textarea cols="36" rows="5">{{this.description}}</textarea> --}}
-                            {{this.description}}
+                            {{!-- {{this.description}}
                         </div>
                         <div class="col-sm-2">
                             {{this.quantity}}
                         </div>
                         <div class="col-sm-2">
                             {{this.price}}
-                        </div>
+                        </div> --}} 
                         {{!-- <div class="col-sm-4">
                             <a href="/employees/edit/{{this.id}}">Edit</a>
                             <a href="/employees/delete/{{this.id}}">Delete</a>
                         </div> --}}
-                    </div>
+                    {{!-- </div>
                 </div>
             </div>
+            {{/each}} --}}
+
+
+
+
+
+            {{#each data}}
+                <div class="col-sm-4">
+                    
+                    <div class="card bottom-pad">
+                    <div class="card-body">
+                        <h5 class="card-title"><a href="/products/show">{{this.name}}</a></h5>
+                        
+                        <span>Description: {{truncate this.description}} </span>
+                        <br><br>
+                        
+                        <span>price: {{this.price}}</span><br>
+                        
+                    </div>
+                    <div class="card-footer">
+                        <small class="text-muted">timestamp goes here</small>
+                    </div>
+                    </div>
+                
+                </div>
             {{/each}}
-        </div>
+
+
+
+        {{!-- </div> --}}
     </div>
 </div>
+
+
+
+
+
+
+
