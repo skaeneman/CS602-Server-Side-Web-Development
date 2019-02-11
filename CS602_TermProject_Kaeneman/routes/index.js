@@ -78,11 +78,14 @@ const usersController = require('../controllers/users_controller');
 
 const displayUsers = usersController.displayUsers;
 const addUser = usersController.addUser;
+const saveUser = usersController.saveUser;
 
 // index to display all users
 router.get('/users', displayUsers);
 // render addUser form
 router.get('/users/add', addUser);
+// POST to save the user data
+router.post('/users/add', saveUser);
 
 
 module.exports = router;

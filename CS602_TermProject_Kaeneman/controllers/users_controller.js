@@ -20,12 +20,31 @@ module.exports.displayUsers =
             });
 
             res.render('users/displayUsers',
-                { title: "List of Users", data: results });
+                { title: "List of Users", userData: results });
         });
     };    
 
 // GET user sign up form
 module.exports.addUser = 
     (req, res, next) => {
-        res.render('users/addUser', { title: 'Add User' });
+        res.render('users/addUser', { title: 'Sign Up' });
     };
+
+// POST user data
+module.exports.saveUser =
+    (req, res, next) => {
+
+        let user = new User({
+            firstName: req.body.firstName,
+            lastName: req.body.lastName,
+            email: req.body.email,
+        });
+
+        user.save((err) => {
+            if (err) {
+                console.log("Error : %s ", err);
+            }
+            res.redirect('/users');
+        });
+
+    };    
