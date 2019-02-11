@@ -1,5 +1,8 @@
-const DB = require('../models/product.js');
-const Product = DB.getProductModel();
+const ProductDb = require('../models/product.js');
+const Product = ProductDb.getProductModel();
+
+const UserDb = require('../models/user.js');
+const User = UserDb.getUserModel();
 
 // Get index of admin products
 module.exports.adminDisplayProducts =
@@ -102,7 +105,7 @@ module.exports.adminSaveAfterEdit =
         });
     };
 
-
+// delets a product
 module.exports.adminDeleteProduct =
     (req, res, next) => {
 
@@ -121,3 +124,27 @@ module.exports.adminDeleteProduct =
             });
         });
     };
+
+
+
+// GET index of users
+module.exports.adminDisplayUsers =
+    (req, res, next) => {
+
+        User.find({}, (err, users) => {
+            if (err)
+                console.log("Error : %s ", err);
+
+            let results = users.map((user) => {
+                return {
+                    id: user._id,
+                    firstName: user.firstName,
+                    lastName: user.lastName,
+                    email: user.email
+                }
+            });
+
+            res.render('admins/adminDisplayUsers',
+                { title: "List of Users", userData: results });
+        });
+    };      

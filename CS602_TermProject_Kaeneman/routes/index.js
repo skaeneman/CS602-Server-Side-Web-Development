@@ -43,19 +43,23 @@ router.get('/products', displayProducts);
 /*******************************************************************
  * admin routes
  *******************************************************************/
-const adminProducts = require('../controllers/admins_controller');
+const adminController = require('../controllers/admins_controller');
 
 // GET admin view
 router.get('/admin', (req, res) => {
   res.render('admins/admin', { title: "Admin" });
 });
 
-const adminAddProduct = adminProducts.adminAddProduct;
-const adminSaveProduct = adminProducts.adminSaveProduct;
-const adminDisplayProducts = adminProducts.adminDisplayProducts;
-const adminEditProduct = adminProducts.adminEditProduct
-const adminSaveAfterEdit = adminProducts.adminSaveAfterEdit;
-const adminDeleteProduct = adminProducts.adminDeleteProduct;
+// products
+const adminAddProduct = adminController.adminAddProduct;
+const adminSaveProduct = adminController.adminSaveProduct;
+const adminDisplayProducts = adminController.adminDisplayProducts;
+const adminEditProduct = adminController.adminEditProduct
+const adminSaveAfterEdit = adminController.adminSaveAfterEdit;
+const adminDeleteProduct = adminController.adminDeleteProduct;
+
+// users
+const adminDisplayUsers = adminController.adminDisplayUsers;
 
 // GET product index
 router.get('/admin/products', adminDisplayProducts);
@@ -70,18 +74,18 @@ router.post('/admin/products/edit/:id', adminSaveAfterEdit);
 // GET product by id to delete
 router.get('/admin/products/delete/:id', adminDeleteProduct);
 
+// index to display all users
+router.get('/admin/users', adminDisplayUsers);
+
 /*******************************************************************
  * user routes
  *******************************************************************/
 
 const usersController = require('../controllers/users_controller');
 
-const displayUsers = usersController.displayUsers;
 const addUser = usersController.addUser;
 const saveUser = usersController.saveUser;
 
-// index to display all users
-router.get('/users', displayUsers);
 // render addUser form
 router.get('/users/add', addUser);
 // POST to save the user data
