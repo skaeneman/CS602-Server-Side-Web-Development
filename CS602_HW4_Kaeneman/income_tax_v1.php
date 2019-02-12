@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Income Tax Calculator</title>
+    <link rel="stylesheet" type="text/css">
+</head>
+
+<body>
+    <main>
+        <h1>Income Tax Calculator</h1>
+        <form action="tax_results.php" method="post">
+
+            <div id="data">
+                <label>Product Description:</label>
+                <input type="text" name="product_description"><br>
+
+                <label>List Price:</label>
+                <input type="text" name="list_price"><br>
+
+                <label>Discount Percent:</label>
+                <input type="text" name="discount_percent"><span>%</span><br>
+            </div>
+
+            <div id="buttons">
+                <label>&nbsp;</label>
+                <input type="submit" value="Calculate Discount"><br>
+            </div>
+
+        </form>
+    </main>
+</body>
+</html>
