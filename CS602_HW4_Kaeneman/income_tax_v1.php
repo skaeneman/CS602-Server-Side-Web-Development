@@ -28,6 +28,37 @@
         return $taxesOwed;
     }	 
 
+	// tax brackets for married couples filing jointly
+    function incomeTaxMarriedJointly($income) {
+		$taxesOwed = 0;
+		
+        if ($income >= 0 && $income <= 18550 ) {
+            $taxesOwed = $income - ($income * 0.10);
+		} 
+		elseif ($income >= 18551 && $income <= 75300) {
+            $taxesOwed = incomeTaxRate($income, 1855, 15, 18550);
+		} 
+		elseif ($income >= 73301 && $income <= 151900) {
+            $taxesOwed = incomeTaxRate($income, 10367.50, 25, 75300);
+		} 
+		elseif ($income >= 151901 && $income <= 231450) {
+            $taxesOwed = incomeTaxRate($income, 29517.50, 28, 151900);
+		} 
+		elseif ($income >= 231451 && $income <= 413350) {
+            $taxesOwed = incomeTaxRate($income, 51791, 33, 231450);
+		} 
+		elseif ($income >= 413351 && $income <= 466950) {
+            $taxesOwed = incomeTaxRate($income, 111818.50, 35, 413350);
+		} 
+		elseif ($income >= 466951) {
+            $taxesOwed = incomeTaxRate($income, 130578.50, 39.6, 466950);
+        }
+        return $taxesOwed;
+    }	 
+
+
+
+
 	/********************************************************************************
 	 * This function will calculate an income tax rate when given the below parameters
 	 * $income is a persons salary
@@ -57,8 +88,10 @@
 		$show_output = TRUE;
 
 	$incomeSingle =  incomeTaxSingle($incomeInput);
+	$incomeTaxMarriedJointly = incomeTaxMarriedJointly($incomeInput, 2);
 	echo "incomeTaxSingle $" .number_format($incomeSingle, 2);
-
+	echo " ";
+	echo "incomeTaxMarriedJointly $" .number_format($incomeTaxMarriedJointly, 2);
 
 	}// $_SERVER
 ?>
