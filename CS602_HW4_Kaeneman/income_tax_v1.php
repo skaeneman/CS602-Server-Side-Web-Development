@@ -56,6 +56,33 @@
         return $taxesOwed;
     }	 
 
+	// tax brackets for married couples filing seperately
+    function incomeTaxMarriedSeparately($income) {
+		$taxesOwed = 0;
+		
+        if ($income >= 0 && $income <= 9275) {
+            $taxesOwed = $income - ($income * 0.10);
+		} 
+		elseif ($income >= 9276 && $income <= 37650) {
+            $taxesOwed = incomeTaxRate($income, 927.50, 15, 9275);
+		} 
+		elseif ($income >= 37651 && $income <= 75950) {
+            $taxesOwed = incomeTaxRate($income, 5183.75, 25, 37650);
+		} 
+		elseif ($income >= 75951 && $income <= 115725) {
+            $taxesOwed = incomeTaxRate($income, 14758.75, 28, 75950);
+		} 
+		elseif ($income >= 115726 && $income <= 206675) {
+            $taxesOwed = incomeTaxRate($income, 25895.75, 33, 115725);
+		} 
+		elseif ($income >= 206676 && $income <= 233475) {
+            $taxesOwed = incomeTaxRate($income, 55909.25, 35, 206675);
+		} 
+		elseif ($income >= 233476) {
+            $taxesOwed = incomeTaxRate($income, 65289.25, 39.6, 233475);
+        }
+        return $taxesOwed;
+    }	
 
 
 
@@ -89,9 +116,12 @@
 
 	$incomeSingle =  incomeTaxSingle($incomeInput);
 	$incomeTaxMarriedJointly = incomeTaxMarriedJointly($incomeInput, 2);
+	$incomeTaxMarriedSeparately = incomeTaxMarriedSeparately($incomeInput, 2);
 	echo "incomeTaxSingle $" .number_format($incomeSingle, 2);
 	echo " ";
 	echo "incomeTaxMarriedJointly $" .number_format($incomeTaxMarriedJointly, 2);
+	echo " ";
+	echo "incomeTaxMarriedSeparately $" .number_format($incomeTaxMarriedSeparately, 2);
 
 	}// $_SERVER
 ?>
