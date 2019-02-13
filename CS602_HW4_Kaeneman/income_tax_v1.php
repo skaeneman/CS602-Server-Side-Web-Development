@@ -5,7 +5,7 @@
 		$taxesOwed = 0;
 		
         if ($income >= 0 && $income <= 9275) {
-            $taxesOwed = $income - ($income * 0.10);
+            $taxesOwed = ($income * 0.10);
 		} 
 		elseif ($income >= 9276 && $income <= 37650) {
             $taxesOwed = incomeTaxRate($income, 927.50, 15, 9275);
@@ -33,7 +33,7 @@
 		$taxesOwed = 0;
 		
         if ($income >= 0 && $income <= 18550 ) {
-            $taxesOwed = $income - ($income * 0.10);
+            $taxesOwed = ($income * 0.10);
 		} 
 		elseif ($income >= 18551 && $income <= 75300) {
             $taxesOwed = incomeTaxRate($income, 1855, 15, 18550);
@@ -61,7 +61,7 @@
 		$taxesOwed = 0;
 		
         if ($income >= 0 && $income <= 9275) {
-            $taxesOwed = $income - ($income * 0.10);
+            $taxesOwed = ($income * 0.10);
 		} 
 		elseif ($income >= 9276 && $income <= 37650) {
             $taxesOwed = incomeTaxRate($income, 927.50, 15, 9275);
@@ -84,7 +84,33 @@
         return $taxesOwed;
     }	
 
-
+	// tax bracket for head of household
+    function incomeTaxHeadOfHousehold($income) {
+		$taxesOwed = 0;
+		
+        if ($income >= 0 && $income <= 13250) {
+            $taxesOwed = ($income * 0.10);
+		} 
+		elseif ($income >= 13251 && $income <= 50400) {
+            $taxesOwed = incomeTaxRate($income, 1325, 15, 13250);
+		} 
+		elseif ($income >= 50401 && $income <= 130150) {
+            $taxesOwed = incomeTaxRate($income, 6897.5, 25, 50400);
+		} 
+		elseif ($income >= 130151 && $income <= 210800) {
+            $taxesOwed = incomeTaxRate($income, 26835, 28, 130150);
+		} 
+		elseif ($income >= 210801 && $income <= 413350) {
+            $taxesOwed = incomeTaxRate($income, 49417, 33, 210800);
+		} 
+		elseif ($income >= 413351 && $income <= 441000) {
+            $taxesOwed = incomeTaxRate($income, 116258.5, 35, 413350);
+		} 
+		elseif ($income >= 441001) {
+            $taxesOwed = incomeTaxRate($income, 125936, 39.6, 441000);
+        }
+        return $taxesOwed;
+    }
 
 	/********************************************************************************
 	 * This function will calculate an income tax rate when given the below parameters
@@ -117,11 +143,15 @@
 	$incomeSingle =  incomeTaxSingle($incomeInput);
 	$incomeTaxMarriedJointly = incomeTaxMarriedJointly($incomeInput, 2);
 	$incomeTaxMarriedSeparately = incomeTaxMarriedSeparately($incomeInput, 2);
+	$incomeTaxHeadOfHousehold = incomeTaxHeadOfHousehold($incomeInput, 2);
+
 	echo "incomeTaxSingle $" .number_format($incomeSingle, 2);
 	echo " ";
 	echo "incomeTaxMarriedJointly $" .number_format($incomeTaxMarriedJointly, 2);
 	echo " ";
 	echo "incomeTaxMarriedSeparately $" .number_format($incomeTaxMarriedSeparately, 2);
+	echo " ";
+	echo "incomeTaxHeadOfHousehold $" .number_format($incomeTaxHeadOfHousehold, 2);
 
 	}// $_SERVER
 ?>
