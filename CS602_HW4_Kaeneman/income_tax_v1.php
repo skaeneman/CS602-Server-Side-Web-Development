@@ -1,6 +1,6 @@
  <?php
 
-	 // calculate income tax for single filers
+	 // income tax brackets for single filers
     function incomeTaxSingle($income) {
 		$taxesOwed = 0;
 		
@@ -28,23 +28,24 @@
         return $taxesOwed;
     }	 
 
-	/**
-	 * This function will calculate an income tax rate
+	/********************************************************************************
+	 * This function will calculate an income tax rate when given the below parameters
 	 * $income is a persons salary
-	 * $minimumTax is the minumum amount of taxes owed
-	 * $taxBracket is the percentage rate taxed on income
-	 * $amountOver is the minimum income which is multiplied against the tax bracket  
-	 */
-	function incomeTaxRate($income, $minimumTax, $taxBracket, $amountOver) {
+	 * $minimumTax is the minumum amount of taxes owed in the particular tax bracket
+	 * $taxRate is the percentage rate taxed on income
+	 * $amountOver is the limit where additional taxes are added 
+	 ********************************************************************************/
+	function incomeTaxRate($income, $minimumTax, $taxRate, $amountOver) {
 		// convert tax bracket to a percentage
-		$taxBracket = $taxBracket / 100;
-		echo $taxBracket;
+		$taxRate = $taxRate / 100;
+		// calculate the marginal tax rate
+		$marginalTaxRate = (($income - $amountOver) * $taxRate) + $minimumTax;
+		return $marginalTaxRate;
 	}
 
 	// verify form was submitted and get user input
     if(isset($_POST['SubmitButton'])){
         $incomeInput = $_POST["income"];
-        $message = $incomeInput;
 	}
 	
 	// hide tax output by default
@@ -56,7 +57,7 @@
 		$show_output = TRUE;
 
 	$incomeSingle =  incomeTaxSingle($incomeInput);
-	echo $incomeSingle;
+	echo "incomeTaxSingle $" .number_format($incomeSingle, 2);
 
 
 	}// $_SERVER
@@ -81,13 +82,13 @@
 
             <div id="buttons">
                 <label>&nbsp;</label>
-                <input type="submit" name="SubmitButton" income="Submit"><br>
+                <input type="submit" name="SubmitButton" value="Submit"><br>
             </div>
 		</form>
 
 			<?php
 				if ($show_output) {
-					echo "Your tax bracket is " .$message;
+					echo "With a net taxable income of $" .number_format($incomeInput, 2);
 				}
 			?> 
     </main>
