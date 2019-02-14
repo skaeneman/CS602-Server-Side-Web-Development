@@ -181,7 +181,8 @@
 			if($isInputNumeric === FALSE) {	
 				echo '<br>';				
 				echo '<div class="alert alert-danger" role="alert">';
-				echo $incomeInput .' is not valid!  Please enter a valid number</div>';
+				echo 'The input ';
+				echo $incomeInput .' is not valid!  Please enter a number</div>';
 			} 				
 		?>
 
