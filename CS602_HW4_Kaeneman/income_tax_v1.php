@@ -1,8 +1,8 @@
  <?php
 
-	 // income tax brackets for single filers
+    // income tax brackets for single filers
     function incomeTaxSingle($income) {
-		$taxesOwed = 0;
+	$taxesOwed = 0;  
 		
         if ($income >= 0 && $income <= 9275) {
             $taxesOwed = ($income * 0.10);
@@ -28,9 +28,9 @@
         return $taxesOwed;
     }	 
 
-	// tax brackets for married couples filing jointly
+    // tax brackets for married couples filing jointly
     function incomeTaxMarriedJointly($income) {
-		$taxesOwed = 0;
+	$taxesOwed = 0;
 		
         if ($income >= 0 && $income <= 18550 ) {
             $taxesOwed = ($income * 0.10);
@@ -56,9 +56,9 @@
         return $taxesOwed;
     }	 
 
-	// tax brackets for married couples filing seperately
+     // tax brackets for married couples filing seperately
     function incomeTaxMarriedSeparately($income) {
-		$taxesOwed = 0;
+	$taxesOwed = 0;
 		
         if ($income >= 0 && $income <= 9275) {
             $taxesOwed = ($income * 0.10);
@@ -84,9 +84,9 @@
         return $taxesOwed;
     }	
 
-	// tax bracket for head of household
+     // tax bracket for head of household
     function incomeTaxHeadOfHousehold($income) {
-		$taxesOwed = 0;
+	$taxesOwed = 0;
 		
         if ($income >= 0 && $income <= 13250) {
             $taxesOwed = ($income * 0.10);
@@ -127,31 +127,36 @@
 		return $marginalTaxRate;
 	}
 
-	// verify form was submitted and get user input
-    if(isset($_POST['SubmitButton'])){
-        $incomeInput = $_POST["income"];
+	// get income from user input
+      if(isset($_POST['SubmitButton'])) {
+	  $incomeInput = $_POST["income"];
 	}
 	
 	// hide tax output by default
-	$show_output = FALSE;
+	$showOutput = FALSE;
+	// variable to check user input
+	$isInputNumeric = FALSE;
 
 	// if the form was submitted
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    	if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+
+		// echo gettype($incomeInput);
+
+	  	// check user input to see if it's valid number
+		if (filter_var($incomeInput, FILTER_VALIDATE_FLOAT)) {
+			$isInputNumeric = TRUE;
+		} else {
+			$isInputNumeric = FALSE;
+		}
+
 		// show output
-		$show_output = TRUE;
+		$showOutput = TRUE;
 
-	$incomeSingle =  incomeTaxSingle($incomeInput);
-	$incomeTaxMarriedJointly = incomeTaxMarriedJointly($incomeInput, 2);
-	$incomeTaxMarriedSeparately = incomeTaxMarriedSeparately($incomeInput, 2);
-	$incomeTaxHeadOfHousehold = incomeTaxHeadOfHousehold($incomeInput, 2);
-
-	echo "incomeTaxSingle $" .number_format($incomeSingle, 2);
-	echo " ";
-	echo "incomeTaxMarriedJointly $" .number_format($incomeTaxMarriedJointly, 2);
-	echo " ";
-	echo "incomeTaxMarriedSeparately $" .number_format($incomeTaxMarriedSeparately, 2);
-	echo " ";
-	echo "incomeTaxHeadOfHousehold $" .number_format($incomeTaxHeadOfHousehold, 2);
+		$incomeSingle =  incomeTaxSingle($incomeInput);
+		$incomeTaxMarriedJointly = incomeTaxMarriedJointly($incomeInput, 2);
+		$incomeTaxMarriedSeparately = incomeTaxMarriedSeparately($incomeInput, 2);
+		$incomeTaxHeadOfHousehold = incomeTaxHeadOfHousehold($incomeInput, 2);
 
 	}// $_SERVER
 ?>
@@ -159,31 +164,94 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <!-- bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <title>Income Tax Calculator</title>
 </head>
 
 <body>
     <main>
-		<h1>Income Tax Calculator</h1>
+
+	<div class="container">
+	  <div class="row">
+	    <div class="col-sm-12">
+
+		<!-- generate an alert when input is non-numeric -->
+		<div class="alert alert-danger" role="alert">
+			<?php echo 'test' .$isInputNumeric; ?>
+			<?php 
+				if($isInputNumeric === FALSE) {
+					echo "False";
+				} 
+				if($isInputNumeric === TRUE) {
+					echo "True";
+				} 				
+			?>
+
+		</div>
+
+		<br>
+		<div class="text-center"><h1>Income Tax Calculator</h1></div><br>
+
 		<!-- post form to same page -->
 		<form method="POST" action="<?php htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
-
-            <div id="data">
-                <label>Your Net Income:</label>
-                <input type="text" name="income"><br>
-            </div>
-
-            <div id="buttons">
-                <label>&nbsp;</label>
-                <input type="submit" name="SubmitButton" value="Submit"><br>
-            </div>
+			<!-- user input -->
+			<div class="form-row align-items-center">
+			  <label class="col-sm-2 col-form-label"><strong>Your Net Income:</strong></label>
+			  <div class="col-sm-8 my-1">
+				<input type="text" name="income" class="form-control" placeholder="Taxable income">
+			  </div>
+			  <div class="col-auto my-1">
+				<button type="submit" name="SubmitButton" class="btn btn-outline-primary">Submit</button>
+			  </div>
+			</div>
 		</form>
+		<br>
 
-			<?php
-				if ($show_output) {
-					echo "With a net taxable income of $" .number_format($incomeInput, 2);
-				}
-			?> 
+		<?php
+			if ($showOutput) {
+				echo "With a net taxable income of $" .number_format($incomeInput, 2);
+			}
+		?> 
+
+		<br><br>
+		<ul class="list-group">
+		<li class="list-group-item active">
+			<div class="row">
+				<div class="col-sm-6">Status</div>
+				<div class="col-sm-6">Tax</div>
+			</div>
+		</li>
+		<li class="list-group-item">
+			<div class="row">
+				<div class="col-sm-6">Single</div>
+				<div class="col-sm-6"><?php echo "$" .number_format($incomeSingle, 2); ?></div>
+			</div>
+		</li>
+		<li class="list-group-item">
+			<div class="row">
+				<div class="col-sm-6">Married Filing Jointly</div>
+				<div class="col-sm-6"><?php echo "$" .number_format($incomeTaxMarriedJointly, 2); ?></div>
+			</div>
+		</li>
+		<li class="list-group-item">
+			<div class="row">
+				<div class="col-sm-6">Maried Filing Separately</div>
+				<div class="col-sm-6"><?php echo "$" .number_format($incomeTaxMarriedSeparately, 2); ?></div>
+			</div>
+		</li>
+		<li class="list-group-item">
+			<div class="row">
+				<div class="col-sm-6">Head Of Household</div>
+				<div class="col-sm-6"><?php echo "$" .number_format($incomeTaxHeadOfHousehold, 2); ?></div>
+			</div>
+		</li>      
+		</ul>		
+
+	    </div>			
+	  </div>
+	</div>
+
     </main>
 </body>
 </html>
