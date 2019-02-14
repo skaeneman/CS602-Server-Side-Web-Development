@@ -177,18 +177,13 @@
 	    <div class="col-sm-12">
 
 		<!-- generate an alert when input is non-numeric -->
-		<div class="alert alert-danger" role="alert">
-			<?php echo 'test' .$isInputNumeric; ?>
-			<?php 
-				if($isInputNumeric === FALSE) {
-					echo "False";
-				} 
-				if($isInputNumeric === TRUE) {
-					echo "True";
-				} 				
-			?>
-
-		</div>
+		<?php 
+			if($isInputNumeric === FALSE) {	
+				echo '<br>';				
+				echo '<div class="alert alert-danger" role="alert">';
+				echo $incomeInput .' is not valid!  Please enter a valid number</div>';
+			} 				
+		?>
 
 		<br>
 		<div class="text-center"><h1>Income Tax Calculator</h1></div><br>
