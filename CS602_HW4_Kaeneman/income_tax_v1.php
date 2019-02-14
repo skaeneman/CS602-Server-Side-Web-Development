@@ -132,10 +132,11 @@
 	  $incomeInput = $_POST["income"];
 	}
 	
-	// hide tax output by default
+	// hide tax table output by default
 	$showOutput = FALSE;
+
 	// variable to check user input
-	$isInputNumeric = FALSE;
+	$isInputNumeric = null;
 
 	// if the form was submitted
     	if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -241,7 +242,7 @@
 				</div>
 			</li>      
 			</ul>	
-				
+
 		<!-- closes php $showOutput tag -->
 		<?php }; ?>
 
