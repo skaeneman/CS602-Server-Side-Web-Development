@@ -146,12 +146,11 @@
 	  	// check user input to see if it's valid number
 		if (filter_var($incomeInput, FILTER_VALIDATE_FLOAT)) {
 			$isInputNumeric = TRUE;
+			// show output if user entered a number
+			$showOutput = TRUE;			
 		} else {
 			$isInputNumeric = FALSE;
 		}
-
-		// show output
-		$showOutput = TRUE;
 
 		$incomeSingle =  incomeTaxSingle($incomeInput);
 		$incomeTaxMarriedJointly = incomeTaxMarriedJointly($incomeInput, 2);
@@ -204,44 +203,47 @@
 		<br>
 
 		<?php
-			if ($showOutput) {
+			 // if it's a valid number show the output table.
+			 // open a bracket.  php tag after html closes it.
+			if($showOutput) {
 				echo "With a net taxable income of $" .number_format($incomeInput, 2);
-			}
 		?> 
-
-		<br><br>
-		<ul class="list-group">
-		<li class="list-group-item active">
-			<div class="row">
-				<div class="col-sm-6">Status</div>
-				<div class="col-sm-6">Tax</div>
-			</div>
-		</li>
-		<li class="list-group-item">
-			<div class="row">
-				<div class="col-sm-6">Single</div>
-				<div class="col-sm-6"><?php echo "$" .number_format($incomeSingle, 2); ?></div>
-			</div>
-		</li>
-		<li class="list-group-item">
-			<div class="row">
-				<div class="col-sm-6">Married Filing Jointly</div>
-				<div class="col-sm-6"><?php echo "$" .number_format($incomeTaxMarriedJointly, 2); ?></div>
-			</div>
-		</li>
-		<li class="list-group-item">
-			<div class="row">
-				<div class="col-sm-6">Maried Filing Separately</div>
-				<div class="col-sm-6"><?php echo "$" .number_format($incomeTaxMarriedSeparately, 2); ?></div>
-			</div>
-		</li>
-		<li class="list-group-item">
-			<div class="row">
-				<div class="col-sm-6">Head Of Household</div>
-				<div class="col-sm-6"><?php echo "$" .number_format($incomeTaxHeadOfHousehold, 2); ?></div>
-			</div>
-		</li>      
-		</ul>		
+			<br><br>
+			<ul class="list-group">
+			<li class="list-group-item active">
+				<div class="row">
+					<div class="col-sm-6">Status</div>
+					<div class="col-sm-6">Tax</div>
+				</div>
+			</li>
+			<li class="list-group-item">
+				<div class="row">
+					<div class="col-sm-6">Single</div>
+					<div class="col-sm-6"><?php echo "$" .number_format($incomeSingle, 2); ?></div>
+				</div>
+			</li>
+			<li class="list-group-item">
+				<div class="row">
+					<div class="col-sm-6">Married Filing Jointly</div>
+					<div class="col-sm-6"><?php echo "$" .number_format($incomeTaxMarriedJointly, 2); ?></div>
+				</div>
+			</li>
+			<li class="list-group-item">
+				<div class="row">
+					<div class="col-sm-6">Maried Filing Separately</div>
+					<div class="col-sm-6"><?php echo "$" .number_format($incomeTaxMarriedSeparately, 2); ?></div>
+				</div>
+			</li>
+			<li class="list-group-item">
+				<div class="row">
+					<div class="col-sm-6">Head Of Household</div>
+					<div class="col-sm-6"><?php echo "$" .number_format($incomeTaxHeadOfHousehold, 2); ?></div>
+				</div>
+			</li>      
+			</ul>	
+				
+		<!-- closes php $showOutput tag -->
+		<?php }; ?>
 
 	    </div>			
 	  </div>
