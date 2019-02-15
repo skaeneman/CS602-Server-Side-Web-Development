@@ -1,6 +1,5 @@
  <?php
 
-
 	define ('TAX_RATES',
 	  array(
 		'Single' => array(
@@ -27,64 +26,52 @@
 	);
 
 	/***********************************************************************************
-	 *  This function will calculate income tax owed at various income levels 
+	 *  This function will calculate taxes owed at various income levels 
 	 *  $taxableIncome is the salary earned by an individual
 	 *  $filingStatus is Single, Married_Jointly, Married_Separately, or Head_Household
 	 ***********************************************************************************/
 	function incomeTax($taxableIncome, $filingStatus) {
-		// access the 3 pieces of data for the given filing status and store them
-		$rates = TAX_RATES[$filingStatus]['Rates'];
 		$ranges = TAX_RATES[$filingStatus]['Ranges'];
-		$minTaxes = TAX_RATES[$filingStatus]['MinTax'];
+		$minTax = TAX_RATES[$filingStatus]['MinTax'];
+		$rates = TAX_RATES[$filingStatus]['Rates'];
 
-		// foreach($rates as $rate) {
-		// 	echo $rate ."\n";
-		// }
-		// foreach($ranges as $range) {
-		// 	echo $range ."\n";
-		// }
-		// foreach($minTaxes as $minTax) {
-		// 	echo $minTax ."\n";
-		// }
+		// get the greatest index in the array
+		$maxIndex = max(array_keys($ranges));
 
-		/******************
-		 * testing
-		 * ****************/ 
-		// return $rates;
-		return $ranges;
-		// return $minTaxes;
+		$taxesOwed = null;
 
-	}
+		foreach ($ranges as $index => $range) {
 
-		// test the function with hard coded values
-		$someIncome = 50000;
-		$ranges2 = incomeTax($someIncome, 'Single');
-		$min = min($ranges2);
-		$max = max($ranges2);		
-		// echo "min = " .min($ranges2);
-		// echo "max = " .max($ranges2);
-		echo '<br>';
+			// if taxableIncome is greater than the maximum range value  
+			if($taxableIncome > $ranges[$maxIndex]) {			
+				
+				echo $rates[$maxIndex] ."% over array values <br>";
 
-		// for($i = 0; $i < count($rates2); $i++) {
-		foreach($ranges2 as $index => $rangeValue) {
-
-			if((min($ranges2) <= $someIncome) && ($someIncome <= max($ranges2))) {
-				echo "income = " .$someIncome ."is in the range between" .min($ranges2) ."and" .max($ranges2);
-				// echo "in range = {$someIncome}";
-				// echo "index = {$index} <br>";
+				// convert the rate at the max index to a decimal
+				$rateDecimal = $rates[$maxIndex] / 100;
+				// determine taxes owed
+				$taxesOwed = (($taxableIncome - $ranges[$maxIndex]) * $rateDecimal) + $minTax[$maxIndex]; 
 				break;
-			}	
+			}
+			// if taxableIncome falls within the ranges in the array
+			elseif(($taxableIncome <= $range) and ($taxableIncome > $ranges[$index - 1])) {
+								
+				echo $rates[$index - 1]. "% in range of array <br>";
 
-			echo $rangeValue; 
-			echo '<br>';
-			// if($rangeValue == $ranges2[$index]) {
-			// 	echo "yep .{$ranges2[$index]}";
-			// }
-			// echo "nope .{$ranges2[$index]}";
-		}
+				$rateDecimal = $rates[$index - 1] / 100; // convert to decimal
+				$taxesOwed =  (($taxableIncome - $ranges[$index]) * $rateDecimal) + $minTax[$index];
+				break;
+			}  
+		}  
+		return $taxesOwed;
+	};
+
+	$out = incomeTax(150000, 'Single');
+	echo "$".number_format($out, 2) ." taxes owed";
 
 
 
+ 	
 
 	/********************************************************************************
 	 * This function will calculate an income tax rate when given the below parameters
