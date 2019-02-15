@@ -57,15 +57,24 @@
 	}
 
 		// test the function with hard coded values
-		$someIncome = 0;
+		$someIncome = 50000;
 		$ranges2 = incomeTax($someIncome, 'Single');
-		
+		$min = min($ranges2);
+		$max = max($ranges2);		
+		// echo "min = " .min($ranges2);
+		// echo "max = " .max($ranges2);
+		echo '<br>';
+
 		// for($i = 0; $i < count($rates2); $i++) {
 		foreach($ranges2 as $index => $rangeValue) {
-			if($someIncome == $rangeValue) {
-				echo "match = {$someIncome}";
-				echo "index {$index} <br>";
-			}			
+
+			if((min($ranges2) <= $someIncome) && ($someIncome <= max($ranges2))) {
+				echo "income = " .$someIncome ."is in the range between" .min($ranges2) ."and" .max($ranges2);
+				// echo "in range = {$someIncome}";
+				// echo "index = {$index} <br>";
+				break;
+			}	
+
 			echo $rangeValue; 
 			echo '<br>';
 			// if($rangeValue == $ranges2[$index]) {
