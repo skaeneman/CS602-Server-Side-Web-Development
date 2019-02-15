@@ -37,19 +37,45 @@
 		$ranges = TAX_RATES[$filingStatus]['Ranges'];
 		$minTaxes = TAX_RATES[$filingStatus]['MinTax'];
 
-		foreach($rates as $rate) {
-			echo $rate ."\n";
-		}
-		foreach($ranges as $range) {
-			echo $range ."\n";
-		}
-		foreach($minTaxes as $minTax) {
-			echo $minTax ."\n";
-		}
+		// foreach($rates as $rate) {
+		// 	echo $rate ."\n";
+		// }
+		// foreach($ranges as $range) {
+		// 	echo $range ."\n";
+		// }
+		// foreach($minTaxes as $minTax) {
+		// 	echo $minTax ."\n";
+		// }
+
+		/******************
+		 * testing
+		 * ****************/ 
+		// return $rates;
+		return $ranges;
+		// return $minTaxes;
 
 	}
-	// test the function with hard coded values
-	incomeTax(100000, Single);
+
+		// test the function with hard coded values
+		$someIncome = 0;
+		$ranges2 = incomeTax($someIncome, 'Single');
+		
+		// for($i = 0; $i < count($rates2); $i++) {
+		foreach($ranges2 as $index => $rangeValue) {
+			if($someIncome == $rangeValue) {
+				echo "match = {$someIncome}";
+				echo "index {$index} <br>";
+			}			
+			echo $rangeValue; 
+			echo '<br>';
+			// if($rangeValue == $ranges2[$index]) {
+			// 	echo "yep .{$ranges2[$index]}";
+			// }
+			// echo "nope .{$ranges2[$index]}";
+		}
+
+
+
 
 	/********************************************************************************
 	 * This function will calculate an income tax rate when given the below parameters
