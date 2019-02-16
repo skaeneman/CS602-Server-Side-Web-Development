@@ -122,7 +122,7 @@
 		<form method="POST" action="<?php htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
 			<!-- user input -->
 			<div class="form-row align-items-center">
-			  <label class="col-sm-2 col-form-label"><strong>Your Net Income:</strong></label>
+			  <label class="col-sm-2 col-form-label"><strong>Enter Net Income:</strong></label>
 			  <div class="col-sm-8 my-1">
 				<input type="text" name="income" class="form-control" placeholder="Taxable income">
 			  </div>
@@ -141,7 +141,7 @@
 		?> 
 
 			<!-- output the table for filing status -->
-			<br><br>
+			<br><br>			
 			<ul class="list-group">
 				<li class="list-group-item active">
 					<div class="row">
@@ -179,6 +179,9 @@
 		<?php }; ?>
 
 <br>
+<hr>
+		<h4><strong>2016 Tax Tables</strong></h4>
+
 		<?php
 				// print out the tax table 
 				foreach(TAX_RATES as $index => $taxArray) {
