@@ -183,40 +183,90 @@
 			<!-- output the table for filing status -->
 			<br><br>
 			<ul class="list-group">
-			<li class="list-group-item active">
-				<div class="row">
-					<div class="col-sm-6">Status</div>
-					<div class="col-sm-6">Tax</div>
-				</div>
-			</li>
-			<li class="list-group-item">
-				<div class="row">
-					<div class="col-sm-6">Single</div>
-					<div class="col-sm-6"><?php echo "$" .number_format(incomeTax($incomeInput, 'Single'), 2); ?></div>
-				</div>
-			</li>			
-			<li class="list-group-item">
-				<div class="row">
-					<div class="col-sm-6">Married Filing Jointly</div>
-					<div class="col-sm-6"><?php echo "$" .number_format(incomeTax($incomeInput, 'Married_Jointly'), 2); ?></div>
-				</div>
-			</li>
-			<li class="list-group-item">
-				<div class="row">
-					<div class="col-sm-6">Maried Filing Separately</div>
-					<div class="col-sm-6"><?php echo "$" .number_format(incomeTax($incomeInput, 'Married_Separately'), 2); ?></div>
-				</div>
-			</li>
-			<li class="list-group-item">
-				<div class="row">
-					<div class="col-sm-6">Head Of Household</div>
-					<div class="col-sm-6"><?php echo "$" .number_format(incomeTax($incomeInput, 'Head_Household'), 2); ?></div>
-				</div>
-			</li>      
+				<li class="list-group-item active">
+					<div class="row">
+						<div class="col-sm-6">Status</div>
+						<div class="col-sm-6">Tax</div>
+					</div>
+				</li>
+				<li class="list-group-item">
+					<div class="row">
+						<div class="col-sm-6">Single</div>
+						<div class="col-sm-6"><?php echo "$" .number_format(incomeTax($incomeInput, 'Single'), 2); ?></div>
+					</div>
+				</li>			
+				<li class="list-group-item">
+					<div class="row">
+						<div class="col-sm-6">Married Filing Jointly</div>
+						<div class="col-sm-6"><?php echo "$" .number_format(incomeTax($incomeInput, 'Married_Jointly'), 2); ?></div>
+					</div>
+				</li>
+				<li class="list-group-item">
+					<div class="row">
+						<div class="col-sm-6">Maried Filing Separately</div>
+						<div class="col-sm-6"><?php echo "$" .number_format(incomeTax($incomeInput, 'Married_Separately'), 2); ?></div>
+					</div>
+				</li>
+				<li class="list-group-item">
+					<div class="row">
+						<div class="col-sm-6">Head Of Household</div>
+						<div class="col-sm-6"><?php echo "$" .number_format(incomeTax($incomeInput, 'Head_Household'), 2); ?></div>
+					</div>
+				</li>      
 			</ul>	
 
 		<!-- closes php $showOutput tag -->
 		<?php }; ?>
+
+<br>
+		<?php 
+				foreach(TAX_RATES as $index => $taxArray) {
+
+
+	echo $index;
+ echo '<table class="table">
+					<thead class="thead-light">
+						<tr>
+							<th scope="col">Taxable Income</th>
+							<th scope="col">Tax Rate</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td scope="row">';
+								echo  $taxArray;
+				echo '</td>
+							<td>';
+							echo $taxArray;
+				echo '</td>
+						</tr>
+					</tbody>
+				</table> ';
+
+				}
+		?>
+
+				<!-- <table class="table">
+					<thead class="thead-light">
+						<tr>
+							<th scope="col">Taxable Income</th>
+							<th scope="col">Tax Rate</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<th scope="row">1</th>
+							<td>Mark</td>
+						</tr>
+					</tbody>
+				</table> -->
+
+
+
+
+
+
+
 
 	    </div>			
 	  </div>
@@ -227,16 +277,3 @@
 </html>
 
 
-			<!-- <?php 
-					foreach(TAX_RATES as $index => $taxArray) {
-
-						echo	'<li class="list-group-item">';
-						echo	'		<div class="row">';
-						echo	'			<div class="col-sm-6">XXXXXXX</div>';
-						echo  '				<div class="col-sm-6">';
-														echo $index;
-						echo  '				</div>';
-						echo	'			</div>';
-						echo	'		</li>';
-					}
-			?> -->
