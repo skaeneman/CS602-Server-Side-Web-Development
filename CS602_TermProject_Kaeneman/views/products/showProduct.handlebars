@@ -9,9 +9,16 @@
             
             <!-- product details -->
             <div class="col-sm-6">
-                <div><h5>{{data.name}}</h5></div><br>
-                <div>{{data.description}}</div><br>         
-                <div><a href="/cart/{{this.id}}" class="btn btn-outline-primary float-right">Add to cart</a></div>
+                <div><h5>{{data.name}}</h5></div><br>                
+                <!-- call convertToCurrency helper function in server.js -->
+                <div>{{convertToCurrency data.price}}</div><br>
+                <div>{{data.description}}</div><br>   
+
+                <div>
+                    Only xxxx left in stock - order soon. <br>
+                    select quantity: <br><br>
+                    <a href="/cart/{{this.id}}" class="btn btn-outline-primary">Add to cart</a>
+                </div>
             </div>
 
         </div>

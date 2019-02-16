@@ -24,6 +24,11 @@ const hbs = handlebars.create({
             else {
                 return str;
             }
+        },
+        // helper function to convert number to currency
+        convertToCurrency: function(num) {
+            var currency = num.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
+            return '$' + currency;
         }
     }
 });
