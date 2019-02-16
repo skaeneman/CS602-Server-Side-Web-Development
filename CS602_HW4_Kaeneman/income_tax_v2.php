@@ -227,8 +227,8 @@
 					echo "<strong>" .$index ."</strong>";
 
 					// create the table
-					echo '<table class="table">
-										<thead class="thead-light">
+					echo '<table class="table table-striped">
+										<thead class="table-success">
 											<tr>
 												<th scope="col">Taxable Income</th>
 												<th scope="col">Tax Rate</th>
@@ -242,7 +242,7 @@
 													echo " - $" .number_format(TAX_RATES[$index]['Ranges'][1]);
 									echo '</td>
 												<td>';
-													echo TAX_RATES[$index]['Rates'][0];
+													echo TAX_RATES[$index]['Rates'][0] ."%";
 									echo '</td>
 											</tr>';
 
@@ -257,7 +257,9 @@
 																echo " - $" .number_format(TAX_RATES[$index]['Ranges'][$i + 1]);
 											echo  '</td>
 															<td>';
-																echo TAX_RATES[$index]['Rates'][$i];
+																echo "$" .number_format(TAX_RATES[$index]['MinTax'][$i], 2) ." plus ";
+																echo TAX_RATES[$index]['Rates'][$i] ."% of the amount over ";
+																echo "$" .number_format(TAX_RATES[$index]['Ranges'][$i]);
 											echo  '</td>
 														</tr>';
 										}
@@ -270,7 +272,9 @@
 															echo " or more";
 											echo '</td>
 														<td>';
-															echo TAX_RATES[$index]['Rates'][6];
+															echo "$" .number_format(TAX_RATES[$index]['MinTax'][6], 2) ." plus ";
+															echo TAX_RATES[$index]['Rates'][6] ."% of the amount over ";
+															echo "$" .number_format(TAX_RATES[$index]['Ranges'][6]);															
 											echo '</td>
 													</tr>															
 								  </tbody>
