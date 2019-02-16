@@ -36,9 +36,12 @@ router.get('/employees/delete/:id', deleteEmployee);
 const productController = require('../controllers/products_controller');
 
 const displayProducts = productController.displayProducts;
+const showProduct = productController.showProduct;
 
 // GET product index
 router.get('/products', displayProducts);
+// GET show product route
+router.get('/product/:id', showProduct);
 
 /*******************************************************************
  * admin routes

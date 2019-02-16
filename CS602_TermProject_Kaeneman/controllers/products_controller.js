@@ -23,6 +23,33 @@ module.exports.displayProducts =
                 { title: "List of Products", data: results });
         });
     };    
+
+module.exports.showProduct =
+    (req, res, next) => {
+
+        let id = req.params.id;
+
+        Product.findById(id, (err, prod) => {
+            if (err)
+                console.log("Error Selecting : %s ", err);
+            if (!prod)
+                return res.render('404');
+
+            res.render('products/showProduct',
+                {
+                    title: "Show product",
+                    data: {
+                        id: prod._id,
+                        name: prod.name,
+                        description: prod.description,
+                        price: prod.price,
+                        quantity: prod.quantity
+                    }
+                });
+        });
+    };
+
+    
     
 // // render the new product form
 // module.exports.addProduct =
