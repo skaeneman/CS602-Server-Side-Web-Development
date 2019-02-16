@@ -222,8 +222,8 @@
 		<?php 
 				foreach(TAX_RATES as $index => $taxArray) {
 
-
-					echo $index;
+					// print the filing status headers
+					echo "<strong>" .$index ."</strong>";
 
 					// echo number_format(TAX_RATES[$index]['Ranges'][0]);
 					// echo "-" .number_format(TAX_RATES[$index]['Ranges'][1]);
@@ -249,19 +249,20 @@
 				echo '</td>
 						</tr>';
 
-				for($i=1 ;$i < count(TAX_RATES[$index]['Ranges']); $i++) {
+						// loop to print the remaining rows, except the last row
+						$loopCount = count(TAX_RATES[$index]['Ranges']);
+						for($i=1; $i < ($loopCount - 1); $i++) {
 					
-					echo '<tr>
-									<td scope="row">';								
-										echo number_format((TAX_RATES[$index]['Ranges'][$i])+1);
-										echo "-" .number_format(TAX_RATES[$index]['Ranges'][$i + 1]);
-					echo  '</td>
-									<td>';
-										echo TAX_RATES[$index]['Rates'][$i];
-					echo  '</td>
-								</tr>';
-
-					}
+							echo '<tr>
+											<td scope="row">';								
+												echo number_format((TAX_RATES[$index]['Ranges'][$i])+1);
+												echo "-" .number_format(TAX_RATES[$index]['Ranges'][$i + 1]);
+							echo  '</td>
+											<td>';
+												echo TAX_RATES[$index]['Rates'][$i];
+							echo  '</td>
+										</tr>';
+							}
 
 						
 echo '
@@ -270,24 +271,6 @@ echo '
 
 				}
 		?>
-
-				<!-- <table class="table">
-					<thead class="thead-light">
-						<tr>
-							<th scope="col">Taxable Income</th>
-							<th scope="col">Tax Rate</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<th scope="row">1</th>
-							<td>Mark</td>
-						</tr>
-					</tbody>
-				</table> -->
-
-
-
 
 
 
