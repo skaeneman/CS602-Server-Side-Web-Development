@@ -219,69 +219,71 @@
 		<?php }; ?>
 
 <br>
-		<?php 
+		<?php
+				// print out the tax table 
 				foreach(TAX_RATES as $index => $taxArray) {
 
 					// print the filing status headers
 					echo "<strong>" .$index ."</strong>";
 
-					// echo number_format(TAX_RATES[$index]['Ranges'][0]);
-					// echo "-" .number_format(TAX_RATES[$index]['Ranges'][1]);
-					// echo TAX_RATES[$index]['Rates'][0];
+					// create the table
+					echo '<table class="table">
+										<thead class="thead-light">
+											<tr>
+												<th scope="col">Taxable Income</th>
+												<th scope="col">Tax Rate</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td scope="row">';		
+													// print first row only						
+													echo "$" .number_format(TAX_RATES[$index]['Ranges'][0]);
+													echo " - $" .number_format(TAX_RATES[$index]['Ranges'][1]);
+									echo '</td>
+												<td>';
+													echo TAX_RATES[$index]['Rates'][0];
+									echo '</td>
+											</tr>';
 
+									// loop to print the remaining rows, except the last row
+									$loopCount = count(TAX_RATES[$index]['Ranges']);						
+									// start loop at 1 to skip first row, use -1 with $loopCount to skip last row
+									for($i=1; $i < ($loopCount - 1); $i++) {
+								
+											echo '<tr>
+															<td scope="row">';								
+																echo "$" .number_format((TAX_RATES[$index]['Ranges'][$i])+1);
+																echo " - $" .number_format(TAX_RATES[$index]['Ranges'][$i + 1]);
+											echo  '</td>
+															<td>';
+																echo TAX_RATES[$index]['Rates'][$i];
+											echo  '</td>
+														</tr>';
+										}
 
- echo '<table class="table">
-					<thead class="thead-light">
-						<tr>
-							<th scope="col">Taxable Income</th>
-							<th scope="col">Tax Rate</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td scope="row">';		
-								// print first row 						
-								echo number_format(TAX_RATES[$index]['Ranges'][0]);
-								echo "-" .number_format(TAX_RATES[$index]['Ranges'][1]);
-				echo '</td>
-							<td>';
-								echo TAX_RATES[$index]['Rates'][0];
-				echo '</td>
-						</tr>';
-
-						// loop to print the remaining rows, except the last row
-						$loopCount = count(TAX_RATES[$index]['Ranges']);
-						for($i=1; $i < ($loopCount - 1); $i++) {
-					
-							echo '<tr>
-											<td scope="row">';								
-												echo number_format((TAX_RATES[$index]['Ranges'][$i])+1);
-												echo "-" .number_format(TAX_RATES[$index]['Ranges'][$i + 1]);
-							echo  '</td>
-											<td>';
-												echo TAX_RATES[$index]['Rates'][$i];
-							echo  '</td>
-										</tr>';
+										// print the last array element row that was left out of the for loop
+										echo '<tr>
+														<td scope="row">';		
+															// print first row 						
+															echo "$" .number_format((TAX_RATES[$index]['Ranges'][6]) + 1);
+															echo " or more";
+											echo '</td>
+														<td>';
+															echo TAX_RATES[$index]['Rates'][6];
+											echo '</td>
+													</tr>															
+								  </tbody>
+							  </table> ';
 							}
+					?>
 
-						
-echo '
-					</tbody>
-				</table> ';
-
-				}
-		?>
-
-
-
-
-
-	    </div>			
-	  </div>
-	</div>
+				</div>			
+			</div>
+		</div>
 
     </main>
-</body>
+  </body>
 </html>
 
 
