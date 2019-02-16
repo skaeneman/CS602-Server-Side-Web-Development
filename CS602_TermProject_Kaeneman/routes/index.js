@@ -95,4 +95,13 @@ router.get('/users/add', addUser);
 router.post('/users/add', saveUser);
 
 
+/*******************************************************************
+ * cart routes
+ *******************************************************************/
+const cartController = require("../controllers/cart_controller");
+const saveProductToCart = cartController.saveProductToCart;
+
+// POST data to cart
+router.get('/cart/add/:id', saveProductToCart);
+
 module.exports = router;
