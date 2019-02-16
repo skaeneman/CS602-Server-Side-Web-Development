@@ -223,7 +223,13 @@
 				foreach(TAX_RATES as $index => $taxArray) {
 
 
-	echo $index;
+					echo $index;
+
+					// echo number_format(TAX_RATES[$index]['Ranges'][0]);
+					// echo "-" .number_format(TAX_RATES[$index]['Ranges'][1]);
+					// echo TAX_RATES[$index]['Rates'][0];
+
+
  echo '<table class="table">
 					<thead class="thead-light">
 						<tr>
@@ -233,13 +239,32 @@
 					</thead>
 					<tbody>
 						<tr>
-							<td scope="row">';
-								echo  $taxArray;
+							<td scope="row">';		
+								// print first row 						
+								echo number_format(TAX_RATES[$index]['Ranges'][0]);
+								echo "-" .number_format(TAX_RATES[$index]['Ranges'][1]);
 				echo '</td>
 							<td>';
-							echo $taxArray;
+								echo TAX_RATES[$index]['Rates'][0];
 				echo '</td>
-						</tr>
+						</tr>';
+
+				for($i=1 ;$i < count(TAX_RATES[$index]['Ranges']); $i++) {
+					
+					echo '<tr>
+									<td scope="row">';								
+										echo number_format((TAX_RATES[$index]['Ranges'][$i])+1);
+										echo "-" .number_format(TAX_RATES[$index]['Ranges'][$i + 1]);
+					echo  '</td>
+									<td>';
+										echo TAX_RATES[$index]['Rates'][$i];
+					echo  '</td>
+								</tr>';
+
+					}
+
+						
+echo '
 					</tbody>
 				</table> ';
 
