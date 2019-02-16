@@ -42,10 +42,25 @@
 
 		foreach ($ranges as $index => $range) {
 
+			// echo $ranges[$index] + 1 .'$ranges[$index + 1]';
+
+			// if taxableIncome equals one of the ranges or ranges + 1
+			// if(($taxableIncome == $range) or ($taxableIncome == ($ranges[$index] + 1))) {
+								
+			// 	echo $rates[$index - 1]. "% equal to range in array <br>";
+			// 	echo $index - 1 ." index - 1 <br>";
+
+			// 	$rateDecimal = $rates[$index - 1] / 100; // convert to decimal
+			// 	$taxesOwed =  (($taxableIncome - $ranges[$index]) * $rateDecimal) + $minTax[$index - 1];
+
+			// 	break;
+			// } 
+
 			// if taxableIncome is greater than the maximum range value  
 			if($taxableIncome > $ranges[$maxIndex]) {			
 				
-				echo $rates[$maxIndex] ."% over array values <br>";
+				// echo $rates[$maxIndex] ."% over array values <br>";
+				// echo $maxIndex ." maxIndex <br>";
 
 				// convert the rate at the max index to a decimal
 				$rateDecimal = $rates[$maxIndex] / 100;
@@ -53,40 +68,26 @@
 				$taxesOwed = (($taxableIncome - $ranges[$maxIndex]) * $rateDecimal) + $minTax[$maxIndex]; 
 				break;
 			}
+
 			// if taxableIncome falls within the ranges in the array
 			elseif(($taxableIncome <= $range) and ($taxableIncome > $ranges[$index - 1])) {
 								
-				echo $rates[$index - 1]. "% in range of array <br>";
+				// echo $rates[$index - 1]. "% in range of array <br>";
+				// echo $index - 1 ." (index - 1) <br>";
 
 				$rateDecimal = $rates[$index - 1] / 100; // convert to decimal
 				$taxesOwed =  (($taxableIncome - $ranges[$index]) * $rateDecimal) + $minTax[$index];
+
 				break;
-			}  
+			}   
 		}  
 		return $taxesOwed;
 	};
 
-	$out = incomeTax(150000, 'Single');
-	echo "$".number_format($out, 2) ." taxes owed";
+	// $out = incomeTax(1000000, 'Single');
+	// echo "$".number_format($out, 2) ." taxes owed";
 
 
-
- 	
-
-	/********************************************************************************
-	 * This function will calculate an income tax rate when given the below parameters
-	 * $income is a persons salary
-	 * $minimumTax is the minumum amount of taxes owed in the particular tax bracket
-	 * $taxRate is the percentage rate taxed on income
-	 * $amountOver is the limit where additional taxes are added 
-	 ********************************************************************************/
-	// function incomeTaxRate($income, $minimumTax, $taxRate, $amountOver) {
-	// 	// convert tax bracket to a percentage
-	// 	$taxRate = $taxRate / 100;
-	// 	// calculate the marginal tax rate
-	// 	$marginalTaxRate = (($income - $amountOver) * $taxRate) + $minimumTax;
-	// 	return $marginalTaxRate;
-	// }
 
 	// get income from user input
       if(isset($_POST['SubmitButton'])) {
@@ -114,13 +115,20 @@
 			$isInputNumeric = FALSE;
 		}
 
-		$incomeSingle =  incomeTaxSingle($incomeInput);
-		$incomeTaxMarriedJointly = incomeTaxMarriedJointly($incomeInput, 2);
-		$incomeTaxMarriedSeparately = incomeTaxMarriedSeparately($incomeInput, 2);
-		$incomeTaxHeadOfHousehold = incomeTaxHeadOfHousehold($incomeInput, 2);
+		// $incomeSingle =  incomeTaxSingle($incomeInput);
+		// $incomeTaxMarriedJointly = incomeTaxMarriedJointly($incomeInput, 2);
+		// $incomeTaxMarriedSeparately = incomeTaxMarriedSeparately($incomeInput, 2);
+		// $incomeTaxHeadOfHousehold = incomeTaxHeadOfHousehold($incomeInput, 2);
+
+		// $output = incomeTax($incomeInput, 'Single');
+		// echo "$".number_format($output, 2) ." taxes owed";		
 
 	}// $_SERVER
 ?>
+
+
+
+
 
 <!DOCTYPE html>
 <html>
@@ -171,6 +179,8 @@
 			if($showOutput) {
 				echo "With a net taxable income of $" .number_format($incomeInput, 2);
 		?> 
+
+			<!-- output the table for filing status -->
 			<br><br>
 			<ul class="list-group">
 			<li class="list-group-item active">
@@ -182,25 +192,25 @@
 			<li class="list-group-item">
 				<div class="row">
 					<div class="col-sm-6">Single</div>
-					<div class="col-sm-6"><?php echo "$" .number_format($incomeSingle, 2); ?></div>
+					<div class="col-sm-6"><?php echo "$" .number_format(incomeTax($incomeInput, 'Single'), 2); ?></div>
 				</div>
-			</li>
+			</li>			
 			<li class="list-group-item">
 				<div class="row">
 					<div class="col-sm-6">Married Filing Jointly</div>
-					<div class="col-sm-6"><?php echo "$" .number_format($incomeTaxMarriedJointly, 2); ?></div>
+					<div class="col-sm-6"><?php echo "$" .number_format(incomeTax($incomeInput, 'Married_Jointly'), 2); ?></div>
 				</div>
 			</li>
 			<li class="list-group-item">
 				<div class="row">
 					<div class="col-sm-6">Maried Filing Separately</div>
-					<div class="col-sm-6"><?php echo "$" .number_format($incomeTaxMarriedSeparately, 2); ?></div>
+					<div class="col-sm-6"><?php echo "$" .number_format(incomeTax($incomeInput, 'Married_Separately'), 2); ?></div>
 				</div>
 			</li>
 			<li class="list-group-item">
 				<div class="row">
 					<div class="col-sm-6">Head Of Household</div>
-					<div class="col-sm-6"><?php echo "$" .number_format($incomeTaxHeadOfHousehold, 2); ?></div>
+					<div class="col-sm-6"><?php echo "$" .number_format(incomeTax($incomeInput, 'Head_Household'), 2); ?></div>
 				</div>
 			</li>      
 			</ul>	
@@ -217,3 +227,16 @@
 </html>
 
 
+			<!-- <?php 
+					foreach(TAX_RATES as $index => $taxArray) {
+
+						echo	'<li class="list-group-item">';
+						echo	'		<div class="row">';
+						echo	'			<div class="col-sm-6">XXXXXXX</div>';
+						echo  '				<div class="col-sm-6">';
+														echo $index;
+						echo  '				</div>';
+						echo	'			</div>';
+						echo	'		</li>';
+					}
+			?> -->
