@@ -24,6 +24,7 @@ module.exports.displayProducts =
         });
     };    
 
+// GET a product by id and render show page
 module.exports.showProduct =
     (req, res, next) => {
 
