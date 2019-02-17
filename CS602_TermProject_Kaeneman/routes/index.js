@@ -88,11 +88,14 @@ const usersController = require('../controllers/users_controller');
 
 const addUser = usersController.addUser;
 const saveUser = usersController.saveUser;
+// const showUser = usersController.showUser;
 
 // render addUser form
 router.get('/users/add', addUser);
 // POST to save the user data
 router.post('/users/add', saveUser);
+// GET user profile page
+// router.get('/user/:id', showUser);
 
 
 /*******************************************************************

@@ -1,7 +1,8 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const handlebars = require('express-handlebars');
-// const session = require('express-session');
+const validator = require('express-validator');
+const session = require('express-session');
 // const flash = require('express-flash');
 
 const app = express();
@@ -40,13 +41,15 @@ app.set('view engine', 'handlebars');
 // static resources
 app.use(express.static(__dirname + '/public'));
 
-// setup sessions so we can use flash messages
-// app.use(session({ secret: 'secret_pass', resave: true, saveUninitialized: true }));
-// app.use(flash());
-
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
+// setup the express validator
+app.use(validator());
+
+// setup sessions
+app.use(session({ secret: 'secret_pass', resave: false, saveUninitialized: false }));
+// app.use(flash());
 
 // Routing
 var routes = require('./routes/index');
