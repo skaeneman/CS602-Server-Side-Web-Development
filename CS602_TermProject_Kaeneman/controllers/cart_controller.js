@@ -1,8 +1,9 @@
-const cartModel = require("../models/cart");
-const Cart = cartModel.getCartModel();
+const Cart = require("../models/cart");
 
 // Post data to the cart
 module.exports.saveProductToCart = 
     (req, res, next) => {
-        let id = req.params.id;
+        let prodId = req.params.id;
+        var shoppingCart = new Cart()
     };
+
