@@ -19,12 +19,18 @@ module.exports.saveUser =
             firstName: req.body.firstName,
             lastName: req.body.lastName,
             email: req.body.email,
+            password: req.body.password
         });
 
         // check that user signup data is valid
         req.check('email', 'Please enter a valid email address').isEmail(); 
+        // check that password equals password confirmation
+        req.check('password', "Passwords do not match").isLength({min: 6}).equals(req.body.passwordConfirmation);
+
+        // console.log(req.body);
 
         var errors = req.validationErrors();  // save any error messages
+
         // check if there are any errors
         if (errors) {
             req.session.errors = errors; // save error message in session
@@ -37,6 +43,7 @@ module.exports.saveUser =
         user.save((err) => {
             if (err) {
                 console.log("Error : %s ", err);
+                return res.redirect('/users/add'); // redirect to same page to show error messages
             }
             // set the session messages back to null and redirect
             req.session.success = null;    

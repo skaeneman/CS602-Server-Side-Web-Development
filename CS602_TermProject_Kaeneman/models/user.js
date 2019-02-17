@@ -12,11 +12,21 @@ const Schema = mongoose.Schema;
 
 mongoose.Promise = global.Promise;
 
+// used to set email address to lowercase
+function toLowerCase(email) {
+    return email.toLowerCase();
+}
+
 const userSchema = new Schema({
     firstName: { type: String, trim: true, required: true },
     lastName: { type: String, trim: true, required: true },
-    email: { type: String, trim: true, required: true }
+    email: { type: String, trim: true, required: true, set: toLowerCase, index: { unique: true } },
+    password: { type: String, required: true }
 });
+
+module.exports.test = () => {
+    console.log("this worked");
+}
 
 module.exports.getUserModel =
     () => {

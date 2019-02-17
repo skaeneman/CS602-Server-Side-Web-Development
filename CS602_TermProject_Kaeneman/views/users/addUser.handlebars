@@ -3,14 +3,8 @@
 <div class="signup_user">
   <div class="container-fluid">
     <div class="col-sm-6 offset-sm-3">
-
       <br>          
-      {{#if success}}
-        <section class="errors">
-          <h3>Successful test</h3>
-        </section>
 
-      {{ else }}
         <!-- check for validation error messages and print them out -->
         {{#if errors}}
           <section class="errors">
@@ -24,7 +18,6 @@
 
           <div class="card card-default">
             <div class="card-body">
-
               <form method="post" action="/users/add">
                 <div class="form-group row">
                   <label for="firstName" class="col-sm-2 col-form-label"><strong>First Name:</strong></label>
@@ -44,6 +37,18 @@
                     <input type="text" class="form-control" name="email" placeholder="Enter email address" required>
                   </div>
                 </div>
+                <div class="form-group row">
+                  <label for="password" class="col-sm-2 col-form-label"><strong>Password:</strong></label>
+                  <div class="col-sm-10">
+                    <input type="password" class="form-control" name="password" placeholder="Enter password" required>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label for="passwordConfirmation" class="col-sm-2 col-form-label"><strong>Confirm Password:</strong></label>
+                  <div class="col-sm-10">
+                    <input type="password" class="form-control" name="passwordConfirmation" placeholder="Confirm password" required>
+                  </div>
+                </div>
                 <div class="float-right">
                   <input type="submit" value="Save" class="btn btn-success">
                   <input type="button" value="Cancel" class="btn btn-outline-danger" onclick="cancelUserAdd()">
@@ -57,8 +62,6 @@
               </p>              
             </div>
           </div>
-
-        {{/if}}
 
     </div>
   </div>
