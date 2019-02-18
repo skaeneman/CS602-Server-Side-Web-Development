@@ -30,7 +30,29 @@ module.exports.saveProductToCart =
             console.log(req.session.cart);         
             res.redirect(`/product/${prodId}`);  // redirect to current product page
         });
-
-
     };
+
+
+// Get index of products in cart
+// module.exports.showCart =
+//     (req, res, next) => {
+
+//         Product.find({}, (err, products) => {
+//             if (err)
+//                 console.log("Error : %s ", err);
+
+//             let results = products.map((product) => {
+//                 return {
+//                     id: product._id,
+//                     name: product.name,
+//                     description: product.description,
+//                     price: product.price,
+//                     quantity: product.quantity
+//                 }
+//             });
+
+//             res.render('carts/showCart',
+//                 { title: "List of Products in your Cart", data: results });
+//         });
+//     };        
 
