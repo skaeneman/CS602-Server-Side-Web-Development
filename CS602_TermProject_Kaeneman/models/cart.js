@@ -20,7 +20,8 @@ module.exports = function Cart(existingCartProducts) {
         this.cartTotal = existingCartProducts.cartTotal;        
     }; 
  
-    this.addToCart = (prod, id) => {
+    this.addProductToCart = (prod) => {
+        var id = prod.id;
         // get product and store in variable
         var productInCart = this.products[id];
         // check if the product the user added is already in the cart

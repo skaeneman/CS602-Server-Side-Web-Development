@@ -7,5 +7,5 @@ function cancelAdd(){
 }
 
 function cancelUserAdd() {
-    window.location.href = '/users';
+    window.location.href = '/';
 }
