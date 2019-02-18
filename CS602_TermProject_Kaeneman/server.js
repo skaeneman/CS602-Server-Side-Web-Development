@@ -51,6 +51,12 @@ app.use(validator());
 app.use(session({ secret: 'secret_pass', resave: false, saveUninitialized: false }));
 app.use(flash());
 
+// allow sessions to be used in any template
+app.use(function(req, res, next) {
+    res.locals.session = req.session;
+    next();
+});
+
 // Routing
 var routes = require('./routes/index');
 app.use('/', routes);
