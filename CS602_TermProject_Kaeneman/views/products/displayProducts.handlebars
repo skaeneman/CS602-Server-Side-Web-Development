@@ -2,8 +2,15 @@
 <br />
 <div class="container">
 
-  {{#if foundProducts}}
-    {{this.foundProducts}}
+  <!-- if there's no match show an error -->
+  {{#if queryMsg}}
+    <div class="alert alert-danger alert-dismissible fade show col-md-6 offset-md-3" role="alert">
+        {{this.queryMsg}}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <br>
   {{/if}}
 
   <form class="form" method="get" action="/products">

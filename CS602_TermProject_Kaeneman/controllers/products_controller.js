@@ -1,19 +1,31 @@
 const DB = require('../models/product.js');
 const Product = DB.getProductModel();
 
-// Get index of products
+// regex used for fuzzy searching product names and descriptions
+ fuzzySearchRegex = (searchQuery) => {
+    return searchQuery.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+};
+
+// Get index of products (with search capability)
 module.exports.displayProducts =
     (req, res, next) => {
 
         // if there was a search query entered
         if (req.query.search) {
+            
+            var queryMsg;  // variable to hold output message passed to view 
 
-            var foundProducts = "test";
-
-            Product.find({name: req.query.search}, (err, products) => {
+            // attempt to find the product by name or description
+            const productRegex = new RegExp(fuzzySearchRegex(req.query.search), 'gi');
+            Product.find({ $or: [{ name: productRegex }, { description: productRegex}] }, (err, products) => {
                 if (err)
                     console.log("Error : %s ", err);
 
+                // set error message if no product was found
+                if (products.length < 1) {
+                    queryMsg = "Sorry, that product is not in our inventory";
+                }
+                // setup product fields that will be passed to the view
                 let results = products.map((product) => {
                     return {
                         id: product._id,
@@ -24,21 +36,10 @@ module.exports.displayProducts =
                     }
                 });
                 res.render('products/displayProducts',
-                    { title: "List of Products", data: results, foundProducts: foundProducts });
+                    { title: "List of Products", data: results, queryMsg: queryMsg });
             });
-
-    
-            // Product.find({ $or: [{ name: req.query.productSearch }, 
-            //                      { description: req.query.productSearch }] 
-            //                     }).toArray((err, docs) => {
-            //                     console.log(docs);
-            // });
-            
-
-
-
         } else {
-            // no search query so get all products from the database
+            // no search query was entered so get all products from the database
             Product.find({}, (err, products) => {
                 if (err)
                     console.log("Error : %s ", err);
@@ -86,30 +87,3 @@ module.exports.showProduct =
 
     
     
-// // render the new product form
-// module.exports.addProduct =
-//     (req, res, next) => {
-//         res.render('products/addProduct',
-//         { title: "Add a product" });
-//     };
-
-// // creates a new product
-// module.exports.saveProduct =
-//     (req, res, next) => {
-
-//         let product = new Product({
-//             productId: req.body.productId,
-//             name: req.body.name,
-//             description: req.body.description,
-//             price: req.body.price,
-//             quantity: req.body.quantity
-//         });
-
-//         product.save((err) => {
-//             if (err)
-//                 console.log("Error : %s ", err);
-//             res.redirect('/products');
-//         });
-
-//     };
-
