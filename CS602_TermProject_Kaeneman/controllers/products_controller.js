@@ -5,23 +5,57 @@ const Product = DB.getProductModel();
 module.exports.displayProducts =
     (req, res, next) => {
 
-        Product.find({}, (err, products) => {
-            if (err)
-                console.log("Error : %s ", err);
+        // if there was a search query entered
+        if (req.query.search) {
 
-            let results = products.map((product) => {
-                return {
-                    id: product._id,
-                    name: product.name,
-                    description: product.description,
-                    price: product.price,
-                    quantity: product.quantity
-                }
+            var foundProducts = "test";
+
+            Product.find({name: req.query.search}, (err, products) => {
+                if (err)
+                    console.log("Error : %s ", err);
+
+                let results = products.map((product) => {
+                    return {
+                        id: product._id,
+                        name: product.name,
+                        description: product.description,
+                        price: product.price,
+                        quantity: product.quantity
+                    }
+                });
+                res.render('products/displayProducts',
+                    { title: "List of Products", data: results, foundProducts: foundProducts });
             });
 
-            res.render('products/displayProducts',
-                { title: "List of Products", data: results });
-        });
+    
+            // Product.find({ $or: [{ name: req.query.productSearch }, 
+            //                      { description: req.query.productSearch }] 
+            //                     }).toArray((err, docs) => {
+            //                     console.log(docs);
+            // });
+            
+
+
+
+        } else {
+            // no search query so get all products from the database
+            Product.find({}, (err, products) => {
+                if (err)
+                    console.log("Error : %s ", err);
+
+                let results = products.map((product) => {
+                    return {
+                        id: product._id,
+                        name: product.name,
+                        description: product.description,
+                        price: product.price,
+                        quantity: product.quantity
+                    }
+                });
+                res.render('products/displayProducts',
+                    { title: "List of Products", data: results });
+            });
+        }
     };    
 
 // GET a product by id and render show page

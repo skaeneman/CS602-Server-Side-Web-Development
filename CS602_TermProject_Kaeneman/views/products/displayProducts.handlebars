@@ -1,26 +1,27 @@
 
 <br />
-
 <div class="container">
 
-<div class="row">
-    <div class="">
-    <form class="form-inline">
-        <div class="form-group mx-sm-3 mb-2">
-            <input type="text" class="form-control" id="" name="" placeholder="search products">
+  {{#if foundProducts}}
+    {{this.foundProducts}}
+  {{/if}}
+
+  <form class="form" method="get" action="/products">
+    <div class="row">
+        <div class="col-md-6 offset-md-2">
+        <input type="text" class="form-control" name="search" placeholder="search products">
         </div>
-        <button type="submit" class="btn btn-outline-primary mb-2">Search</button>
-    </form>
+        <div class="col-md-2">
+            <button type="submit" class="btn btn-outline-primary mb-2">Search</button>
+        </div>
     </div>
-</div>
-    
+  </form>
+  <br>
 
   <div class="row">
-
     {{#each data}}
-        <div class="col-sm-4">
-            
-            <div class="card bottom-pad">
+        <div class="col-sm-4">            
+          <div class="card">
             <div class="card-body">
                 <h5 class="card-title">
                     <!-- link to product page -->
@@ -30,19 +31,13 @@
                 <span>Description: {{truncate this.description}} </span>
                 <br><br>
                 
-                <span>price: {{this.price}}</span><br>
-                
+                <span>price: {{this.price}}</span><br>                
             </div>
-            <div class="card-footer">
-                <small class="text-muted">timestamp goes here</small>
-            </div>
-            </div>
-        
+          </div>
+        <br>
         </div>
     {{/each}}
 
-
-        {{!-- </div> --}}
   </div>
 </div>
 
