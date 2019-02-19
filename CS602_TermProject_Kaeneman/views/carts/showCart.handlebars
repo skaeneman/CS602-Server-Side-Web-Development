@@ -1,35 +1,49 @@
 
 <br />
 <div class="container">
-  <div class="row">
+    <div class="row">
+        <div class="col-sm-12">
 
-    {{#each cartProducts}}
-        <div class="col-sm-4">
-            
-            <div class="card bottom-pad">
+            {{!-- headers --}}
+            <div class="card bg-light mb-3">
                 <div class="card-body">
-                    <h5 class="card-title">
-                        <!-- link to product page -->
-                        <a href="/product/{{this.id}}">{{this.name}}</a>
-                    </h5>
-                    
-                    <span>Description: {{truncate this.description}} </span>
-                    <br><br>
-                    
-                    <span>price: {{this.price}}</span><br>
-                    
+                    <div class="row">
+                        <div class="col-sm-2"><strong>Product Name</strong></div>
+                        <div class="col-sm-1"><strong>Price</strong></div>
+                        <div class="col-sm-2"><strong>Quantity</strong></div>
+                        <div class="col-sm-2"></div>
+                    </div>
                 </div>
             </div>
-        
+
+            {{!-- list products --}}
+            {{#each products}}
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-2">
+                                <!-- link back to product page -->
+                                <a href="/product/{{this.prod._id}}">{{this.prod.name}}</a>
+                            </div>
+                            <div class="col-sm-1">
+                                {{this.price}}
+                            </div>
+                            <div class="col-sm-2">
+                                {{this.quantity}}
+                            </div>
+                            <div class="col-sm-2">
+                                {{!-- <a href="/cart/edit/{{this.id}}">Edit</a>
+                                <a href="/cart/delete/{{this.id}}">Delete</a> --}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {{/each}}
+
+
         </div>
-    {{/each}}
-
-  </div>
+    </div>
 </div>
-
-
-
-
 
 
 

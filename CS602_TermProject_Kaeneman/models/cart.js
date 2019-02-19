@@ -41,10 +41,10 @@ module.exports = function Cart(existingCartProducts) {
     // function to get an array of the products in the cart
     this.getProductList = () => {
         var productsArray = [];  // create empty array to hold products in cart
-        
-        for($i = 0; $i < this.products.length; $i++) {
+        // console.log(this.products);
+        for (var prodId in this.products) {
             // push each product in the cart into the array
-            productsArray.push(this.products[id]);
+            productsArray.push(this.products[prodId]);
         };
         return productsArray;
     };

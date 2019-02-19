@@ -42,14 +42,15 @@ module.exports.showCart =
         // if there are products in the cart show them in the cart page
         if (productsInCart) {
             var cart = new Cart(productsInCart);  // create new cart object with existing products
-            var listOfProducts = cart.getProductList();  // get the array of products in the session cart
-            var productQuantity = cart.cartQuantity; // number of products in the cart
-            var cartTotal = cart.cartTotal; // total price of products in the cart
-            res.render('carts/showCart', { productList: listOfProducts, prodQty: productQuantity, prodTotal: cartTotal });
+            var cartProducts = cart.getProductList();  // get the array of products in the session cart
+            var prodQty = cart.cartQuantity; // number of products in the cart
+            var cartTotal = cart.cartTotal; // total price of products in the cart        
+
+            res.render('carts/showCart', { products: cartProducts, cartQuantity: prodQty, cartTotal: cartTotal });
         }
         else {
             // there are no products in the cart so pass null values to the view to avoid errors
-            res.render('carts/showCart', { productList: null, prodQty: null, prodTotal: null })
+            res.render('carts/showCart', { products: null, cartQuantity: null, cartTotal: null })
         }
     };        
 
