@@ -13,9 +13,10 @@
     <br>
   {{/if}}
 
+  <!-- search form -->
   <form class="form" method="get" action="/products">
     <div class="row">
-        <div class="col-md-6 offset-md-2">
+        <div class="col-md-8 offset-md-1">
         <input type="text" class="form-control" name="search" placeholder="search products">
         </div>
         <div class="col-md-2">
@@ -38,7 +39,7 @@
                 <span>Description: {{truncate this.description}} </span>
                 <br><br>
                 
-                <span>price: {{this.price}}</span><br>                
+                <span>price: {{convertToCurrency this.price}}</span><br>                
             </div>
           </div>
         <br>

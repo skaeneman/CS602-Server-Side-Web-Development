@@ -1,36 +1,29 @@
 
 <br />
-
 <div class="container">
-
   <div class="row">
 
-    {{#each data}}
+    {{#each cartProducts}}
         <div class="col-sm-4">
             
             <div class="card bottom-pad">
-            <div class="card-body">
-                <h5 class="card-title">
-                    <!-- link to product page -->
-                    <a href="/product/{{this.id}}">{{this.name}}</a>
-                </h5>
-                
-                <span>Description: {{truncate this.description}} </span>
-                <br><br>
-                
-                <span>price: {{this.price}}</span><br>
-                
-            </div>
-            <div class="card-footer">
-                <small class="text-muted">timestamp goes here</small>
-            </div>
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <!-- link to product page -->
+                        <a href="/product/{{this.id}}">{{this.name}}</a>
+                    </h5>
+                    
+                    <span>Description: {{truncate this.description}} </span>
+                    <br><br>
+                    
+                    <span>price: {{this.price}}</span><br>
+                    
+                </div>
             </div>
         
         </div>
     {{/each}}
 
-
-        {{!-- </div> --}}
   </div>
 </div>
 

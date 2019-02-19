@@ -34,25 +34,22 @@ module.exports.saveProductToCart =
 
 
 // Get index of products in cart
-// module.exports.showCart =
-//     (req, res, next) => {
+module.exports.showCart =
+    (req, res, next) => {
+        // get the shopping cart from the session and store in a variable
+        var productsInCart = req.session.cart;
 
-//         Product.find({}, (err, products) => {
-//             if (err)
-//                 console.log("Error : %s ", err);
-
-//             let results = products.map((product) => {
-//                 return {
-//                     id: product._id,
-//                     name: product.name,
-//                     description: product.description,
-//                     price: product.price,
-//                     quantity: product.quantity
-//                 }
-//             });
-
-//             res.render('carts/showCart',
-//                 { title: "List of Products in your Cart", data: results });
-//         });
-//     };        
+        // if there are products in the cart show them in the cart page
+        if (productsInCart) {
+            var cart = new Cart(productsInCart);  // create new cart object with existing products
+            var listOfProducts = cart.getProductList();  // get the array of products in the session cart
+            var productQuantity = cart.cartQuantity; // number of products in the cart
+            var cartTotal = cart.cartTotal; // total price of products in the cart
+            res.render('carts/showCart', { productList: listOfProducts, prodQty: productQuantity, prodTotal: cartTotal });
+        }
+        else {
+            // there are no products in the cart so pass null values to the view to avoid errors
+            res.render('carts/showCart', { productList: null, prodQty: null, prodTotal: null })
+        }
+    };        
 

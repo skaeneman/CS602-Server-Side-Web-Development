@@ -88,14 +88,14 @@ const usersController = require('../controllers/users_controller');
 
 const addUser = usersController.addUser;
 const saveUser = usersController.saveUser;
-// const showUser = usersController.showUser;
+const showUser = usersController.showUser;
 
 // render addUser form
 router.get('/users/add', addUser);
 // POST to save the user data
 router.post('/users/add', saveUser);
 // GET user profile page
-// router.get('/user/:id', showUser);
+router.get('/user/:id', showUser);
 
 
 /*******************************************************************
@@ -108,7 +108,7 @@ const showCart = cartController.showCart;
 // Get data to cart
 router.get('/cart/add/:id', saveProductToCart);
 // Get cart 
-// router.get('/carts/:id', showCart);
+router.get('/cart', showCart);
 
 
 
