@@ -26,8 +26,8 @@ module.exports.saveProductToCart =
             cart.addProductToCart(product); 
 
             req.session.cart = cart;  // store cart with products in the session
-            // req.session.message = "product successfully added to cart"
             console.log(req.session.cart);         
+            req.flash('info', 'product successfully added to cart');
             res.redirect(`/product/${prodId}`);  // redirect to current product page
         });
     };
@@ -44,9 +44,9 @@ module.exports.showCart =
             var cart = new Cart(productsInCart);  // create new cart object with existing products
             var cartProducts = cart.getProductList();  // get the array of products in the session cart
             var prodQty = cart.cartQuantity; // number of products in the cart
-            var cartTotal = cart.cartTotal; // total price of products in the cart        
+            var cartTotal = cart.cartTotal; // total price of products in the cart    
 
-            res.render('carts/showCart', { products: cartProducts, cartQuantity: prodQty, cartTotal: cartTotal });
+            res.render('carts/showCart', { products: cartProducts, cartQuantity: prodQty, cartTotal: cartTotal});
         }
         else {
             // there are no products in the cart so pass null values to the view to avoid errors
