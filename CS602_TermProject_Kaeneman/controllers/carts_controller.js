@@ -27,7 +27,7 @@ module.exports.saveProductToCart =
 
             req.session.cart = cart;  // store cart with products in the session
             console.log(req.session.cart);         
-            req.flash('info', 'product successfully added to cart');
+            req.flash('successMessage', `${product.name} - successfully added to cart`);
             res.redirect(`/product/${prodId}`);  // redirect to current product page
         });
     };

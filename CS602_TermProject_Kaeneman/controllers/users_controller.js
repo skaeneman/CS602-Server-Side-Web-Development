@@ -47,8 +47,8 @@ module.exports.saveUser =
             }
             // set the session messages back to null and redirect
             req.session.success = null;    
-            req.session.errors = null;                    
-            res.redirect('/');
+            req.session.errors = null;                             
+            res.redirect('/products');
         });
     };    
 

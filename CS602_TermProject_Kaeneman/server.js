@@ -56,18 +56,24 @@ app.use(session({ secret: 'secret_pass', resave: false, saveUninitialized: false
 
 app.use(flash());
 
-// allow session variable to be used in any template
+// global variables
 app.use(function(req, res, next) {
+    // allow session variable to be used in any template
     res.locals.session = req.session;
+    // setup flash global messages to be used in templates
+    res.locals.successMessage = req.flash('successMessage');
+    res.locals.errorMessage = req.flash('errorMessage');
+    
     next();
 });
 
+
 // flash messages
-app.use(require('connect-flash')());
-app.use(function (req, res, next) {
-    res.locals.messages = require('express-messages')(req, res);
-    next();
-});
+// app.use(require('connect-flash')());
+// app.use(function (req, res, next) {
+//     res.locals.messages = require('express-messages')(req, res);
+//     next();
+// });
 
 
 // Routing

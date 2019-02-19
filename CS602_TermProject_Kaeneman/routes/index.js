@@ -101,7 +101,7 @@ router.get('/user/:id', showUser);
 /*******************************************************************
  * cart routes
  *******************************************************************/
-const cartController = require("../controllers/cart_controller");
+const cartController = require("../controllers/carts_controller");
 const saveProductToCart = cartController.saveProductToCart;
 const showCart = cartController.showCart;
 
@@ -110,7 +110,13 @@ router.get('/cart/add/:id', saveProductToCart);
 // Get cart 
 router.get('/cart', showCart);
 
+/*******************************************************************
+ * order routes
+ *******************************************************************/
+const orderController = require('../controllers/orders_controller');
+const saveOrder = orderController.saveOrder;
 
+router.get('/orders/checkout', saveOrder);
 
 /*******************************************************************
  *******************************************************************/
