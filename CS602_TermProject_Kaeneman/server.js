@@ -82,7 +82,7 @@ app.use(function(req, res, next) {
     res.locals.errorMessage = req.flash('errorMessage');    
     res.locals.error = req.flash('error');    
     // logged-in user request object
-    res.locals.user = req.user || null; 
+    res.locals.userSignedIn = req.user || null; 
     next();
 });
 
