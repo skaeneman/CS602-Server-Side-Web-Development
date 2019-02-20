@@ -9,3 +9,7 @@ function cancelAdd(){
 function cancelUserAdd() {
     window.location.href = '/';
 }
+
+function checkout() {
+    window.location.href = 'orders/checkout'
+}
