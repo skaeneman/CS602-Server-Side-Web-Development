@@ -121,3 +121,12 @@ module.exports.showUserLoginForm =
         res.render('users/loginUser',
             { title: "Login" });
     };
+
+
+// logout a signed in user
+module.exports.logoutUser = 
+    (req, res, next) => {
+        req.logout(); // passport middleware function
+        req.flash('successMessage', 'You\'ve been logged out');
+        res.redirect('/login');
+    };

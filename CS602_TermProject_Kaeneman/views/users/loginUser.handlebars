@@ -2,18 +2,31 @@
 <br>
 <div class="login_user">
   <div class="container-fluid">
+
+    <!-- check for validation error messages and print them out -->
+    {{#if error}}
+    <div class="alert alert-danger alert-dismissible fade show col-md-6 offset-md-3" role="alert">
+      {{error}}
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <br>
+    {{/if}}
+
+    <!-- show message when user successfully logs in -->
+    {{#if successMessage}}
+    <div class="alert alert-success alert-dismissible fade show col-md-6 offset-md-3" role="alert">
+      {{successMessage}}
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <br>
+    {{/if}}
+
     <div class="col-sm-6 offset-sm-3">
       <br>          
-
-        <!-- check for validation error messages and print them out -->
-        {{#if error}}
-          <section class="errors">
-            <ul>
-                <li>{{error}}</li>
-            </ul>
-          </section>
-        {{/if}}
-
           <div class="card card-default">
             <div class="card-body">
               <form method="post" action="/login">
@@ -31,7 +44,7 @@
                   </div>
                 </div>
                 <div class="float-right">
-                  <input type="submit" value="Save" class="btn btn-success">
+                  <input type="submit" value="Login" class="btn btn-outline-success">
                   <input type="button" value="Cancel" class="btn btn-outline-danger" onclick="cancelUserAdd()">
                 </div>
               </form>

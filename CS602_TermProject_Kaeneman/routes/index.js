@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 
+const { ensureAuthenticated } = require('../config/auth');
+
 // other modules
 
 const musicStoreModule = require("./musicStoreModule");
@@ -91,17 +93,20 @@ const saveUser = usersController.saveUser;
 const showUser = usersController.showUser;
 const loginUser = usersController.loginUser; 
 const showUserLoginForm = usersController.showUserLoginForm;
+const logoutUser = usersController.logoutUser;
 
 // render addUser form
 router.get('/signup', addUser);
 // POST to save the user data
 router.post('/users/add', saveUser);
 // GET user profile page
-router.get('/user/:id', showUser);
+router.get('/user/profile/:id', showUser);
 // GET form for user login
 router.get('/login', showUserLoginForm);
 // Post login
 router.post('/login', loginUser);
+// GET logout user
+router.get('/logout', logoutUser);
 
 /*******************************************************************
  * cart routes
