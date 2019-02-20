@@ -6,6 +6,8 @@ const Product = productDb.getProductModel();
 module.exports.saveProductToCart = 
     (req, res, next) => {
         let prodId = req.params.id;  // get product id from url
+        
+        console.log(req.user);
 
         // create a variable to hold the new cart
         var cart;

@@ -67,9 +67,15 @@ module.exports.saveUser =
                             // set the session messages back to null and redirect
                             req.session.success = null;
                             req.session.errors = null;
-                            res.redirect('/products');
-                        });
 
+                            // after the user has been created log them in via passport
+                            req.login(user, function (err) {
+                                if (err) { return next(err); }
+                                // return res.redirect('/users/' + req.user.firstName);
+                                return res.redirect('/products');
+                            });
+                            // res.redirect('/products');
+                        });               
                     }))
 
                 } //else

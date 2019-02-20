@@ -3,7 +3,8 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const handlebars = require('express-handlebars');
 const validator = require('express-validator');
-const session = require('express-session');
+// const session = require('express-session');
+const cookieSession = require('cookie-session');
 const flash = require('connect-flash');
 const passport = require('passport');
 
@@ -45,17 +46,26 @@ app.set('view engine', 'handlebars');
 // static resources
 app.use(express.static(__dirname + '/public'));
 
+// cookies
+app.use(cookieParser());
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 // setup the express validator
 app.use(validator());
 
-// cookies
-app.use(cookieParser());
-
 // setup sessions
-app.use(session({ secret: 'secret_pass', resave: false, saveUninitialized: false }));
+// app.use(session({ secret: 'secret_pass', resave: false, saveUninitialized: false }));
+
+// sessions
+app.use(cookieSession({
+    name: 'session',
+    keys: ['secret_key'],
+
+    // Cookie Options
+    maxAge: 24 * 60 * 60 * 1000 // 24 hours
+}))
 
 // passport authentication
 app.use(passport.initialize());
@@ -71,16 +81,10 @@ app.use(function(req, res, next) {
     res.locals.successMessage = req.flash('successMessage');
     res.locals.errorMessage = req.flash('errorMessage');    
     res.locals.error = req.flash('error');    
+    // logged-in user request object
+    res.locals.user = req.user || null; 
     next();
 });
-
-
-// flash messages
-// app.use(require('connect-flash')());
-// app.use(function (req, res, next) {
-//     res.locals.messages = require('express-messages')(req, res);
-//     next();
-// });
 
 
 // Routing
