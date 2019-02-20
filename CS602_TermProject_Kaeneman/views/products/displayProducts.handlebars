@@ -13,6 +13,28 @@
     <br>
   {{/if}}
 
+  <!-- show message when user submits an order -->
+  {{#if successMessage}}
+    <div class="alert alert-success alert-dismissible fade show col-md-6 offset-md-3" role="alert">
+      {{successMessage}}
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <br>
+  {{/if}}
+
+  <!-- flash any error messages -->
+  {{#if errorMessage}}
+    <div class="alert alert-danger alert-dismissible fade show col-md-6 offset-md-3" role="alert">
+      {{errorMessage}}
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <br>
+  {{/if}}
+
   <!-- search form -->
   <form class="form" method="get" action="/products">
     <div class="row">

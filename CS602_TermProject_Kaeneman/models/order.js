@@ -12,9 +12,7 @@ const Schema = mongoose.Schema;
 
 mongoose.Promise = global.Promise;
 
-const orderSchema = new Schema({
-    firstName: { type: String, trim: true, required: true },
-    lastName: { type: String, trim: true, required: true },    
+const orderSchema = new Schema({  
     // store a user id and reference the User model to get it
     userId: {type: Schema.Types.ObjectId, ref: 'User', required: true},
     // store the cart object with all products

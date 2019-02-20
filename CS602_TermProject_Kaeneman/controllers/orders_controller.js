@@ -23,10 +23,24 @@ module.exports.saveOrder = (req, res, next) => {
             // get the shopping cart from the session
             shoppingCart: req.session.cart, 
             // get the user id from passport
-            userId: req.user.id,
-            firstName: 
-            lastName
+            userId: req.user.id
         });
+
+        order.save((err, resultCallback) => {
+            // if an error occurs during checkout
+            if (err) {
+                req.flash('errorMessage', 'Error: checkout failed!')
+                res.redirect('/orders/checkout');
+            }
+            // else no error while checking out
+            else {
+                // set cart back to null so a new order can be made
+                req.session.cart = null;
+                req.flash('successMessage', 'Your order has been placed')
+                res.redirect('/products');                
+            }
+        });
+
     // else no logged in user
     } else {
         // redirect user and send login message
