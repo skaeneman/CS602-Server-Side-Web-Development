@@ -16,6 +16,17 @@
           </section>
         {{/if}}
 
+        <!-- flash message if email address already taken -->
+        {{#if errorMessage}}
+          <div class="alert alert-danger alert-dismissible fade show col-md-6 offset-md-3" role="alert">
+            {{errorMessage}}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <br>
+        {{/if}}
+
           <div class="card card-default">
             <div class="card-body">
               <form method="post" action="/users/add">

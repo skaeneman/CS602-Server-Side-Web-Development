@@ -93,7 +93,7 @@ const loginUser = usersController.loginUser;
 const showUserLoginForm = usersController.showUserLoginForm;
 
 // render addUser form
-router.get('/users/add', addUser);
+router.get('/signup', addUser);
 // POST to save the user data
 router.post('/users/add', saveUser);
 // GET user profile page

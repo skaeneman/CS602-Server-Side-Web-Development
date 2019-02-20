@@ -6,19 +6,17 @@
       <br>          
 
         <!-- check for validation error messages and print them out -->
-        {{#if errors}}
+        {{#if error}}
           <section class="errors">
             <ul>
-              {{#each errors}}
-                <li>{{this.msg}}</li>
-              {{/each}}
+                <li>{{error}}</li>
             </ul>
           </section>
         {{/if}}
 
           <div class="card card-default">
             <div class="card-body">
-              <form method="post" action="/users/add">
+              <form method="post" action="/login">
 
                 <div class="form-group row">
                   <label for="email" class="col-sm-3 col-form-label"><strong>Email:</strong></label>
@@ -41,7 +39,7 @@
               <br><br>
               <hr>
               <p class="text-center">Don't have an account yet?
-                <a href="/users/add">Sign up</a>
+                <a href="/signup">Sign up</a>
               </p>              
             </div>
           </div>

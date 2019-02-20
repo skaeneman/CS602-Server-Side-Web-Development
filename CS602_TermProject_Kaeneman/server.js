@@ -70,6 +70,7 @@ app.use(function(req, res, next) {
     // setup flash global messages to be used in templates
     res.locals.successMessage = req.flash('successMessage');
     res.locals.errorMessage = req.flash('errorMessage');    
+    res.locals.error = req.flash('error');    
     next();
 });
 
