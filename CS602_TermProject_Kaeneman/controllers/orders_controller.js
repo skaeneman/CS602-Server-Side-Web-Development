@@ -18,7 +18,7 @@ module.exports.saveOrder = (req, res, next) => {
 
     // if there is a current user logged in
     if (req.user) {
-
+        // create a new order
         let order = new Order({
             // get the shopping cart from the session
             shoppingCart: req.session.cart, 
@@ -47,5 +47,10 @@ module.exports.saveOrder = (req, res, next) => {
         req.flash('errorMessage', 'Please login first!');
         res.redirect('/login');
     }
+};
 
-}
+// show a users orders
+module.exports.showOrders = 
+    (req, res, next) => {
+        res.render('orders/showOrders');
+    };

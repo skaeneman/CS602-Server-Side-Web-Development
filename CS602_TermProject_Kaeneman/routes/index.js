@@ -126,12 +126,14 @@ router.get('/cart', showCart);
 const orderController = require('../controllers/orders_controller');
 const saveOrder = orderController.saveOrder;
 const orderForm = orderController.orderForm;
+const showOrders = orderController.showOrders;
 
 // GET the order form
 router.get('/orders/checkout', orderForm);
 // POST to save order to checkout
 router.post('/orders/checkout', saveOrder);
-
+// GET orders for a user
+router.get('/orders', showOrders);
 /*******************************************************************
  *******************************************************************/
 
