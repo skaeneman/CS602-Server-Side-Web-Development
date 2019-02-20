@@ -89,6 +89,8 @@ const usersController = require('../controllers/users_controller');
 const addUser = usersController.addUser;
 const saveUser = usersController.saveUser;
 const showUser = usersController.showUser;
+const loginUser = usersController.loginUser; 
+const showUserLoginForm = usersController.showUserLoginForm;
 
 // render addUser form
 router.get('/users/add', addUser);
@@ -96,7 +98,10 @@ router.get('/users/add', addUser);
 router.post('/users/add', saveUser);
 // GET user profile page
 router.get('/user/:id', showUser);
-
+// GET form for user login
+router.get('/login', showUserLoginForm);
+// Post login
+router.post('/login', loginUser);
 
 /*******************************************************************
  * cart routes

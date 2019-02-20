@@ -5,9 +5,12 @@ const handlebars = require('express-handlebars');
 const validator = require('express-validator');
 const session = require('express-session');
 const flash = require('connect-flash');
+const passport = require('passport');
 
 const app = express();
 
+// passport configuration.  pass in passport object
+require('./config/passport')(passport);
 
 // setup handlebars
 const hbs = handlebars.create({
@@ -54,6 +57,10 @@ app.use(cookieParser());
 // setup sessions
 app.use(session({ secret: 'secret_pass', resave: false, saveUninitialized: false }));
 
+// passport authentication
+app.use(passport.initialize());
+app.use(passport.session());
+
 app.use(flash());
 
 // global variables
@@ -62,8 +69,7 @@ app.use(function(req, res, next) {
     res.locals.session = req.session;
     // setup flash global messages to be used in templates
     res.locals.successMessage = req.flash('successMessage');
-    res.locals.errorMessage = req.flash('errorMessage');
-    
+    res.locals.errorMessage = req.flash('errorMessage');    
     next();
 });
 

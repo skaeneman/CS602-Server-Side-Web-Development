@@ -1,6 +1,6 @@
 
 <br>
-<div class="signup_user">
+<div class="login_user">
   <div class="container-fluid">
     <div class="col-sm-6 offset-sm-3">
       <br>          
@@ -19,18 +19,7 @@
           <div class="card card-default">
             <div class="card-body">
               <form method="post" action="/users/add">
-                <div class="form-group row">
-                  <label for="firstName" class="col-sm-3 col-form-label"><strong>First Name:</strong></label>
-                  <div class="col-sm-9">
-                    <input type="text" class="form-control" name="firstName" placeholder="Enter first name" autofocus required>
-                  </div>
-                </div>
-                <div class="form-group row">
-                  <label for="lastName" class="col-sm-3 col-form-label"><strong>Last Name:</strong></label>
-                  <div class="col-sm-9">
-                    <input type="text" class="form-control" name="lastName" placeholder="Enter last name" required>
-                  </div>
-                </div>
+
                 <div class="form-group row">
                   <label for="email" class="col-sm-3 col-form-label"><strong>Email:</strong></label>
                   <div class="col-sm-9">
@@ -43,12 +32,6 @@
                     <input type="password" class="form-control" name="password" placeholder="Enter password" required>
                   </div>
                 </div>
-                <div class="form-group row">
-                  <label for="passwordConfirmation" class="col-sm-3 col-form-label"><strong>Confirm Password:</strong></label>
-                  <div class="col-sm-9">
-                    <input type="password" class="form-control" name="passwordConfirmation" placeholder="Confirm password" required>
-                  </div>
-                </div>
                 <div class="float-right">
                   <input type="submit" value="Save" class="btn btn-success">
                   <input type="button" value="Cancel" class="btn btn-outline-danger" onclick="cancelUserAdd()">
@@ -57,8 +40,8 @@
 
               <br><br>
               <hr>
-              <p class="text-center">Already have an account?
-                <a href="/login">login</a>
+              <p class="text-center">Don't have an account yet?
+                <a href="/users/add">Sign up</a>
               </p>              
             </div>
           </div>

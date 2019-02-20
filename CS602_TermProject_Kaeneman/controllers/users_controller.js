@@ -1,6 +1,7 @@
 
 const DB = require('../models/user.js');
 const User = DB.getUserModel();
+const passport = require('passport');
 
 
 // GET user sign up form
@@ -78,4 +79,21 @@ module.exports.showUser =
         //             }
         //         });
         // });
+    };
+
+    // login user
+    module.exports.loginUser =
+        (req, res, next) => {
+            passport.authenticate('local', {
+                successRedirect: '/products',
+                failureRedirect: '/login',
+                failureFlash: true
+            })(req, res, next);
+        };
+
+// render login user form
+module.exports.showUserLoginForm =
+    (req, res, next) => {
+        res.render('users/loginUser',
+            { title: "Login" });
     };
