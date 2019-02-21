@@ -84,7 +84,7 @@ router.get('/admin/products/delete/:id', adminDeleteProduct);
 router.get('/admin/users', adminDisplayUsers);
 
 // GET an order history for a user
-router.get('/admin/orders', adminDisplayOrders);
+router.get('/admin/orders/user/:id', adminDisplayOrders);
 
 
 /*******************************************************************

@@ -1,1 +1,31 @@
-order admin
+
+{{#each userOrders}}
+    {{!-- {{this.cartQuantity}} --}}
+    order id {{this.id}}
+    created at: {{this.createdAt}}
+    <!-- displays each order -->
+    <div class="card">
+      <div class="card-body">
+        
+        <!-- display products in the order -->
+        {{#each this.products}}
+
+            <ul class="list-group">
+                <li class="list-group-item">
+                    <div class="row">
+                      <div class="col-md-4">{{this.prod.name}}</div>
+                      <div class="col-md-4">{{this.price}}</div>
+                      <div class="col-md-4">{{this.quantity}}</div>                    
+                    </div>
+                </li>
+            </ul>
+
+        {{/each}}
+        quantity: {{this.qty}} <br>
+        order total: {{this.total}}
+
+      </div>
+    </div>
+
+
+{{/each}}

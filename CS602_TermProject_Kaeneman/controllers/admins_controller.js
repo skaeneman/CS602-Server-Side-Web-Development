@@ -4,6 +4,9 @@ const Product = ProductDb.getProductModel();
 const UserDb = require('../models/user.js');
 const User = UserDb.getUserModel();
 
+const orderDb = require('../models/order');
+const Order = orderDb.getOrderModel();
+
 /******************************************************
  *  product functions
  ******************************************************/
@@ -159,7 +162,47 @@ module.exports.adminDisplayUsers =
 /******************************************************
  *  Order functions
  ******************************************************/
+
+// GET an index of a users orders
 module.exports.adminDisplayOrders =
     (req, res, next) => {
-        res.render('admins/adminDisplayOrders');
-    };
+
+        // get a users id from the url params
+        var userParamsId = req.params.id; 
+
+        // find a users orders from the url params by passing their user id 
+        Order.find({ userId: userParamsId}, (err, userOrders) => {
+            if (err) {
+                req.flash('errorMessage', 'Error retrieving user...');
+                res.redirect('/orders');
+            } else {
+                // else no err so loop through the user's order history
+                userOrders.forEach((order) => {
+                    // console.log(order.createdAt);
+
+                    // array to hold the products of an order
+                    var productsArray = [];
+
+                    // get the shopping cart object from the order
+                    var cartOrder = order.shoppingCart;
+
+                    // assign cartOrder variables to be used in views
+                    order.qty = cartOrder.cartQuantity;  // total of each order
+                    order.total = cartOrder.cartTotal;  // quantity of each order
+
+                    // get the products in the shopping cart
+                    var cartProducts = cartOrder.products;
+
+                    // loop through the products in the cart
+                    for (var prodId in cartProducts) {
+                        // push the product id's into an array
+                        productsArray.push(cartProducts[prodId]);
+                    };
+                    // assign the array to be used in the view
+                    order.products = productsArray;
+                });
+                // render the view and pass the orders to it
+                res.render('admins/adminDisplayOrders', { title: "Order History", userOrders: userOrders });
+            }
+        });
+    };    

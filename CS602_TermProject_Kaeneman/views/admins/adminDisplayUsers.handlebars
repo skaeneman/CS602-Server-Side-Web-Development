@@ -1,5 +1,5 @@
 {{#each userData}}
-    {{this.firstName}}
-    {{this.lastName}}
-    {{this.email}}
+    {{!-- {{this.firstName}}
+    {{this.lastName}}    --}}
+    <a href="/admin/orders/user/{{this.id}}">{{this.email}}</a>
 {{/each}}
