@@ -6,8 +6,11 @@ const Product = productDb.getProductModel();
 module.exports.saveProductToCart = 
     (req, res, next) => {
         let prodId = req.params.id;  // get product id from url
-        
-        console.log(req.user);
+        let prodQty = req.body.prodQty;  // get product quantity from user input
+        prodQty = Number(prodQty);  // convert the input to an integer
+
+        // console.log(prodQty);
+        // console.log(req.user);
 
         // create a variable to hold the new cart
         var cart;
@@ -24,11 +27,36 @@ module.exports.saveProductToCart =
             if (err) {
                 return res.redirect('/products');
             }
-            // pass product from findById callback into addProductToCart function
-            cart.addProductToCart(product); 
+
+            // get the product id that was found
+            var id = product.id;
+            
+            // get product and store in variable
+            var productInCart = cart.products[id];            
+
+            // check if the product the user added is already in the cart
+            if (!productInCart) {
+                // if the product is not already in the cart then add the product
+                cart.products[id] = { prod: product, price: 0, quantity: 0 }
+                productInCart = cart.products[id];  // store the new product in variable 
+            }
+            
+            // increment the product quantity to be whatever was passed in
+            productInCart.quantity += prodQty;
+            // console.log(productInCart.quantity);
+
+            // price of the product added multiplied by the quantity in cart
+            productInCart.price = productInCart.prod.price * productInCart.quantity;
+            // console.log(productInCart.price);
+            
+            // increment the cart quantity by adding onto whatever quantity is aleady there
+            cart.cartQuantity += prodQty;  
+
+            // add product price to cartTotal
+            cart.cartTotal += productInCart.prod.price;  
 
             req.session.cart = cart;  // store cart with products in the session
-            console.log(req.session.cart);         
+
             req.flash('successMessage', `${product.name} - successfully added to cart`);
             res.redirect(`/product/${prodId}`);  // redirect to current product page
         });

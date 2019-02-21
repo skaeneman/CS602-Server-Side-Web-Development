@@ -28,9 +28,22 @@
                 <div>{{convertToCurrency data.price}}</div><br>
                 <div>{{data.description}}</div><br>   
 
+
+            <form method="post" action="/cart/add/{{data.id}}">
+              <div class="form-group row">
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" name="prodQty" aria-label="prodQty" aria-describedby="basic-addon1">
+                </div>
+                <button type="submit" class="btn btn-primary mb-2">Post</button>
+              </div>
+            </form>
+
+
                 <div>
                     <i>Only {{data.quantity}} left in stock - order soon.</i><br>
-                    select quantity: <br><br>
+
+                    {{!-- select quantity:  <input type="text" class="form-control" name="prodQty" aria-label="prodQty" aria-describedby="basic-addon1"> --}}
+                    <br><br>
                     <a href="/cart/add/{{data.id}}" class="btn btn-outline-primary">Add to cart</a>
                 </div>
             </div>

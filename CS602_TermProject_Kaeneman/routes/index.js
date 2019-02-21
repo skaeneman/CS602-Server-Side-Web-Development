@@ -121,7 +121,9 @@ const saveProductToCart = cartController.saveProductToCart;
 const showCart = cartController.showCart;
 
 // Get data to cart
-router.get('/cart/add/:id', saveProductToCart);
+// router.get('/cart/add/:id', saveProductToCart);
+router.post('/cart/add/:id', saveProductToCart);
+
 // Get cart 
 router.get('/cart', showCart);
 

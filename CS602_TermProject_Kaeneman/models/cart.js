@@ -20,24 +20,6 @@ module.exports = function Cart(existingCartProducts) {
         this.cartTotal = existingCartProducts.cartTotal;        
     }; 
  
-    this.addProductToCart = (prod) => {
-        var id = prod.id;
-        // get product and store in variable
-        var productInCart = this.products[id];
-        // check if the product the user added is already in the cart
-        if (!productInCart) {
-            // if the product is not already in the cart then create the product
-            this.products[id] = { prod: prod, price: 0, quantity: 0 }
-            productInCart = this.products[id];  // store the new product in variable 
-        }
-        // increment the product quantity count by 1
-        productInCart.quantity += 1;
-        // price of the product added multiplied by the quantity in cart
-        productInCart.price = productInCart.prod.price * productInCart.quantity;
-        this.cartQuantity += 1;  // increment the cart quantity 
-        this.cartTotal += productInCart.prod.price;  // add product price to cartTotal
-    };
-
     // function to get an array of the products in the cart
     this.getProductList = () => {
         var productsArray = [];  // create empty array to hold products in cart
@@ -48,7 +30,6 @@ module.exports = function Cart(existingCartProducts) {
         };
         return productsArray;
     };
-
 
 }
 
