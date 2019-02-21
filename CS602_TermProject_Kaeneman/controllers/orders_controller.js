@@ -26,7 +26,9 @@ module.exports.saveOrder =
             // get the shopping cart from the session
             shoppingCart: req.session.cart, 
             // get the user id from passport
-            userId: req.user.id
+            userId: req.user.id,
+            orderTotal: Number(req.session.cart.cartTotal),
+            orderQuantity: Number(req.session.cart.cartQuantity)
         });
 
         order.save((err, resultCallback) => {
@@ -74,9 +76,9 @@ module.exports.showOrders =
                     // get the shopping cart object from the order
                     var cartOrder = order.shoppingCart;
 
-                    // assign cartOrder variables to be used in views
-                    order.qty = cartOrder.cartQuantity;  // total of each order
-                    order.total = cartOrder.cartTotal;  // quantity of each order
+                    // // assign cartOrder variables to be used in views
+                    // order.qty = cartOrder.orderQuantity;  // total of each order
+                    // order.total = cartOrder.orderTotal;  // quantity of each order
 
                     // get the products in the shopping cart
                     var cartProducts = cartOrder.products;

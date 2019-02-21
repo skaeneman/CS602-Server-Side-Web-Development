@@ -17,6 +17,8 @@ const orderSchema = new Schema({
     userId: {type: Schema.Types.ObjectId, ref: 'User', required: true},
     // store the cart object with all products
     shoppingCart: {type: Object, required: true},
+    orderTotal: {type: Number, required: true},
+    orderQuantity: {type: Number, required: true},     
     createdAt: {type: Date, default: Date.now}    
 });
 

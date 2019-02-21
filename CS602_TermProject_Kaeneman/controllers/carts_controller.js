@@ -50,10 +50,12 @@ module.exports.saveProductToCart =
             // console.log(productInCart.price);
             
             // increment the cart quantity by adding onto whatever quantity is aleady there
-            cart.cartQuantity += prodQty;  
+            cart.cartQuantity += Number(prodQty);  
+            // console.log(cart.cartQuantity);
 
-            // add product price to cartTotal
-            cart.cartTotal += productInCart.prod.price;  
+            // add product price to cartTotal.  multiply products in cart price by quantity
+            cart.cartTotal += productInCart.prod.price * prodQty;  
+            // console.log(cart.cartTotal);
 
             req.session.cart = cart;  // store cart with products in the session
 

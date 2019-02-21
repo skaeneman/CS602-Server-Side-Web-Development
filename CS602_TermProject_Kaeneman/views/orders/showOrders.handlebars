@@ -14,15 +14,15 @@
                 <li class="list-group-item">
                     <div class="row">
                       <div class="col-md-4">{{this.prod.name}}</div>
-                      <div class="col-md-4">{{this.price}}</div>
+                      <div class="col-md-4">{{convertToCurrency this.price}}</div>
                       <div class="col-md-4">{{this.quantity}}</div>                    
                     </div>
                 </li>
             </ul>
 
         {{/each}}
-        quantity: {{this.qty}} <br>
-        order total: {{this.total}}
+        quantity: {{this.orderQuantity}} <br>
+        order total: {{this.orderTotal}}
 
       </div>
     </div>
