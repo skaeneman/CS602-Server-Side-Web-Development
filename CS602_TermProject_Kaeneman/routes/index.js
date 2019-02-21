@@ -62,7 +62,8 @@ const adminDisplayProducts = adminController.adminDisplayProducts;
 const adminEditProduct = adminController.adminEditProduct
 const adminSaveAfterEdit = adminController.adminSaveAfterEdit;
 const adminDeleteProduct = adminController.adminDeleteProduct;
-
+// orders
+const adminDisplayOrders = adminController.adminDisplayOrders;
 // users
 const adminDisplayUsers = adminController.adminDisplayUsers;
 
@@ -81,6 +82,10 @@ router.get('/admin/products/delete/:id', adminDeleteProduct);
 
 // index to display all users
 router.get('/admin/users', adminDisplayUsers);
+
+// GET an order history for a user
+router.get('/admin/orders', adminDisplayOrders);
+
 
 /*******************************************************************
  * user routes

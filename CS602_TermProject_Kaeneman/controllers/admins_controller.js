@@ -156,3 +156,10 @@ module.exports.adminDisplayUsers =
     };      
 
     
+/******************************************************
+ *  Order functions
+ ******************************************************/
+module.exports.adminDisplayOrders =
+    (req, res, next) => {
+        res.render('admins/adminDisplayOrders');
+    };
