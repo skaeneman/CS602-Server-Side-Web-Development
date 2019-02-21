@@ -1,6 +1,8 @@
 const orderDb = require('../models/order');
 const Order = orderDb.getOrderModel();
 const Cart = require("../models/cart");
+const UserDb = require('../models/user.js');
+const User = UserDb.getUserModel();
 
 // render the order form
 module.exports.orderForm =
@@ -52,5 +54,37 @@ module.exports.saveOrder = (req, res, next) => {
 // show a users orders
 module.exports.showOrders = 
     (req, res, next) => {
-        res.render('orders/showOrders');
+
+        // console.log(req.user.id);
+        var cart;
+        
+        // find a users orders
+        Order.find({userId: req.user.id}, (err, productOrders) => {
+            if (err) {
+                req.flash('errorMessage', 'Error retrieving user...');
+                res.redirect('/orders');
+            } else {
+                // else loop through orders and push the carts into an array
+                productOrders.forEach((order) => {
+                    
+
+                    // fix this...
+                    cart = new Cart(order.shoppingCart);
+                    order.products = cart.getProductList();
+                    order.qty = cart.cartQuantity;
+                    order.total = cart.cartTotal;
+
+
+                    // cartProducts.push(order.shoppingCart);
+                    // for (var cart in order.shoppingCart) {
+                    //     console.log(cart);
+                    // }
+                    // cartProducts.push(order.shoppingCart);
+                });
+                res.render('orders/showOrders', { title: "Order History", productOrders: productOrders });
+            }
+            // console.log(cartProducts);
+        });
+        // console.log(cartProducts);
+        // render the view and pass the array of orders to it
     };
