@@ -16,7 +16,8 @@ const orderSchema = new Schema({
     // store a user id and reference the User model to get it
     userId: {type: Schema.Types.ObjectId, ref: 'User', required: true},
     // store the cart object with all products
-    shoppingCart: {type: Object, required: true} 
+    shoppingCart: {type: Object, required: true},
+    createdAt: {type: Date, default: Date.now}    
 });
 
 module.exports.getOrderModel =

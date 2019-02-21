@@ -13,7 +13,8 @@ module.exports.orderForm =
 
 
 // save an order to the database
-module.exports.saveOrder = (req, res, next) => {
+module.exports.saveOrder = 
+    (req, res, next) => {
     
     // console.log(req.user.id);
     // console.log(req.session.cart);
@@ -56,35 +57,40 @@ module.exports.showOrders =
     (req, res, next) => {
 
         // console.log(req.user.id);
-        var cart;
-        
-        // find a users orders
-        Order.find({userId: req.user.id}, (err, productOrders) => {
+
+        // find the current users orders
+        Order.find({userId: req.user.id}, (err, userOrders) => {
             if (err) {
                 req.flash('errorMessage', 'Error retrieving user...');
                 res.redirect('/orders');
             } else {
-                // else loop through orders and push the carts into an array
-                productOrders.forEach((order) => {
-                    
+                // else no err so loop through the user's order history
+                userOrders.forEach((order) => {
+                    // console.log(order.createdAt);
 
-                    // fix this...
-                    cart = new Cart(order.shoppingCart);
-                    order.products = cart.getProductList();
-                    order.qty = cart.cartQuantity;
-                    order.total = cart.cartTotal;
+                    // array to hold the products of an order
+                    var productsArray = [];
 
+                    // get the shopping cart object from the order
+                    var cartOrder = order.shoppingCart;
 
-                    // cartProducts.push(order.shoppingCart);
-                    // for (var cart in order.shoppingCart) {
-                    //     console.log(cart);
-                    // }
-                    // cartProducts.push(order.shoppingCart);
+                    // assign cartOrder variables to be used in views
+                    order.qty = cartOrder.cartQuantity;  // total of each order
+                    order.total = cartOrder.cartTotal;  // quantity of each order
+
+                    // get the products in the shopping cart
+                    var cartProducts = cartOrder.products;
+
+                    // loop through the products in the cart
+                    for (var prodId in cartProducts) {
+                        // push the product id's into an array
+                        productsArray.push(cartProducts[prodId]);
+                    };
+                    // assign the array to be used in the view
+                    order.products = productsArray;
                 });
-                res.render('orders/showOrders', { title: "Order History", productOrders: productOrders });
+                // render the view and pass the orders to it
+                res.render('orders/showOrders', { title: "Order History", userOrders: userOrders });
             }
-            // console.log(cartProducts);
         });
-        // console.log(cartProducts);
-        // render the view and pass the array of orders to it
     };
