@@ -3,6 +3,9 @@ const Order = orderDb.getOrderModel();
 const Cart = require("../models/cart");
 const UserDb = require('../models/user.js');
 const User = UserDb.getUserModel();
+const ProductDb = require('../models/product.js');
+const Product = ProductDb.getProductModel();
+
 
 // render the order form
 module.exports.orderForm =
@@ -30,6 +33,57 @@ module.exports.saveOrder =
             orderTotal: Number(req.session.cart.cartTotal),
             orderQuantity: Number(req.session.cart.cartQuantity)
         });
+
+
+        // get the shopping cart object from the session
+        var cart = req.session.cart;
+        // get the products from the session cart
+        var products = cart.products;
+        // loop through the products in the cart
+        for (var id in products) {
+            // // the product guid
+            // console.log(id);
+            // // the quantity from the Product model object
+            // console.log(products[id].prod.quantity);             
+            // // quantity the user has in their cart
+            // console.log(products[id].quantity);
+
+            // quantity the user selected for the product in their session cart
+            prodSessionCartQty = Number(products[id].quantity);
+
+            // get the product model quantity and subtract
+            Product.findById(id, (err, prod) => {
+                if (err)
+                    console.log("Error Selecting : %s ", err);
+                if (!prod)
+                    return res.render('404');
+                    
+                    // the number of products in the product database collection
+                    var productDbQty = Number(prod.quantity);
+
+                    // console.log(productDbQty, 'db');
+                    // console.log(prodSessionCartQty, 'session')
+
+                    // if their are enough products in the database then save the order
+                    if (productDbQty >= prodSessionCartQty) {
+                        // subtract the product session cart quantity 
+                        productDbQty = productDbQty - prodSessionCartQty;
+                        prod.quantity = productDbQty;  // store the new quantity
+
+                        // save the new updated quantity to the database
+                        prod.save((err, updatedProd) => {
+                            console.log(err, updatedProd);
+                            if (err) {
+                                res.status(500).send('save failed');
+                                return;
+                            }
+                        });
+
+                    }//if
+            });     
+
+        } //for
+
 
         order.save((err, resultCallback) => {
             // if an error occurs during checkout
@@ -75,10 +129,6 @@ module.exports.showOrders =
 
                     // get the shopping cart object from the order
                     var cartOrder = order.shoppingCart;
-
-                    // // assign cartOrder variables to be used in views
-                    // order.qty = cartOrder.orderQuantity;  // total of each order
-                    // order.total = cartOrder.orderTotal;  // quantity of each order
 
                     // get the products in the shopping cart
                     var cartProducts = cartOrder.products;

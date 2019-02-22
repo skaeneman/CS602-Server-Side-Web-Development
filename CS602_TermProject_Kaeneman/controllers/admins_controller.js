@@ -186,10 +186,6 @@ module.exports.adminDisplayOrders =
                     // get the shopping cart object from the order
                     var cartOrder = order.shoppingCart;
 
-                    // assign cartOrder variables to be used in views
-                    order.qty = cartOrder.cartQuantity;  // total of each order
-                    order.total = cartOrder.cartTotal;  // quantity of each order
-
                     // get the products in the shopping cart
                     var cartProducts = cartOrder.products;
 
