@@ -80,8 +80,7 @@ module.exports.saveOrder =
                         });
 
                     }//if
-            });     
-
+            }); // Product   
         } //for
 
 
