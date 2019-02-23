@@ -2,8 +2,8 @@
 require_once('database.php');
 
 // Get all categories
-$query = 'SELECT * FROM categories
-                       ORDER BY categoryID';
+$query = 'SELECT * FROM sk_courses
+                       ORDER BY courseID';
 $statement = $db->prepare($query);
 $statement->execute();
 $categories = $statement->fetchAll();
@@ -14,34 +14,35 @@ $statement->closeCursor();
 
 <!-- the head section -->
 <head>
-    <title>My Guitar Shop</title>
+    <title>Course Manager</title>
     <link rel="stylesheet" type="text/css" href="main.css" />
 </head>
 
 <!-- the body section -->
 <body>
-<header><h1>Product Manager</h1></header>
+<header><h1>Course Manager</h1></header>
 <main>
-    <h1>Category List</h1>
+    <h1>Course List</h1>
     <table>
         <tr>
+            <th>ID</th>
             <th>Name</th>
         </tr>
         
         <!-- add code for the rest of the table here -->
-        <?php foreach ($categories as $category) : ?>
-            <tr><td><?php echo $category['categoryName']; ?></td>
+        <?php foreach ($courses as $course) : ?>
+            <tr><td><?php echo $course['courseName']; ?></td>
                 
             </tr>
         <?php endforeach; ?>
     
     </table>
     <p>
-    <h2>Add Category</h2>
+    <h2>Add Course</h2>
     
     <!-- add code for the form here -->
-    <form action="add_category.php" method="post"
-              id="add_category_form">
+    <form action="add_course.php" method="post"
+              id="add_course_form">
 
         <label>Name:</label>
         <input type="text" name="name"><br>

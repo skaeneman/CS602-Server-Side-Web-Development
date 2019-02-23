@@ -8,7 +8,6 @@ $statement->execute();
 $categories = $statement->fetchAll();
 $statement->closeCursor();
 ?>
-          <?php echo $query?>
 
 <!DOCTYPE html>
 <html>
