@@ -108,18 +108,18 @@ br {
 /********************************************************************
 * Additional styles for the Product Manager application
 ********************************************************************/
-#add_product_form {
+#add_student_form {
     margin: .5em 0 1em;
 }
-#add_product_form label {
+#add_student_form label {
     width: 6em;
     padding-right: 1em;
     padding-bottom: .5em;
     float: left;
 }
-#add_product_form input {
+#add_student_form input {
     float: left;
 }
-#add_product_form input[text] {
+#add_student_form input[text] {
     width: 15em;
 }

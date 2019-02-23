@@ -1,57 +1,59 @@
 <?php
 require('database.php');
 $query = 'SELECT *
-          FROM categories
-          ORDER BY categoryID';
+          FROM sk_courses
+          ORDER BY courseID';
 $statement = $db->prepare($query);
 $statement->execute();
 $categories = $statement->fetchAll();
 $statement->closeCursor();
 ?>
+          <?php echo $query?>
+
 <!DOCTYPE html>
 <html>
 
 <!-- the head section -->
 <head>
-    <title>My Guitar Shop</title>
+    <title>Course Manager</title>
     <link rel="stylesheet" type="text/css" href="main.css">
 </head>
 
 <!-- the body section -->
 <body>
-    <header><h1>Product Manager</h1></header>
+    <header><h1>Course Manager</h1></header>
 
     <main>
-        <h1>Add Product</h1>
-        <form action="add_product.php" method="post"
-              id="add_product_form">
+        <h1>Add Student</h1>
+        <form action="add_student.php" method="post"
+              id="add_student_form">
 
-            <label>Category:</label>
-            <select name="category_id">
-            <?php foreach ($categories as $category) : ?>
-                <option value="<?php echo $category['categoryID']; ?>">
-                    <?php echo $category['categoryName']; ?>
+            <label>Course:</label>
+            <select name="course_id">
+            <?php foreach ($courses as $course) : ?>
+                <option value="<?php echo $course['courseID']; ?>">
+                    <?php echo $course['courseName']; ?>
                 </option>
             <?php endforeach; ?>
             </select><br>
 
-            <label>Code:</label>
-            <input type="text" name="code"><br>
+            <label>First Name:</label>
+            <input type="text" name="firstName"><br>
 
-            <label>Name:</label>
-            <input type="text" name="name"><br>
+            <label>Last Name:</label>
+            <input type="text" name="lastName"><br>
 
-            <label>List Price:</label>
-            <input type="text" name="price"><br>
+            <label>Email:</label>
+            <input type="text" name="email"><br>
 
             <label>&nbsp;</label>
-            <input type="submit" value="Add Product"><br>
+            <input type="submit" value="Add Student"><br>
         </form>
-        <p><a href="example.php">View Product List</a></p>
+        <p><a href="index.php">View Student List</a></p>
     </main>
 
     <footer>
-        <p>&copy; <?php echo date("Y"); ?> My Guitar Shop, Inc.</p>
+        <p>&copy; <?php echo date("Y"); ?> Course Manager</p>
     </footer>
 </body>
 </html>
