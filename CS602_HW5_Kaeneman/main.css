@@ -101,6 +101,10 @@ br {
 .last_paragraph {
 	margin-bottom: 2em;	
 }
+
+#center { 
+    text-align: center; 
+}
 /********************************************************************
 * Additional styles for the Product Manager application
 ********************************************************************/

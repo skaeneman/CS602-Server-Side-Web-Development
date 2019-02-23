@@ -1,4 +1,4 @@
- <?php
+ <!-- <?php
 
 		define ('TAX_RATES',
 			array(
@@ -256,5 +256,4 @@
     </main>
   </body>
 </html>
-
 
