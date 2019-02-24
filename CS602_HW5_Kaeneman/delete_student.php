@@ -2,18 +2,20 @@
 require_once('database.php');
 
 // Get IDs
-$product_id = filter_input(INPUT_POST, 'product_id', FILTER_VALIDATE_INT);
-$category_id = filter_input(INPUT_POST, 'category_id', FILTER_VALIDATE_INT);
+$student_id = filter_input(INPUT_POST, 'student_id', FILTER_VALIDATE_INT);
+$course_id = filter_input(INPUT_POST, 'course_id', FILTER_SANITIZE_STRING);
 
-// Delete the product from the database
-if ($product_id != false && $category_id != false) {
-    $query = 'DELETE FROM products
-              WHERE productID = :product_id';
+// Delete the student from the database
+if ($student_id != false && $course_id != null) {
+
+    $query = 'DELETE FROM sk_students
+              WHERE studentID = :student_id';
+
     $statement = $db->prepare($query);
-    $statement->bindValue(':product_id', $product_id);
+    $statement->bindValue(':student_id', $student_id);
     $success = $statement->execute();
     $statement->closeCursor();    
 }
 
-// Display the Product List page
-include('example.php');
+// Display the Student List page
+include('index.php');
