@@ -1,18 +1,16 @@
-<!-- <?php phpinfo(); ?> -->
-
 <?php
 require_once('database.php');
 
 // Get course ID
 if (!isset($course_id)) {
     $course_id = filter_input(INPUT_GET, 'course_id', 
-            FILTER_VALIDATE_INT);
+            FILTER_SANITIZE_STRING);
     if ($course_id == NULL || $course_id == FALSE) {
-        $course_id = 1;
+        $course_id = 'cs601';  //default value
     }
 }
 // Get name for selected course
-$queryCourse = 'SELECT * FROM sk_courses 
+$queryCourse = 'SELECT * FROM sk_courses
                   WHERE courseID = :course_id';
 $statement1 = $db->prepare($queryCourse);
 $statement1->bindValue(':course_id', $course_id);
@@ -22,19 +20,21 @@ $course_name = $course['courseName'];
 $statement1->closeCursor();
 
 
-// Get all courses 
-$query = 'SELECT * FROM sk_courses 
+// Get all courses
+$query = 'SELECT * FROM sk_courses
                        ORDER BY courseID';
 $statement = $db->prepare($query);
 $statement->execute();
-$courses  = $statement->fetchAll();
+$courses = $statement->fetchAll();
 $statement->closeCursor();
+
 
 // Get students for selected course
 $queryStudents = 'SELECT * FROM sk_students
                   WHERE courseID = :course_id
-                  ORDER BY studentID'; 
+                  ORDER BY studentID';
 $statement3 = $db->prepare($queryStudents);
+// echo $course_id;
 $statement3->bindValue(':course_id', $course_id);
 $statement3->execute();
 $students = $statement3->fetchAll();
@@ -45,7 +45,7 @@ $statement3->closeCursor();
 
 <!-- the head section -->
 <head>
-    <title>Course and Student Manager</title>
+    <title>Course Manager</title>
     <link rel="stylesheet" type="text/css" href="main.css" />
 </head> 
 
@@ -55,12 +55,13 @@ $statement3->closeCursor();
 <main>
     <div id="center"><h1>Student List</h1></div>
 
+
     <aside>
-        <!-- display a list of courses  -->
+        <!-- display a list of courses in left nav -->
         <h2>Courses</h2>
         <nav>
-        <ul>            
-            <?php foreach ($courses  as $course) : ?>
+        <ul>
+            <?php foreach ($courses as $course) : ?>
             <li><a href="./index.php?course_id=<?php echo $course['courseID']; ?>">
                     <?php echo $course['courseID']; ?>
                 </a>
@@ -70,8 +71,9 @@ $statement3->closeCursor();
         </nav>          
     </aside>
 
+
     <section>
-        <!-- display a table of students -->
+        <!-- display a table of products -->
         <h2><?php echo $course_name; ?></h2>
         <table>
             <tr>
@@ -85,7 +87,7 @@ $statement3->closeCursor();
             <tr>
                 <td><?php echo $student['firstName']; ?></td>
                 <td><?php echo $student['lastName']; ?></td>
-                <td class="right"><?php $student['email']; ?></td>
+                <td class="right"><?php echo $student['email']; ?></td>
                 <td><form action="delete_student.php" method="post">
                     <input type="hidden" name="student_id"
                            value="<?php echo $student['studentID']; ?>">
@@ -97,11 +99,11 @@ $statement3->closeCursor();
             <?php endforeach; ?>
         </table>
         <p><a href="add_student_form.php">Add Student</a></p>
-        <p><a href="course_list.php">List Courses </a></p>        
+        <p><a href="course_list.php">List Courses</a></p>        
     </section>
 </main>
 <footer>
-    <p>&copy; <?php echo date("Y"); ?> Course Manager</p>
+    <p>&copy; <?php echo date("Y"); ?> Scott Kaeneman</p>
 </footer>
 </body>
 </html>

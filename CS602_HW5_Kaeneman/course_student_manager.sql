@@ -18,7 +18,7 @@ CREATE TABLE sk_students (
 INSERT INTO sk_courses VALUES
 ('cs601', 'Web Application Development'),
 ('cs602', 'Server-Side Web development'),
-('cs701', 'Rick Internet Application Development');
+('cs701', 'Rich Internet Application Development');
 
 INSERT INTO sk_students VALUES
 (1, 'cs601', 'John', 'Doe', 'john@doe.com'),

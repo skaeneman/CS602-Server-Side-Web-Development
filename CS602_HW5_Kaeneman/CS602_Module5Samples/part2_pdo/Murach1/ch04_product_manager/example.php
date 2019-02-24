@@ -68,6 +68,12 @@ $statement3->closeCursor();
         </nav>          
     </aside>
 
+<?php
+    foreach ($products as $s) {
+        echo $s['categoryID'];
+    }
+?>
+
     <section>
         <!-- display a table of products -->
         <h2><?php echo $category_name; ?></h2>

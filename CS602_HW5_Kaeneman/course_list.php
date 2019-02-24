@@ -6,7 +6,7 @@ $query = 'SELECT * FROM sk_courses
                        ORDER BY courseID';
 $statement = $db->prepare($query);
 $statement->execute();
-$categories = $statement->fetchAll();
+$courses = $statement->fetchAll();
 $statement->closeCursor();
 ?>
 <!DOCTYPE html>
@@ -31,8 +31,8 @@ $statement->closeCursor();
         
         <!-- add code for the rest of the table here -->
         <?php foreach ($courses as $course) : ?>
-            <tr><td><?php echo $course['courseName']; ?></td>
-                
+            <tr><td><?php echo $course['courseID']; ?></td>
+                <td><?php echo $course['courseName']; ?></td>
             </tr>
         <?php endforeach; ?>
     
@@ -44,12 +44,14 @@ $statement->closeCursor();
     <form action="add_course.php" method="post"
               id="add_course_form">
 
-        <label>Name:</label>
-        <input type="text" name="name"><br>
-         <p>
-        
+        <label>Course ID:</label>
+        <input type="text" name="courseID"><br>
+  <p>
+        <label>Course Name:</label>
+        <input type="text" name="name"><br>        
+          <p>
         <label>&nbsp;</label>
-        <input type="submit" value="Add Category"><br>
+        <input type="submit" value="Add Course"><br>
 
     </form>
 
@@ -58,12 +60,12 @@ $statement->closeCursor();
 
     
     <br>
-    <p><a href="example.php">List Products</a></p>
+    <p><a href="index.php">List Students</a></p>
 
     </main>
 
     <footer>
-        <p>&copy; <?php echo date("Y"); ?> My Guitar Shop, Inc.</p>
+        <p>&copy; <?php echo date("Y"); ?> Scott Kaeneman</p>
     </footer>
 </body>
 </html>
