@@ -1,32 +1,32 @@
 <?php
-// Get the product data
-$category_id = filter_input(INPUT_POST, 'category_id', FILTER_VALIDATE_INT);
-$code = filter_input(INPUT_POST, 'code');
-$name = filter_input(INPUT_POST, 'name');
-$price = filter_input(INPUT_POST, 'price', FILTER_VALIDATE_FLOAT);
+// Get the student data
+$course_id = filter_input(INPUT_POST, 'course_id', FILTER_SANITIZE_STRING);
+$firstName = filter_input(INPUT_POST, 'firstName', FILTER_SANITIZE_STRING);
+$lastName = filter_input(INPUT_POST, 'lastName', FILTER_SANITIZE_STRING);
+$email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_STRING);
 
 // Validate inputs
-if ($category_id == null || $category_id == false ||
-        $code == null || $name == null || $price == null || $price == false) {
-    $error = "Invalid product data. Check all fields and try again.";
+if ($course_id == null || $course_id == false ||
+        $firstName == null || $firstName == false || 
+        $lastName == null || $lastName == false || 
+        $email == null || $email == false) {
+    $error = "Invalid student data. Check all fields and try again.";
     include('error.php');
 } else {
     require_once('database.php');
 
     // Add the product to the database  
-    $query = 'INSERT INTO products
-                 (categoryID, productCode, productName, listPrice)
-              VALUES
-                 (:category_id, :code, :name, :price)';
+    $query = 'INSERT INTO sk_students (courseID, firstName, lastName, email)
+              VALUES (:course_id, :firstName, :lastName, :email)';
     $statement = $db->prepare($query);
-    $statement->bindValue(':category_id', $category_id);
-    $statement->bindValue(':code', $code);
-    $statement->bindValue(':name', $name);
-    $statement->bindValue(':price', $price);
+    $statement->bindValue(':course_id', $course_id);
+    $statement->bindValue(':firstName', $firstName);
+    $statement->bindValue(':lastName', $lastName);
+    $statement->bindValue(':email', $email);
     $statement->execute();
     $statement->closeCursor();
 
-    // Display the Product List page
-    include('example.php');
+    // Display the student list page
+    include('index.php');
 }
 ?>

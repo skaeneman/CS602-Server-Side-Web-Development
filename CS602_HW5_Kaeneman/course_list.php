@@ -3,7 +3,7 @@ require_once('database.php');
 
 // Get all categories
 $query = 'SELECT * FROM sk_courses
-                       ORDER BY courseID';
+                       ORDER BY courseID ASC';
 $statement = $db->prepare($query);
 $statement->execute();
 $courses = $statement->fetchAll();

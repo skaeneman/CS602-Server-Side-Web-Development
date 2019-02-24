@@ -5,7 +5,7 @@ $query = 'SELECT *
           ORDER BY courseID';
 $statement = $db->prepare($query);
 $statement->execute();
-$categories = $statement->fetchAll();
+$courses = $statement->fetchAll();
 $statement->closeCursor();
 ?>
 
@@ -31,6 +31,7 @@ $statement->closeCursor();
             <select name="course_id">
             <?php foreach ($courses as $course) : ?>
                 <option value="<?php echo $course['courseID']; ?>">
+                    <?php echo $course['courseID'] ?> -
                     <?php echo $course['courseName']; ?>
                 </option>
             <?php endforeach; ?>
