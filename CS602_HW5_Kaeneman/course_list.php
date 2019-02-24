@@ -45,7 +45,7 @@ $statement->closeCursor();
               id="add_course_form">
 
         <label>Course ID:</label>
-        <input type="text" name="courseID"><br>
+        <input type="text" name="courseId"><br>
   <p>
         <label>Course Name:</label>
         <input type="text" name="name"><br>        
@@ -54,10 +54,7 @@ $statement->closeCursor();
         <input type="submit" value="Add Course"><br>
 
     </form>
-
-
-
-
+    
     
     <br>
     <p><a href="index.php">List Students</a></p>
