@@ -64,6 +64,7 @@ const adminSaveAfterEdit = adminController.adminSaveAfterEdit;
 const adminDeleteProduct = adminController.adminDeleteProduct;
 // orders
 const adminDisplayOrders = adminController.adminDisplayOrders;
+const adminDeleteOrder = adminController.adminDeleteOrder
 // users
 const adminDisplayUsers = adminController.adminDisplayUsers;
 
@@ -85,6 +86,8 @@ router.get('/admin/users', adminDisplayUsers);
 
 // GET an order history for a user
 router.get('/admin/orders/user/:id', adminDisplayOrders);
+// GET order by id to delete
+router.get('/admin/orders/delete/:id', adminDeleteOrder);
 
 
 /*******************************************************************
@@ -141,6 +144,8 @@ router.get('/orders/checkout', orderForm);
 router.post('/orders/checkout', saveOrder);
 // GET orders for a user
 router.get('/orders', showOrders);
+
+
 /*******************************************************************
  *******************************************************************/
 

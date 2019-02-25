@@ -112,7 +112,7 @@ module.exports.adminSaveAfterEdit =
         });
     };
 
-// delets a product
+// deletes a product
 module.exports.adminDeleteProduct =
     (req, res, next) => {
 
@@ -202,3 +202,27 @@ module.exports.adminDisplayOrders =
             }
         });
     };    
+
+
+
+// deletes an order
+module.exports.adminDeleteOrder =
+    (req, res, next) => {
+        // get id from the url params
+        let id = req.params.id;
+
+        Order.findById(id, (err, order) => {
+            if (err)
+                console.log("Error Selecting : %s ", err);
+            if (!order)
+                return res.render('404');
+
+            order.remove((err) => {
+                if (err)
+                    console.log("Error deleting : %s ", err);
+
+                req.flash('successMessage', `Order id ${order.id} successfully deleted`);
+                res.redirect(`/admin/orders/user/${order.userId}`);
+            });
+        });
+    };

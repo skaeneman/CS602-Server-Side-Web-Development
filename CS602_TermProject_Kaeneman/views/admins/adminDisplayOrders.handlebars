@@ -1,3 +1,13 @@
+  <!-- show message when admin deletes an order -->
+  {{#if successMessage}}
+    <div class="alert alert-success alert-dismissible fade show col-md-6 offset-md-3" role="alert">
+      {{successMessage}}
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <br>
+  {{/if}}
 
 {{#each userOrders}}
     {{!-- {{this.cartQuantity}} --}}
@@ -15,14 +25,16 @@
                     <div class="row">
                       <div class="col-md-4">{{this.prod.name}}</div>
                       <div class="col-md-4">{{this.price}}</div>
-                      <div class="col-md-4">{{this.quantity}}</div>                    
+                      <div class="col-md-4">{{this.quantity}}</div>                   
                     </div>
                 </li>
             </ul>
 
         {{/each}}
         quantity: {{this.orderQuantity}} <br>
-        order total: {{this.orderTotal}}
+        order total: {{convertToCurrency this.orderTotal}}
+                      <a href="/admin/orders/edit/{{this.id}}">Edit</a>
+                      <a href="/admin/orders/delete/{{this.id}}">Delete</a>         
 
       </div>
     </div>
