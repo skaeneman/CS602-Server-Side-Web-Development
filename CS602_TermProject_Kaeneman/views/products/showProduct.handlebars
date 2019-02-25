@@ -16,6 +16,16 @@
           <br>
         {{/if}}
 
+        {{#if errorMessage}}
+          <div class="alert alert-danger alert-dismissible fade show col-md-6 offset-md-3" role="alert">
+              {{errorMessage}}
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+              </button>
+          </div>
+          <br>
+        {{/if}}        
+
 
 
         <div class="row">            
@@ -28,24 +38,28 @@
                 <div>{{convertToCurrency data.price}}</div><br>
                 <div>{{data.description}}</div><br>   
 
-
-            <form method="post" action="/cart/add/{{data.id}}">
-              <div class="form-group row">
-                <div class="col-sm-10">
-                  <input type="text" class="form-control" name="prodQty" aria-label="prodQty" aria-describedby="basic-addon1">
-                </div>
-                <button type="submit" class="btn btn-primary mb-2">Post</button>
+              <div>
+                <i>Only {{data.quantity}} left in stock - order soon.</i><br>
+              
+                {{!-- select quantity:  <input type="text" class="form-control" name="prodQty" aria-label="prodQty" aria-describedby="basic-addon1"> --}}
+                <br><br>
               </div>
-            </form>
 
-
-                <div>
-                    <i>Only {{data.quantity}} left in stock - order soon.</i><br>
-
-                    {{!-- select quantity:  <input type="text" class="form-control" name="prodQty" aria-label="prodQty" aria-describedby="basic-addon1"> --}}
+                <form method="post" action="/cart/add/{{data.id}}">
+                  <div class="form-group row">
+                    <div class="col-sm-10">
+                      <div class="row">
+                        <label for="qty">Quantity:</label>&nbsp;
+                        <input type="text" class="form-control col-sm-2" id="qty" name="prodQty" aria-label="prodQty" aria-describedby="basic-addon1">
+                      </div>
+                    </div>
                     <br><br>
-                    <a href="/cart/add/{{data.id}}" class="btn btn-outline-primary">Add to cart</a>
-                </div>
+                    <button type="submit" class="btn btn-block btn-outline-primary mb-2">Add to cart</button>
+                  </div>
+                </form>
+
+
+ 
             </div>
 
         </div>

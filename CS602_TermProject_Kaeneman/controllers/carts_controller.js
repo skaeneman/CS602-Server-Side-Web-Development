@@ -47,17 +47,17 @@ module.exports.saveProductToCart =
 
             // price of the product added multiplied by the quantity in cart
             productInCart.price = productInCart.prod.price * productInCart.quantity;
-            // console.log(productInCart.price);
-            
-            // increment the cart quantity by adding onto whatever quantity is aleady there
-            cart.cartQuantity += Number(prodQty);  
-            // console.log(cart.cartQuantity);
+                // console.log(productInCart.price);
 
-            // add product price to cartTotal.  multiply products in cart price by quantity
-            cart.cartTotal += productInCart.prod.price * prodQty;  
-            // console.log(cart.cartTotal);
+                // increment the cart quantity by adding onto whatever quantity is aleady there
+                cart.cartQuantity += Number(prodQty);
+                // console.log(cart.cartQuantity);
 
-            req.session.cart = cart;  // store cart with products in the session
+                // add product price to cartTotal.  multiply products in cart price by quantity
+                cart.cartTotal += productInCart.prod.price * prodQty;
+                // console.log(cart.cartTotal);
+
+                req.session.cart = cart;  // store cart with products in the session
 
             req.flash('successMessage', `${product.name} - successfully added to cart`);
             res.redirect(`/product/${prodId}`);  // redirect to current product page
