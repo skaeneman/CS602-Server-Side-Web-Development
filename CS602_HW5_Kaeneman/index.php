@@ -74,7 +74,7 @@ $statement3->closeCursor();
 
     <section>
         <!-- display a table of products -->
-        <h2><?php echo $course_name; ?></h2>
+        <h2><?php echo $course_id . " - " . $course_name; ?></h2>
         <table>
             <tr>
                 <th>First Name</th>
