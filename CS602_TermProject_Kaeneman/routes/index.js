@@ -66,6 +66,7 @@ const adminDeleteProduct = adminController.adminDeleteProduct;
 const adminDisplayOrders = adminController.adminDisplayOrders;
 const adminDeleteOrder = adminController.adminDeleteOrder;
 const adminEditOrder = adminController.adminEditOrder;
+const adminSaveAfterEditOrder = adminController.adminSaveAfterEditOrder;
 
 // users
 const adminDisplayUsers = adminController.adminDisplayUsers;
@@ -92,6 +93,9 @@ router.get('/admin/orders/user/:id', adminDisplayOrders);
 router.get('/admin/orders/delete/:id', adminDeleteOrder);
 // GET order edit form
 router.get('/admin/orders/edit/:id', adminEditOrder);
+// POST to save order form
+router.post('/admin/orders/edit/:id', adminSaveAfterEditOrder);
+
 
 /*******************************************************************
  * user routes
