@@ -1,0 +1,28 @@
+
+<br />
+<div class="container">
+  <div class="row">
+    <div class="col-sm-12">
+      <form method="post" action='/admin/orders/edit/{{data.id}}'>
+
+        {{#each data.products}}        
+            <div class="card">
+                <div class="card-body">
+                    <div class="form-group row">
+                        <label for="quantity" class="col-form-label col-sm-6"><strong>{{this.prod.name}}</strong></label>
+                        <div class="col-sm-6">
+                          <input type="text" class="form-control col-sm-2 float-right" name="quantity" value="{{this.quantity}}" required>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br>
+        {{/each}}
+        <div class="float-right">
+            <input type="button" value="Cancel" class="btn btn-outline-danger" class="cancel" onclick="cancelAdd()">
+            <input type="submit" value="Save" class="btn btn-success">
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

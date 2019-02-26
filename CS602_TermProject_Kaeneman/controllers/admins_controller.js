@@ -258,26 +258,57 @@ module.exports.adminDeleteOrder =
 
 
 // render the edit order form
-// module.exports.adminEditOrder = 
-// 	(req , res , next) => {
+module.exports.adminEditOrder = 
+	(req , res , next) => {
 
-// 	    let id = req.params.id;
+	    let id = req.params.id;
 
-// 	    Order.findById(id, (err, order) => {
-// 	      if(err)
-// 	        console.log("Error Selecting : %s ", err); 
-//             if (!order)
-// 	        return res.render('404');
+        Order.findById(id, (err, order) => {
+            if (err)
+                console.log("Error Selecting : %s ", err);
+            if (!order)
+                return res.render('404');
 
-//             res.render('admins/adminEditProduct',
-// 	          {title:"Edit Order", 
-//                   data: {
-//                       id: order._id,
-//                       name: order.name,
-//                       description: order.description,
-//                       price: order.price,
-//                       quantity: order.quantity
-//                     }
-// 	          });                
-// 	    });
-// 	};
+            var shoppingCart = order.shoppingCart;
+
+            var cartProds = shoppingCart.products;
+
+            // loop through products in cart to get quantity and prod id's
+            // for (var productId in cartProds) {
+            //     // console.log(cartProds[productId].quantity);
+            //     // console.log(productId);
+
+            //     // the quantity deleted from the order needs to be added back to Product table
+            //     var deletedProdQty = cartProds[productId].quantity
+
+            //     // find the product to add the quantity back that was deleted
+            //     Product.findById(productId, (err, product) => {
+            //         if (err)
+            //             console.log("Error Selecting : %s ", err);
+            //         if (!product)
+            //             return res.render('404');
+
+            //         // add back what was in the deleted order
+            //         product.quantity = product.quantity + deletedProdQty;
+
+            //         product.save((err) => {
+            //             if (err)
+            //                 console.log("Error updating : %s ", err);
+            //         });
+            //     });
+            // }// for   
+
+            res.render('admins/adminEditOrder',
+                {
+                    title: "Edit Order",
+                    data: {
+                        id: order._id,
+                        products: order.shoppingCart.products
+                        // orderTotal: order.orderTotal,
+                        // orderQuantity: order.orderQuantity,
+                        // createdAt: order.createdAt
+                    }
+                });  
+
+        });
+	};
