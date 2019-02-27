@@ -7,6 +7,8 @@ const User = UserDb.getUserModel();
 const orderDb = require('../models/order');
 const Order = orderDb.getOrderModel();
 
+const Cart = require("../models/cart");
+
 /******************************************************
  *  product functions
  ******************************************************/
@@ -388,28 +390,26 @@ module.exports.adminSaveAfterEditOrder =
 
                 }//if
 
-                //Order.shoppingCart.products
-                // console.log("order cart prods", Order.shoppingCart.products);
-                
-                // Order.shoppingCart.products.findById(productId, (err, orderProduct) => {
-                //     if (err)
-                //         console.log("Error Selecting : %s ", err);
-                //     if (!orderProduct)
-                //         return res.render('404');
-
-                //     console.log('currentProdQty in order...', currentProdQty);
-
-                //     orderProduct.quantity = currentProdQty;
-
-                //     orderProduct.save((err) => {
-                //         if (err)
-                //             console.log("Error deleting : %s ", err);
-                //     });
-                // });
 
 
 
+                // get a new shopping cart object and pass in the current value in the database
+                var cart = new Cart(shoppingCart);
+                var cartProducts = cart.getProductList();  // get an array of products
+                for (var i in cartProducts) {
+                    var prodId = cartProducts[i].prod._id;
 
+                    // console.log("product qty...", cartProducts[i].quantity);
+                    // console.log("product id...", cartProducts[i].prod._id);
+
+                    // if the current product matches the product the user selected to update
+                    if (prodId == productId) {
+                        // set the new product quantity
+                        cartProducts[i].quantity = newProdQty;
+                        // save the updated product quantity back to the shopping cart object
+                        order.shoppingCart = cart;
+                    }
+                }
 
             }// for      
 
