@@ -320,14 +320,18 @@ module.exports.adminSaveAfterEditOrder =
 
         let id = req.params.id;
 
+        // get the new quantity passed in from the user
+        let newProdQty = Number(req.body.quantity);
+
         Order.findById(id, (err, order) => {
             if (err)
                 console.log("Error Selecting : %s ", err);
             if (!order)
                 return res.render('404');
-
+            
+            // get the cart
             var shoppingCart = order.shoppingCart;
-
+            // get the products
             var cartProds = shoppingCart.products;
 
             // loop through products in cart to get quantity and prod id's
@@ -335,24 +339,56 @@ module.exports.adminSaveAfterEditOrder =
                 // console.log(cartProds[productId].quantity);
                 // console.log(productId);
 
-                // the quantity deleted from the order needs to be added back to Product table
-                var deletedProdQty = cartProds[productId].quantity
+                // get the current quantity for the product
+                var currentProdQty = Number(cartProds[productId].quantity);
+                // get current price of the product
+                var currentProdPrice = cartProds[productId].price;
+                // get the prod object in teh database
+                var orderProd = cartProds[productId].prod;
 
-                // find the product to add the quantity back that was deleted
-                Product.findById(productId, (err, product) => {
-                    if (err)
-                        console.log("Error Selecting : %s ", err);
-                    if (!product)
-                        return res.render('404');
+                console.log('newProdQty', newProdQty);
+                console.log('currentProdQty', currentProdQty);
 
-                    // add back what was in the deleted order
-                    product.quantity = product.quantity + deletedProdQty;
+                // new quantity is less than current quantity, so user is deleting products
+                if (newProdQty < currentProdQty) {  
+                    // subtract the number of products to be removed from the order
+                    currentProdQty = currentProdQty - newProdQty;
 
-                    product.save((err) => {
+                    // find the product to add the quantity back
+                    Product.findById(productId, (err, product) => {
                         if (err)
-                            console.log("Error updating : %s ", err);
+                            console.log("Error Selecting : %s ", err);
+                        if (!product)
+                            return res.render('404');
+
+                        console.log("old product table qty", product.quantity);
+
+                        // add deleted items back to product table
+                        product.quantity = product.quantity + currentProdQty;
+                        // subtract deleted items from shopping cart prod object in order table
+                        orderProd.quantity -= currentProdQty;
+
+                        console.log("new product table qty", product.quantity);
+                        console.log('currentProdPrice original', currentProdPrice);
+                        console.log('orderProd.quantity', orderProd.quantity);
+
+                        // price of the number of products remaining multiplied by the new quantity
+                        currentProdPrice = newProdQty * currentProdPrice;  
+
+                        console.log('currentProdPrice', currentProdPrice);
+
+                        product.save((err) => {
+                            if (err)
+                                console.log("Error updating : %s ", err);
+                        });
                     });
-                });
+
+                }//if
+
+                // subtract the quantity from the cart quantity
+                // shoppingCart.cartQuantity -= currentProdQty;
+                // shoppingCart.cartTotal  currentProdQty;
+
             }// for      
             // save the order to update it
             order.save((err) => {
