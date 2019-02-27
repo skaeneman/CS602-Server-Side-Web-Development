@@ -320,12 +320,23 @@ module.exports.adminEditOrder =
 module.exports.adminSaveAfterEditOrder =
     (req, res, next) => {
 
-        let id = req.params.id;
+        let orderId = req.params.id;
+
 
         // get the new quantity passed in from the user
-        let newProdQty = Number(req.body.quantity);
+        // let newProdQty = Number(req.body.quantity);
 
-        Order.findById(id, (err, order) => {
+        let formProdQty = {};  // array to hold quantities passed in from the form
+        let formProdId = {};  // array to hold product id's
+
+        formProdQty = req.body.quantity;
+        formProdId = req.body.prodId;     
+
+        console.log("formProdQty...", formProdQty);
+        console.log("formProdId...", formProdId);
+
+        
+        Order.findById(orderId, (err, order) => {
             if (err)
                 console.log("Error Selecting : %s ", err);
             if (!order)
@@ -337,25 +348,41 @@ module.exports.adminSaveAfterEditOrder =
             var cartProds = shoppingCart.products;
 
             // loop through products in cart to get quantity and prod id's
-            for (var productId in cartProds) {
+            for (var productId in cartProds) {                
                 // console.log(cartProds[productId].quantity);
-                // console.log(productId);
+                // console.log("product id...", cartProds[productId].prod._id);
 
                 // get the current quantity for the product
                 var currentProdQty = Number(cartProds[productId].quantity);
                 // get current price of the product
                 var currentProdPrice = cartProds[productId].price;
-                // get the prod object in teh database
+                // get the prod object in the database
                 var orderProd = cartProds[productId].prod;
 
-                console.log('newProdQty', newProdQty);
-                console.log('currentProdQty', currentProdQty);
+                // console.log('newProdQty', newProdQty);
+                // console.log('currentProdQty', currentProdQty);
+
+
+                // for (var x=0; x < formProdQty.length; x++) {
+                //     for (var y=0; y < formProdId.length; y++) {
+                //         console.log("formProdQty looping...", formProdQty[x]," ",formProdId[y]);  
+                //     }
+                // }
+
+                // take the 2 arrays and combine them in to a key\value pair
+                testArr = formProdQty.map(function (x, i) {
+                    return { "quantity": x, "id": formProdId[i] }
+                }.bind(this));    
+                console.log(testArr[0]);        
+
 
                 // new quantity is less than current quantity, so user is deleting products
                 if (newProdQty < currentProdQty) {  
                     // subtract the number of products to be removed from the order
                     currentProdQty = currentProdQty - newProdQty;
                     // order.orderQuantity = currentProdQty;
+
+
 
 
 
@@ -410,6 +437,19 @@ module.exports.adminSaveAfterEditOrder =
                         order.shoppingCart = cart;
                     }
                 }
+
+
+
+                ////////
+
+             
+
+
+
+
+
+
+
 
             }// for      
 
