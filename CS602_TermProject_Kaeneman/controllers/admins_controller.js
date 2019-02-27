@@ -353,8 +353,11 @@ module.exports.adminSaveAfterEditOrder =
                 if (newProdQty < currentProdQty) {  
                     // subtract the number of products to be removed from the order
                     currentProdQty = currentProdQty - newProdQty;
+                    // order.orderQuantity = currentProdQty;
 
-                    // find the product to add the quantity back
+
+
+                    // find the product to add the quantity deleted back to the product table
                     Product.findById(productId, (err, product) => {
                         if (err)
                             console.log("Error Selecting : %s ", err);
@@ -385,11 +388,32 @@ module.exports.adminSaveAfterEditOrder =
 
                 }//if
 
-                // subtract the quantity from the cart quantity
-                // shoppingCart.cartQuantity -= currentProdQty;
-                // shoppingCart.cartTotal  currentProdQty;
+                //Order.shoppingCart.products
+                // console.log("order cart prods", Order.shoppingCart.products);
+                
+                // Order.shoppingCart.products.findById(productId, (err, orderProduct) => {
+                //     if (err)
+                //         console.log("Error Selecting : %s ", err);
+                //     if (!orderProduct)
+                //         return res.render('404');
+
+                //     console.log('currentProdQty in order...', currentProdQty);
+
+                //     orderProduct.quantity = currentProdQty;
+
+                //     orderProduct.save((err) => {
+                //         if (err)
+                //             console.log("Error deleting : %s ", err);
+                //     });
+                // });
+
+
+
+
 
             }// for      
+
+
             // save the order to update it
             order.save((err) => {
                 if (err)
