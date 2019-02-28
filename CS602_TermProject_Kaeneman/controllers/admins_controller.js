@@ -271,35 +271,6 @@ module.exports.adminEditOrder =
             if (!order)
                 return res.render('404');
 
-            var shoppingCart = order.shoppingCart;
-
-            var cartProds = shoppingCart.products;
-
-            // loop through products in cart to get quantity and prod id's
-            // for (var productId in cartProds) {
-            //     // console.log(cartProds[productId].quantity);
-            //     // console.log(productId);
-
-            //     // the quantity deleted from the order needs to be added back to Product table
-            //     var deletedProdQty = cartProds[productId].quantity
-
-            //     // find the product to add the quantity back that was deleted
-            //     Product.findById(productId, (err, product) => {
-            //         if (err)
-            //             console.log("Error Selecting : %s ", err);
-            //         if (!product)
-            //             return res.render('404');
-
-            //         // add back what was in the deleted order
-            //         product.quantity = product.quantity + deletedProdQty;
-
-            //         product.save((err) => {
-            //             if (err)
-            //                 console.log("Error updating : %s ", err);
-            //         });
-            //     });
-            // }// for   
-
             res.render('admins/adminEditOrder',
                 {
                     title: "Edit Order",
@@ -385,7 +356,6 @@ module.exports.adminSaveAfterEditOrder =
                         * new quantity is less than current quantity, so user is deleting products
                         *******************************************************************************/                        
                         if (newProdQty < currentProdQty) {  
-                            console.log("less than...");
                             // subtract the number of products to be removed from the order
                             currentProdQty = currentProdQty - newProdQty;
                             // order.orderQuantity = currentProdQty;
