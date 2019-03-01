@@ -64,12 +64,20 @@ module.exports.showProduct =
     (req, res, next) => {
 
         let id = req.params.id;
-
+        
         Product.findById(id, (err, prod) => {
             if (err)
                 console.log("Error Selecting : %s ", err);
             if (!prod)
-                return res.render('404');
+                return res.render('404');       
+                
+            var prodCountArray = []; // array to hold product index
+            var prodCount = Number(prod.quantity); // get the product count
+
+            // loop to push the item count for the product into an array, used for dropdown 
+            for (var i=1; i <= prodCount; i++) {                
+                prodCountArray.push(i);
+            }
 
             res.render('products/showProduct',
                 {
@@ -79,7 +87,8 @@ module.exports.showProduct =
                         name: prod.name,
                         description: prod.description,
                         price: prod.price,
-                        quantity: prod.quantity
+                        quantity: prod.quantity,
+                        prodCountArray: prodCountArray
                     }
                 });
         });

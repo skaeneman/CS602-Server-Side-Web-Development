@@ -4,7 +4,6 @@
   <div class="row">
     <div class="col-sm-12">
 
-
         <!-- show message when product added to cart -->
         {{#if successMessage}}
           <div class="alert alert-success alert-dismissible fade show col-md-6 offset-md-3" role="alert">
@@ -26,8 +25,6 @@
           <br>
         {{/if}}        
 
-
-
         <div class="row">            
             <div class="col-sm-6 text-center">image</div>
             
@@ -39,9 +36,7 @@
                 <div>{{data.description}}</div><br>   
 
               <div>
-                <i>Only {{data.quantity}} left in stock - order soon.</i><br>
-              
-                {{!-- select quantity:  <input type="text" class="form-control" name="prodQty" aria-label="prodQty" aria-describedby="basic-addon1"> --}}
+                <i>Only {{data.quantity}} left in stock - order soon.</i><br>              
                 <br><br>
               </div>
 
@@ -50,7 +45,13 @@
                     <div class="col-sm-10">
                       <div class="row">
                         <label for="qty">Quantity:</label>&nbsp;
-                        <input type="text" class="form-control col-sm-2" id="qty" name="prodQty" aria-label="prodQty" aria-describedby="basic-addon1">
+                          <select class="form-control col-sm-2" data-style="btn-info" name="prodQty">
+                              {{!-- loop through product count --}}
+                              {{#each data.prodCountArray}}
+                                {{!-- list the index values for the dropdown --}}
+                                <option value="{{this}}">{{this}}</option>
+                              {{/each}}
+                          </select>
                       </div>
                     </div>
                     <br><br>
@@ -58,10 +59,7 @@
                   </div>
                 </form>
 
-
- 
             </div>
-
         </div>
 
     </div>
