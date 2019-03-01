@@ -6,6 +6,10 @@ function cancelAdd(){
     window.location.href = '/admin/products';
 }
 
+function cancelOrder() {
+    window.location.href = '/admin/users';
+}
+
 function cancelUserAdd() {
     window.location.href = '/';
 }

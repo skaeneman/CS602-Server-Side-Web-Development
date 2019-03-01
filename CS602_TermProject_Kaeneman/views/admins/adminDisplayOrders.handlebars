@@ -1,43 +1,57 @@
-  <!-- show message when admin deletes an order -->
-  {{#if successMessage}}
-    <div class="alert alert-success alert-dismissible fade show col-md-6 offset-md-3" role="alert">
-      {{successMessage}}
-      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-    <br>
-  {{/if}}
+<br />
+<div class="container">
+  <div class="row">
+    <div class="col-sm-12">
+  
+      <!-- show message when admin deletes an order -->
+      {{#if successMessage}}
+        <div class="alert alert-success alert-dismissible fade show col-md-6 offset-md-3" role="alert">
+          {{successMessage}}
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <br>
+      {{/if}}
 
-{{#each userOrders}}
-    {{!-- {{this.cartQuantity}} --}}
-    order id {{this.id}}
-    created at: {{this.createdAt}}
-    <!-- displays each order -->
-    <div class="card">
-      <div class="card-body">
-        
-        <!-- display products in the order -->
-        {{#each this.products}}
 
-            <ul class="list-group">
-                <li class="list-group-item">
-                    <div class="row">
-                      <div class="col-md-4">{{this.prod.name}}</div>
-                      <div class="col-md-4">{{this.price}}</div>
-                      <div class="col-md-4">{{this.quantity}}</div>                   
-                    </div>
-                </li>
-            </ul>
+      <div class="col-sm-8 offset-sm-2">
+        {{#each userOrders}}
+          <!-- displays each order -->
+          <div class="card">
+            <div class="card-body bg-light">
+              <strong>order id:&nbsp;</strong>{{this.id}}<br>
+              <strong>created at:&nbsp;</strong>{{this.createdAt}}
+                <!-- display products in the order -->
+                <br>
+                {{#each this.products}}
+                  <br>
+                    <ul class="list-group">
+                      <li class="list-group-item">
+                        <div class="row">
+                          <div class="col-md-4">{{this.prod.name}}</div>
+                          <div class="col-md-4">{{convertToCurrency this.price}}</div>
+                          <div class="col-md-4">{{this.quantity}}</div>                    
+                        </div>
+                      </li>
+                    </ul>
+                {{/each}}
+                <br>
+                <strong>order quantity:</strong>&nbsp;{{this.orderQuantity}} <br>
+                <strong>order total:</strong>&nbsp;{{convertToCurrency this.orderTotal}}<br>
 
+                <div class="float-right">
+                    <a href="/admin/orders/edit/{{this.id}}"  class="btn btn-outline-primary">Edit</a>
+                    <a href="/admin/orders/delete/{{this.id}}" class="btn btn-outline-primary">Delete</a>
+                </div>
+
+              </div>
+            </div>
+            <br>
         {{/each}}
-        quantity: {{this.orderQuantity}} <br>
-        order total: {{convertToCurrency this.orderTotal}}
-                      <a href="/admin/orders/edit/{{this.id}}">Edit</a>
-                      <a href="/admin/orders/delete/{{this.id}}">Delete</a>         
+      </div>  
 
-      </div>
     </div>
+  </div>
+</div>
 
-
-{{/each}}

@@ -1,5 +1,25 @@
-{{#each userData}}
-    {{!-- {{this.firstName}}
-    {{this.lastName}}    --}}
-    <a href="/admin/orders/user/{{this.id}}">{{this.email}}</a>
-{{/each}}
+<br />
+<div class="container">
+  <div class="row">
+    <div class="col-sm-12">
+
+        {{#each userData}}
+            <div class="card">
+                <div class="card-body">
+                    <div class="row offset-sm-2">
+                        <div class="col-sm-4">
+                            {{this.firstName}} &nbsp; {{this.lastName}}
+                        </div>
+                        <div class="col-sm-4">
+                            <a href="/admin/orders/user/{{this.id}}">{{this.email}}</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br>
+        {{/each}}
+
+    </div>
+  </div>
+</div>
+
