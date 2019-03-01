@@ -5,10 +5,41 @@
     <div class="col-sm-12">
 
         <div class="row">            
-            <div class="col-sm-6 text-center">image</div>
-            
+            <div class="col-sm-3">
+              <strong>User:</strong> {{data.firstName}} {{data.lastName}} <br>
+              <strong>Email:</strong> {{data.email}}
+              <br><br>
+            </div>   
 
-
+            <div class="col-sm-9">
+              {{#each data.userOrders}}
+                <!-- displays each order -->
+                <div class="card">
+                  <div class="card-body bg-light">
+                    <strong>order id:&nbsp;</strong>{{this.id}}<br>
+                    <strong>created at:&nbsp;</strong>{{this.createdAt}}
+                      <!-- display products in the order -->
+                      <br>
+                      {{#each this.products}}
+                        <br>
+                          <ul class="list-group">
+                            <li class="list-group-item">
+                              <div class="row">
+                                <div class="col-md-4">{{this.prod.name}}</div>
+                                <div class="col-md-4">{{convertToCurrency this.price}}</div>
+                                <div class="col-md-4">{{this.quantity}}</div>                    
+                              </div>
+                            </li>
+                          </ul>
+                      {{/each}}
+                      <br>
+                      <strong>order quantity:</strong>&nbsp;{{this.orderQuantity}} <br>
+                      <strong>order total:</strong>&nbsp;{{convertToCurrency this.orderTotal}}
+                    </div>
+                  </div>
+                  <br>
+              {{/each}}
+            </div>         
         </div>
 
     </div>

@@ -3,6 +3,8 @@ const DB = require('../models/user.js');
 const User = DB.getUserModel();
 const passport = require('passport');
 const bcrypt = require('bcryptjs');
+const orderDb = require('../models/order');
+const Order = orderDb.getOrderModel();
 
 
 // GET render user sign up form
@@ -89,26 +91,53 @@ module.exports.showUser =
     (req, res, next) => {
 
         let id = req.params.id;
-        console.log(id);
-        
-        // User.findById(id, (err, prod) => {
-        //     if (err)
-        //         console.log("Error Selecting : %s ", err);
-        //     if (!prod)
-        //         return res.render('404');
+        // console.log(id);    
 
-        //     res.render('products/showProduct',
-        //         {
-        //             title: "Show product",
-        //             data: {
-        //                 id: prod._id,
-        //                 name: prod.name,
-        //                 description: prod.description,
-        //                 price: prod.price,
-        //                 quantity: prod.quantity
-        //             }
-        //         });
-        // });
+        User.findById(id, (err, user) => {
+            if (err)
+                console.log("Error Selecting : %s ", err);
+            if (!user)
+                return res.render('404');
+
+            // find the current users orders
+            Order.find({ userId: id }, (err, userOrders) => {
+                if (err) {
+                    req.flash('errorMessage', 'Error retrieving user...');
+                    res.redirect('/users/showUser');
+                } else {
+                    // else loop through the user's order history and push orders to an array
+                    userOrders.forEach((order) => {
+                        // array to hold the products of an order
+                        var productsArray = [];
+
+                        // get the shopping cart object from the order
+                        var cartOrder = order.shoppingCart;
+
+                        // get the products in the shopping cart
+                        var cartProducts = cartOrder.products;
+
+                        // loop through the products in the cart
+                        for (var prodId in cartProducts) {
+                            // push the product id's into an array
+                            productsArray.push(cartProducts[prodId]);
+                        };
+                        // assign the array to be used in the view
+                        order.products = productsArray;
+                    });
+                        res.render('users/showUser',
+                            {
+                                title: "Show User Profile",
+                                data: {
+                                    id: user._id,
+                                    firstName: user.firstName,
+                                    lastName: user.lastName,
+                                    email: user.email,
+                                    userOrders: userOrders
+                                }
+                            });                    
+                }//else                
+            });
+        });
     };
 
 // login user
