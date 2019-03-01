@@ -9,8 +9,13 @@ module.exports.saveProductToCart =
         let prodQty = req.body.prodQty;  // get product quantity from user input
         prodQty = Number(prodQty);  // convert the input to an integer
 
-        // console.log(prodQty);
-        // console.log(req.user);
+        // if there are no more items the dropdown will pass in NaN value for prodQty so handle it
+        var nan = isNaN(parseFloat(prodQty))
+        if (nan) {
+            req.flash('errorMessage', "Oops...there are no more products in stock.");
+            res.redirect(`/product/${prodId}`);  // redirect to current product page   
+            return;               
+        }
 
         // create a variable to hold the new cart
         var cart;
@@ -34,19 +39,42 @@ module.exports.saveProductToCart =
             // get product and store in variable
             var productInCart = cart.products[id];            
 
+            var alreadyAddedQty = false;
+
             // check if the product the user added is already in the cart
             if (!productInCart) {
                 // if the product is not already in the cart then add the product
-                cart.products[id] = { prod: product, price: 0, quantity: 0 }
+                cart.products[id] = { prod: product, 
+                                      price: 0, 
+                                      quantity: prodQty }
                 productInCart = cart.products[id];  // store the new product in variable 
+                req.session.cart = cart;  // store back to session
+                console.log('req.session.cart', cart.products[id].quantity);
+                alreadyAddedQty = true;
             }
-            
-            // increment the product quantity to be whatever was passed in
-            productInCart.quantity += prodQty;
-            // console.log(productInCart.quantity);
 
-            // price of the product added multiplied by the quantity in cart
-            productInCart.price = productInCart.prod.price * productInCart.quantity;
+            // add the quantity passed in to the total product quantity  
+            // this will be used to see if we allow items to be aded to the actual cart
+            var productInCartQtyCheck = cart.products[id].quantity;
+            if (alreadyAddedQty != true) {
+                productInCartQtyCheck += prodQty;
+            }
+            console.log('productInCartQtyCheck', productInCartQtyCheck);
+
+
+            // if the user adds less <= the number of items in the database for that product
+            if (productInCartQtyCheck <= product.quantity) {
+
+                // if the new quantity hasn't already been added to existing cart quantity 
+                if (alreadyAddedQty != true) {
+                    // increment the product quantity to be whatever was passed in
+                    productInCart.quantity += prodQty;
+                    req.session.cart = cart;  // store back to session
+                    console.log('increment', productInCart.quantity);
+                }
+
+                // price of the product added multiplied by the quantity in cart
+                productInCart.price = productInCart.prod.price * productInCart.quantity;
                 // console.log(productInCart.price);
 
                 // increment the cart quantity by adding onto whatever quantity is aleady there
@@ -59,8 +87,14 @@ module.exports.saveProductToCart =
 
                 req.session.cart = cart;  // store cart with products in the session
 
-            req.flash('successMessage', `${product.name} - successfully added to cart`);
-            res.redirect(`/product/${prodId}`);  // redirect to current product page
+                req.flash('successMessage', `${product.name} - successfully added to cart`);
+                res.redirect(`/product/${prodId}`);  // redirect to current product page
+            } else {
+                // user tried to add more products to their cart than whats in the database 
+                req.flash('errorMessage', `Sorry can't add product. Your cart has ${productInCart.quantity}
+                                           items and we only have ${product.quantity} in stock`);
+                res.redirect(`/product/${prodId}`);  // redirect to current product page                
+            }
         });
     };
 
