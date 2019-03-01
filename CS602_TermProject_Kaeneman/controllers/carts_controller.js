@@ -120,3 +120,10 @@ module.exports.showCart =
         }
     };        
 
+// empty the shopping cart
+module.exports.emptyCart =
+    (req, res, next) => {
+        delete req.session.cart;
+        req.flash('successMessage', 'Your cart has been emptied!');
+        res.redirect('/cart');
+    };

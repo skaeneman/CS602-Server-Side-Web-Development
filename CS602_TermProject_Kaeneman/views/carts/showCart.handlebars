@@ -4,6 +4,19 @@
     <div class="row">
         <div class="col-sm-12">
 
+
+            <!-- show message when admin deletes an order -->
+            {{#if successMessage}}
+                <div class="alert alert-success alert-dismissible fade show col-md-6 offset-md-3" role="alert">
+                {{successMessage}}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                </div>
+                <br>
+            {{/if}}
+
+
             {{!-- headers --}}
             <div class="card bg-light mb-3">
                 <div class="card-body">
@@ -45,6 +58,7 @@
             <br>
             <div class="float-right">
                 <input type="button" value="Cancel" class="btn btn-outline-danger" onclick="cancelUserAdd()">
+                <a href="/emptyCart" class="btn btn-outline-danger">Empty</a>
                 <input type="submit" value="Checkout" class="btn btn-outline-success" onclick="checkout()">
             </div>
 

@@ -126,7 +126,7 @@ module.exports.showUser =
                     });
                         res.render('users/showUser',
                             {
-                                title: "Show User Profile",
+                                title: "User Profile",
                                 data: {
                                     id: user._id,
                                     firstName: user.firstName,

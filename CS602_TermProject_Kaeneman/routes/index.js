@@ -106,13 +106,14 @@ router.get('/logout', logoutUser);
 const cartController = require("../controllers/carts_controller");
 const saveProductToCart = cartController.saveProductToCart;
 const showCart = cartController.showCart;
+const emptyCart = cartController.emptyCart;
 
-// Get data to cart
-// router.get('/cart/add/:id', saveProductToCart);
+// post to cart
 router.post('/cart/add/:id', saveProductToCart);
-
 // Get cart 
 router.get('/cart', showCart);
+// get cart to empty it
+router.get('/emptyCart', emptyCart); 
 
 /*******************************************************************
  * order routes
