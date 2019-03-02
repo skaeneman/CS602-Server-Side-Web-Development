@@ -374,9 +374,9 @@ module.exports.adminSaveAfterEditOrder =
 
 
                                 var qty2 = product.quantity;
-                                var getQtyCount = ProductDb.getProductCount(qty2);
-                                // console.log('test...', getQtyCount);
-
+                                // var getQtyCount = ProductDb.getProductCount(qty2);
+                                var getQtyCount = Cart.getProductCount(qty2);
+                                console.log('getQtyCount...', getQtyCount);
 
 
 
@@ -384,8 +384,8 @@ module.exports.adminSaveAfterEditOrder =
                                 if (newProdQty <= product.quantity) {
                                     // console.log('<= product.quantity', product.quantity, "newProdQty", newProdQty);
 
-                                    product.count = getQtyCount;
-                                    console.log('product.count', product.count);
+                                    product.qtyArray = getQtyCount;
+                                    console.log('product.qtyArray', product.qtyArray);
 
                                     // add deleted items back to product table
                                     product.quantity = product.quantity + currentProdQty;

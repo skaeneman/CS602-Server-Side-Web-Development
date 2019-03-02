@@ -19,7 +19,7 @@ module.exports = function Cart(existingCartProducts) {
         this.cartQuantity = existingCartProducts.cartQuantity;
         this.cartTotal = existingCartProducts.cartTotal;        
     }; 
- 
+     
     // function to get an array of the products in the cart
     this.getProductList = () => {
         var productsArray = [];  // create empty array to hold products in cart
@@ -33,7 +33,14 @@ module.exports = function Cart(existingCartProducts) {
 
 }
 
-
+// function to get an array of the quantity
+// module.exports.getProductCount = (qty) => {
+//     var productCountArr = [];
+//     for (var i = 0; i <= qty; i++) {
+//         productCountArr.push(i);
+//     };
+//     return productCountArr;
+// };
 
 
 

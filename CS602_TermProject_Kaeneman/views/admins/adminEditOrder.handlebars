@@ -14,12 +14,11 @@
                           <input type="text" class="form-control col-sm-2 float-right" name="quantity" value="{{this.quantity}}" required>
                           <input type="hidden" name="prodId" value="{{this.prod._id}}" />  
                           <input type="hidden" name="test" value="{{this.quantity}}, {{this.prod._id}}" required>
-{{this.getQtyCount}}
 
                           <label for="qty">Quantity:</label>&nbsp;
                           <select class="form-control col-sm-2" data-style="btn-info" name="prodQty">
                             {{!-- loop through product count --}}
-                            {{#each this.qtyCount}}
+                            {{#each this.prod.qtyCount}}
                             {{!-- list the index values for the dropdown --}}
                             <option value="{{this}}">{{this}}</option>
                             {{/each}}
