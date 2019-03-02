@@ -53,14 +53,13 @@ module.exports.saveProductToCart =
                 alreadyAddedQty = true;
             }
 
-            // add the quantity passed in to the total product quantity  
+            // check the quantity passed in  
             // this will be used to see if we allow items to be aded to the actual cart
             var productInCartQtyCheck = cart.products[id].quantity;
             if (alreadyAddedQty != true) {
                 productInCartQtyCheck += prodQty;
             }
-            console.log('productInCartQtyCheck', productInCartQtyCheck);
-
+            // console.log('productInCartQtyCheck', productInCartQtyCheck);
 
             // if the user adds less <= the number of items in the database for that product
             if (productInCartQtyCheck <= product.quantity) {
@@ -70,7 +69,7 @@ module.exports.saveProductToCart =
                     // increment the product quantity to be whatever was passed in
                     productInCart.quantity += prodQty;
                     req.session.cart = cart;  // store back to session
-                    console.log('increment', productInCart.quantity);
+                    // console.log('increment', productInCart.quantity);
                 }
 
                 // price of the product added multiplied by the quantity in cart
