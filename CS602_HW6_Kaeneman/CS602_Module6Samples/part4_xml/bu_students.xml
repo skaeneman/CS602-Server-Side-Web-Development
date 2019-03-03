@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<bu_students>
+  <student>
+    <firstName>John</firstName>
+    <lastName>Smith</lastName>
+  </student>
+  <student>
+    <firstName>Sallie</firstName>
+    <lastName>Jones</lastName>
+  </student>
+  <student>
+    <firstName>Suresh</firstName>
+    <lastName>Kalathur</lastName>
+  </student>
+</bu_students>

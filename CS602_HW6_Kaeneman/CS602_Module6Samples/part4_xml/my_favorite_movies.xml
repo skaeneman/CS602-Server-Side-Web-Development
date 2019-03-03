@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<my_favorite_movies>
+  <movie>
+    <title>Pulp Fiction</title>
+    <director>Quentin Tarantino</director>
+    <year>1994</year>
+    <runtime>168</runtime>
+  </movie>
+  <movie>
+    <title>Django Unchained</title>
+    <director>Quentin Tarantino</director>
+    <year>2012</year>
+    <runtime>180</runtime>
+  </movie>
+</my_favorite_movies>
