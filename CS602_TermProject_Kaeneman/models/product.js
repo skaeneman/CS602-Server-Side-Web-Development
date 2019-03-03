@@ -29,6 +29,22 @@ module.exports.getProductCount = (qty) => {
     return productCountArr;
 };
 
+// returns all products in an array
+module.exports.getProducts = () => {
+    var productsArray = [];  // create empty array to hold products 
+
+    Product.find({}, (err, products) => {
+        if (err)
+            console.log("Error : %s ", err);
+
+        for (var prodId in products) {
+            // push each product into the array
+            productsArray.push(this.products[prodId]);
+        };            
+    });
+    return productsArray;
+};
+
 module.exports.getProductModel =
     () => {
         if (connection == null) {
