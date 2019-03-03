@@ -86,7 +86,8 @@ module.exports.adminEditProduct =
                         name: prod.name,
                         description: prod.description,
                         price: prod.price,
-                        quantity: prod.quantity
+                        quantity: prod.quantity,
+                        qtyCount: prod.qtyCount
                     }
 	          });                
 	    });
@@ -244,6 +245,10 @@ module.exports.adminDeleteOrder =
 
                     // add back what was in the deleted order
                     product.quantity = product.quantity + deletedProdQty;
+                    // update array of quantity count
+                    var qty = product.quantity;
+                    var getQtyArr = ProductDb.getProductCount(qty);                    
+                    product.qtyCount = getQtyArr;
 
                     product.save((err) => {
                         if (err)
@@ -275,12 +280,16 @@ module.exports.adminEditOrder =
             if (!order)
                 return res.render('404');
 
+            // allow admin to select up to 10 items for product quantity
+            var dropdownArr = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];                
+
             res.render('admins/adminEditOrder',
                 {
                     title: "Edit Order",
                     data: {
                         id: order._id,
-                        products: order.shoppingCart.products
+                        products: order.shoppingCart.products,
+                        dropdownArr: dropdownArr
                         // orderTotal: order.orderTotal,
                         // orderQuantity: order.orderQuantity,
                         // createdAt: order.createdAt
@@ -374,9 +383,9 @@ module.exports.adminSaveAfterEditOrder =
 
 
                                 var qty2 = product.quantity;
-                                // var getQtyCount = ProductDb.getProductCount(qty2);
-                                var getQtyCount = Cart.getProductCount(qty2);
-                                console.log('getQtyCount...', getQtyCount);
+                                var getQtyCount = ProductDb.getProductCount(qty2);
+                                // console.log('test...', getQtyCount);
+
 
 
 
@@ -384,8 +393,8 @@ module.exports.adminSaveAfterEditOrder =
                                 if (newProdQty <= product.quantity) {
                                     // console.log('<= product.quantity', product.quantity, "newProdQty", newProdQty);
 
-                                    product.qtyArray = getQtyCount;
-                                    console.log('product.qtyArray', product.qtyArray);
+                                    product.qtyCount = getQtyCount;
+                                    console.log('product.qtyCount', product.qtyCount);
 
                                     // add deleted items back to product table
                                     product.quantity = product.quantity + currentProdQty;

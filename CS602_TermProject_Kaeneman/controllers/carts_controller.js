@@ -41,24 +41,15 @@ module.exports.saveProductToCart =
 
             var alreadyAddedQty = false;
 
-
-            // get the product count from database
-            var qty = product.quantity;
-            // get the product quantity as an array
-            var prodQtyArr = Cart.getProductCount(qty);            
-
-
             // check if the product the user added is already in the cart
             if (!productInCart) {
                 // if the product is not already in the cart then add the product
                 cart.products[id] = { prod: product, 
                                       price: 0, 
-                                      quantity: prodQty,
-                                      qtyArray: prodQtyArr }
+                                      quantity: prodQty }
                 productInCart = cart.products[id];  // store the new product in variable 
                 req.session.cart = cart;  // store back to session
-                // console.log('req.session.cart', cart.products[id].quantity);
-                console.log('qtyArray', cart.products[id].qtyArray);
+                console.log('req.session.cart', cart.products[id].quantity);
                 alreadyAddedQty = true;
             }
 
@@ -77,9 +68,6 @@ module.exports.saveProductToCart =
                 if (alreadyAddedQty != true) {
                     // increment the product quantity to be whatever was passed in
                     productInCart.quantity += prodQty;
-                    var qty2 = productInCart.quantity;
-                    prodQtyArr = Cart.getProductCount(qty2);            
-                    productInCart.qtyArray = prodQtyArr;
                     req.session.cart = cart;  // store back to session
                     // console.log('increment', productInCart.quantity);
                 }

@@ -35,9 +35,20 @@ const hbs = handlebars.create({
         convertToCurrency: function(num) {
             var currency = num.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
             return '$' + currency;
+        },
+        convertToArray: function(qty) {
+            qty = Number(qty);
+
+            var productCountArr = [];
+            for (var i = 0; i <= qty; i++) {
+                productCountArr.push(i);
+            };
+            return productCountArr;            
         }
+
     }
 });
+
 
 // setup handlebars view engine
 app.engine('handlebars', hbs.engine);

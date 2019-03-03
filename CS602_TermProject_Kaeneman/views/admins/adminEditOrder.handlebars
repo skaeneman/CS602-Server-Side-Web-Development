@@ -14,23 +14,29 @@
                           <input type="text" class="form-control col-sm-2 float-right" name="quantity" value="{{this.quantity}}" required>
                           <input type="hidden" name="prodId" value="{{this.prod._id}}" />  
                           <input type="hidden" name="test" value="{{this.quantity}}, {{this.prod._id}}" required>
-
-                          <label for="qty">Quantity:</label>&nbsp;
+        {{/each}}
+                          {{!-- <label for="qty">Quantity:</label>&nbsp;
                           <select class="form-control col-sm-2" data-style="btn-info" name="prodQty">
                             {{!-- loop through product count --}}
-                            {{#each this.prod.qtyCount}}
+                            {{#each data.dropdownArr}}
                             {{!-- list the index values for the dropdown --}}
                             <option value="{{this}}">{{this}}</option>
                             {{/each}}
                           </select>
 
 
+                          {{#each (convertToArray this.quantity)}}
+                            {{this}}
+                          {{/each}} --}}
+
+  
+
                         </div>
                     </div>
                 </div>
             </div>
             <br>
-        {{/each}}
+
         <div class="float-right">
             <input type="button" value="Cancel" class="btn btn-outline-danger" class="cancel" onclick="cancelOrder()">
             <input type="submit" value="Save" class="btn btn-success">
@@ -39,3 +45,4 @@
     </div>
   </div>
 </div>
+
