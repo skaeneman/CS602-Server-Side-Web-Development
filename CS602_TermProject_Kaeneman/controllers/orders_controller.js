@@ -31,6 +31,7 @@ module.exports.saveOrder =
         //     orderQuantity: Number(req.session.cart.cartQuantity)
         // });
 
+        console.log('1');
 
         // get the shopping cart object from the session
         // var cart = req.session.cart;
@@ -39,11 +40,15 @@ module.exports.saveOrder =
         // get the products from the session cart
         var products = cart.products;
 
+        console.log('2');
+
         // loop through the products in the cart
         for (var id in products) {
 
             // quantity the user selected for the product in their session cart
             prodSessionCartQty = Number(products[id].quantity);
+
+            console.log('3');
 
             // get the product model quantity and subtract
             Product.findById(id, (err, prod) => {
@@ -54,6 +59,8 @@ module.exports.saveOrder =
                     
                     // the number of products in the product database collection
                     var productDbQty = Number(prod.quantity);
+
+                    console.log('4');
 
                     // if their are enough products in the database
                     if (productDbQty >= prodSessionCartQty) {
@@ -66,6 +73,7 @@ module.exports.saveOrder =
                         var getQtyArr = ProductDb.getProductCount(qty);
                         prod.qtyCount = getQtyArr;       
                                     
+                        console.log('5');
 
                         // get the products in the shopping cart
                         var cartProducts = cart.products;
@@ -75,6 +83,9 @@ module.exports.saveOrder =
                         
                         // loop through the products in the cart
                         for (var i in cartProducts) {
+
+                            console.log('6');
+
                             // update quantities for prods in order collection
                             cartProducts[i].prod.quantity = productDbQty;
                             cartProducts[i].prod.qtyCount = getQtyArr;
@@ -85,9 +96,14 @@ module.exports.saveOrder =
                         // store the updated prod quantities back in the cart object
                         cart.products = productsArray;
                         req.session.cart = cart;
-                        
+
+                        console.log('7');
+
                         // save the new updated quantity to the database
                         prod.save((err, updatedProd) => {
+
+                            console.log('8');
+
                             console.log(err, updatedProd);
                             if (err) {
                                 res.status(500).send('save failed');
@@ -99,7 +115,7 @@ module.exports.saveOrder =
             }); // Product   
         } //for
 
-        console.log('SESSION CART products', req.session.cart.products);
+        console.log('9');
 
         // create a new order
         let order = new Order({
@@ -110,8 +126,11 @@ module.exports.saveOrder =
             orderTotal: Number(req.session.cart.cartTotal),
             orderQuantity: Number(req.session.cart.cartQuantity)
         });
+        console.log('10');
 
         order.save((err, resultCallback) => {
+            console.log('11');
+
             // if an error occurs during checkout
             if (err) {
                 console.log("Error Selecting : %s ", err);
