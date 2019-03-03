@@ -5,10 +5,9 @@
     $action = filter_var($_GET['action'], FILTER_SANITIZE_STRING);
     $format_type = filter_var($_GET['format'], FILTER_SANITIZE_STRING);
 
-        // if the format is XML
-        if ($format_type == 'xml') {
+
             /******************************************************** 
-             * GET all courses and return XML output
+             * GET all courses
              * *******************************************************/            
             if ($action == 'courses') {
                 // query to find courses
@@ -27,8 +26,19 @@
                     $crs->addChild('courseID', $courses[$i]['courseID']);
                     $crs->addChild('courseName', $courses[$i]['courseName']);
                 }
-                echo header("Content-type: text/xml");
-                print($xml->asXML());
+                // if the format is XML
+                if ($format_type == 'xml') {
+                    echo header("Content-type: text/xml");
+                    print($xml->asXML());
+                }
+                // if the format is JSON
+                else if ($format_type == 'json') {
+                    echo header("Content-type: text/json");
+                    echo json_encode($courses, JSON_UNESCAPED_UNICODE|JSON_PRETTY_PRINT);                                        
+                }
+                else {
+                    echo "Error: format type invalid.";
+                }                
             }
             /******************************************************** 
              * GET the students for a particular course output XML   
@@ -63,17 +73,5 @@
             } 
             else {
                 echo "Error: action param is invalid.";
-            }
-        }
-        
-        /******************************************************** 
-         * GET the students and return JSON  
-         * *******************************************************/  
-        else if ($format_type == 'json') {
-            echo 'json test';
-        }
-        else {
-                echo "Error: action param is invalid.";
-        };
-
+            }    
 ?>
