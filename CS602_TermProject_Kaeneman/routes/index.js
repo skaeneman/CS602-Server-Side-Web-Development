@@ -135,10 +135,12 @@ router.get('/orders', showOrders);
  * REST routes
  *******************************************************************/
 const restController = require('../controllers/rest_controller');
-const getProducts = restController.getProducts;
+const getProducts = restController.getProducts; 
+const getProductByName = restController.getProductByName; 
 
 // GET products and return XML or JSON
 router.get('/rest/:formatType/products', getProducts);
+router.get('/rest/:formatType/products/:name', getProductByName);
 
 /*******************************************************************
  *******************************************************************/
