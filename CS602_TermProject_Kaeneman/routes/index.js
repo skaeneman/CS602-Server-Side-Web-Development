@@ -132,6 +132,15 @@ router.get('/orders', showOrders);
 
 
 /*******************************************************************
+ * REST routes
+ *******************************************************************/
+const restController = require('../controllers/rest_controller');
+const getProducts = restController.getProducts;
+
+// GET products and return XML or JSON
+router.get('/rest/:formatType/products', getProducts);
+
+/*******************************************************************
  *******************************************************************/
 
 module.exports = router;
