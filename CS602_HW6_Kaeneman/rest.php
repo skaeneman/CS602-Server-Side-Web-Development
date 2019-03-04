@@ -7,14 +7,14 @@
 
 
             /******************************************************** 
-             * GET all courses
+             * GET all courses and return XML
              * *******************************************************/            
             if ($action == 'courses') {
                 // query to find courses
                 $query = 'SELECT * FROM sk_courses ORDER BY courseID';
                 $statement = $db->prepare($query);
                 $statement->execute();
-                $courses = $statement->fetchAll();
+                $courses = $statement->fetchAll(PDO::FETCH_ASSOC);
                 $statement->closeCursor();
 
                 // first root element
@@ -34,44 +34,58 @@
                 // if the format is JSON
                 else if ($format_type == 'json') {
                     echo header("Content-type: text/json");
-                    echo json_encode($courses, JSON_UNESCAPED_UNICODE|JSON_PRETTY_PRINT);                                        
-                }
+                    print json_encode($courses, JSON_PRETTY_PRINT);                                 
+                } 
                 else {
-                    echo "Error: format type invalid.";
-                }                
+                    echo "format type is invalid.";
+                }                 
             }
-            /******************************************************** 
-             * GET the students for a particular course output XML   
-             * *******************************************************/            
-            else if ($action == 'students') {
-                $course_id = filter_var($_GET['course'], FILTER_SANITIZE_STRING);
+            /************************************************************ 
+             * GET the students for a particular course output XML\JSON  
+             * **********************************************************/            
+            if ($action == 'students') {
 
-                // Get students for selected course
-                $queryStudents = 'SELECT * FROM sk_students
-                                  WHERE courseID = :course_id
-                                  ORDER BY studentID';
-                $statement3 = $db->prepare($queryStudents);
-                $statement3->bindValue(':course_id', $course_id);
-                $statement3->execute();
-                $students = $statement3->fetchAll();
-                $statement3->closeCursor();                
+                // check if there is a course param in the url
+               if (isset($_GET['course'])) {                
+                    $course_id = filter_var($_GET['course'], FILTER_SANITIZE_STRING);
 
-                // first root element
-                $xml = new SimpleXMLElement('<students/>');
+                    // Get students for selected course
+                    $queryStudents = 'SELECT * FROM sk_students
+                                      WHERE courseID = :course_id
+                                      ORDER BY studentID';
+                    $statement3 = $db->prepare($queryStudents);
+                    $statement3->bindValue(':course_id', $course_id);
+                    $statement3->execute();
+                    $students = $statement3->fetchAll(PDO::FETCH_ASSOC);
+                    $statement3->closeCursor();                
 
-                // loop through courses and build child XML elements
-                for ($i = 0; $i < count($students); ++$i) {                            
-                    $crs = $xml->addChild('student');
-                    $crs->addChild('studentID', $students[$i]['studentID']);
-                    $crs->addChild('courseID', $students[$i]['courseID']);
-                    $crs->addChild('firstName', $students[$i]['firstName']);
-                    $crs->addChild('lastName', $students[$i]['lastName']);
-                    $crs->addChild('email', $students[$i]['email']);
-                }        
-                echo header("Content-type: text/xml");
-                print($xml->asXML());                
+                    // first root element
+                    $xml = new SimpleXMLElement('<students/>');
+
+                    // loop through courses and build child XML elements
+                    for ($i = 0; $i < count($students); ++$i) {                            
+                        $stu = $xml->addChild('student');
+                        $stu->addChild('studentID', $students[$i]['studentID']);
+                        $stu->addChild('courseID', $students[$i]['courseID']);
+                        $stu->addChild('firstName', $students[$i]['firstName']);
+                        $stu->addChild('lastName', $students[$i]['lastName']);
+                        $stu->addChild('email', $students[$i]['email']);
+                    }   
+                            
+                    // if the format is XML
+                    if ($format_type == 'xml') {
+                        echo header("Content-type: text/xml");
+                        print($xml->asXML());                                       
+                    }                
+                    // if the format is JSON
+                    else if ($format_type == 'json') {
+                        echo header("Content-type: text/json");
+                        print json_encode($students, JSON_PRETTY_PRINT);                                 
+                    } 
+                    else {
+                        echo "format type is invalid.";
+                    }  
+               }//if isset             
             } 
-            else {
-                echo "Error: action param is invalid.";
-            }    
+  
 ?>
