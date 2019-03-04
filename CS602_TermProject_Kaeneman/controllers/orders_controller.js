@@ -36,6 +36,7 @@ module.exports.saveOrder =
         // get the shopping cart object from the session
         // var cart = req.session.cart;
         var cart = new Cart(req.session.cart);
+        console.log('session cart', req.session.cart);
          
         // get the products from the session cart
         var products = cart.products;
@@ -44,7 +45,7 @@ module.exports.saveOrder =
 
         // loop through the products in the cart
         for (var id in products) {
-
+            console.log('id...', id);
             // quantity the user selected for the product in their session cart
             prodSessionCartQty = Number(products[id].quantity);
 
@@ -53,7 +54,7 @@ module.exports.saveOrder =
             // get the product model quantity and subtract
             Product.findById(id, (err, prod) => {
                 if (err)
-                    console.log("Error Selecting : %s ", err);
+                    console.log("Error Selecting product: %s ", err);
                 if (!prod)
                     return res.render('404');
                     

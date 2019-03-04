@@ -20,6 +20,8 @@ const productSchema = new Schema({
     qtyCount: [String] 
 });
 
+// id: { type: mongoose.Types.ObjectId },
+
 // function to get an array of the quantity
 module.exports.getProductCount = (qty) => {
     var productCountArr = [];  
@@ -44,6 +46,28 @@ module.exports.getProducts = () => {
     });
     return productsArray;
 };
+
+// returns products in xml format
+module.exports.getXmlProducts = (products) => {
+    var prodXml = '<?xml version="1.0"?>\n';
+    var root = 'products'; // set root node
+    prodXml = `<${root}>`; // set opening element
+
+    for (var i in products) {
+        prodXml +=
+            ' <product>\n'
+            + ' <id>' + products[i]._id + '</id>\n'
+            + ' <name>' + products[i].name + '</name>\n'
+            + ' <description>' + products[i].description + '</description>\n'
+            + ' <price>' + products[i].price + '</price>\n'
+            + ' <quantity>' + products[i].quantity + '</quantity>\n'  
+            + ' <qtyCount>' + products[i].qtyCount + '</qtyCount>\n'  
+            + '</product>\n';          
+    }
+    prodXml += `</${root}>`; // closing element
+    return prodXml;
+}
+
 
 module.exports.getProductModel =
     () => {

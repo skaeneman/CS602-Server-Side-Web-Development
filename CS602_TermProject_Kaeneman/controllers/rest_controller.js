@@ -2,7 +2,6 @@ const DB = require('../models/product.js');
 const Product = DB.getProductModel();
 
 
-
 // Get products and return JSON or XML
 module.exports.getProducts =
     (req, res, next) => {
@@ -20,10 +19,18 @@ module.exports.getProducts =
             res.setHeader('Content-Type', 'application/json');
             res.end(JSON.stringify({ products }, null, '\t'));            
         }
-        else {
-            req.flash('errorMessage', "oops...that format type is not available");
-            res.render('products/displayProducts');
+        // return XML
+        if (formatType == 'xml') {
+            // call function in product model to get xml
+            var prodXml = DB.getXmlProducts(products);
+            res.type('application/xml');
+            res.send(prodXml);
         }
+        // // handle error if format is not JSON or XML
+        // else {
+        //     req.flash('errorMessage', "oops...that format type is not available");
+        //     res.render('products/displayProducts');
+        // }
 
     });
 };  
