@@ -10,8 +10,23 @@ const Product = ProductDb.getProductModel();
 // render the order form
 module.exports.orderForm =
     (req, res, next) => {
-        res.render('orders/orderForm',
-            { title: "Orders" });
+
+        // get the shopping cart from the session and store in a variable
+        var productsInCart = req.session.cart;
+
+        // if there are products in the cart show them in the cart page
+        if (productsInCart) {
+            var cart = new Cart(productsInCart);  // create new cart object with existing products
+            var cartProducts = cart.getProductList();  // get the array of products in the session cart
+            var prodQty = cart.cartQuantity; // number of products in the cart
+            var cartTotal = cart.cartTotal; // total price of products in the cart    
+
+            // res.render('carts/showCart', { products: cartProducts, cartQuantity: prodQty, cartTotal: cartTotal });
+
+            res.render('orders/orderForm', { title: "Order Total", products: cartProducts, cartQuantity: prodQty, cartTotal: cartTotal });            
+        }
+        // res.render('orders/orderForm',
+        //     { title: "Order Total" });
     };
 
 
@@ -53,6 +68,9 @@ module.exports.saveOrder =
 
             // get the product model quantity and subtract
             Product.findById(id, (err, prod) => {
+                
+                console.log('3.5');
+
                 if (err)
                     console.log("Error Selecting product: %s ", err);
                 if (!prod)

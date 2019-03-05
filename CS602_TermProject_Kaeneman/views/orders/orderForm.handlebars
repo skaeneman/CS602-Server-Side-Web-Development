@@ -31,31 +31,93 @@
             <div class="card-body">
               <form method="post" action="/orders/checkout">
 
-                {{!-- <div class="form-group row">
-                  <label for="email" class="col-sm-3 col-form-label"><strong>First Name:</strong></label>
-                  <div class="col-sm-9">
-                    <input type="text" class="form-control" name="email" placeholder="Enter email address" required>
+                <div class="form-group row">
+                  <label for="address" class="col-sm-3 col-form-label"><strong>1 Shipping Address:</strong></label>
+                  <div class="col-sm-6">
+                    {{!-- <input type="textarea" class="form-control" rows="4" cols="50" name="address" placeholder="Enter address" disabled> --}}
+                    <textarea class="form-control" rows="3" id="comment" name="address" placeholder="742 Evergreen Terrace, Springfield" disabled></textarea>
                   </div>
                 </div>
 
                 <div class="form-group row">
-                  <label for="password" class="col-sm-3 col-form-label"><strong>Password:</strong></label>
-                  <div class="col-sm-9">
-                    <input type="text" class="form-control" name="password" placeholder="Enter password" required>
+                  <label for="payment" class="col-sm-3 col-form-label"><strong>2 Payment method</strong></label>
+                  <div class="col-sm-6">
+                    <div class="card mb-3">
+                      <div class="card-body">
+                        credit card
+                        <input type="text" class="form-control" name="payment" placeholder="Visa 1234 5678 9101 1234" disabled>
+                        <div class="row">
+                          <div class="col-sm-2">
+                            exp
+                            <input type="text" class="form-control" name="payment" placeholder="09/20" disabled>
+                          </div>
+                          <div class="col-sm-2">
+                            cvc
+                            <input type="text" class="form-control" name="payment" placeholder="123" disabled>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                </div> --}}
-
-                <div class="float-right">
-                  <input type="submit" value="Checkout" class="btn btn-outline-success">
-                  <input type="button" value="Cancel" class="btn btn-outline-danger" onclick="cancelUserAdd()">
                 </div>
 
+                <div class="form-group row">
+                  <label for="products" class="col-sm-3 col-form-label"><strong>3 Review items and shipping</strong></label>
+                  <div class="col-sm-6">
+
+                    {{!-- headers --}}
+                    <div class="card bg-light mb-3">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-sm-4"><strong>Product Name</strong></div>
+                                <div class="col-sm-4"><strong>Price</strong></div>
+                                <div class="col-sm-4"><strong>Quantity</strong></div>
+                                {{!-- <div class="col-sm-2"></div> --}}
+                            </div>
+                        </div>           
+                      {{!-- list products --}}
+                      {{#each products}}
+                          <div class="card">
+                              <div class="card-body">
+                                  <div class="row">
+                                      <div class="col-sm-4">
+                                          <!-- link back to product page -->
+                                          <a href="/product/{{this.prod._id}}">{{this.prod.name}}</a>
+                                      </div>
+                                      <div class="col-sm-4">
+                                          {{convertToCurrency this.price}}
+                                      </div>
+                                      <div class="col-sm-4">
+                                          {{this.quantity}}
+                                      </div>
+                              
+                                  </div>
+                              </div>
+                          </div>
+                      {{/each}}
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-group row">
+                  <label for="address" class="col-sm-3 col-form-label"><strong></strong></label>
+                  <div class="col-sm-6">
+
+                    <div class="float-right">
+                      <strong>Quantity: </strong> {{this.cartQuantity}}<br>
+                      <strong>Order total: </strong>{{convertToCurrency this.cartTotal}}                 
+                    <hr>
+                      <input type="button" value="Cancel" class="btn btn-outline-danger" onclick="cancelUserAdd()">
+                      <input type="submit" value="Place your order" class="btn btn-outline-success">
+                    </div>
+                  </div>
+                </div>
               </form>
               <br><br>
             </div>
           </div>
+        </div>
 
-    </div>
   </div>
 </div>
 

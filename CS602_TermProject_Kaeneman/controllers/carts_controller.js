@@ -103,7 +103,7 @@ module.exports.showCart =
     (req, res, next) => {
         // get the shopping cart from the session and store in a variable
         var productsInCart = req.session.cart;
-
+        console.log(productsInCart);
         // if there are products in the cart show them in the cart page
         if (productsInCart) {
             var cart = new Cart(productsInCart);  // create new cart object with existing products
@@ -111,11 +111,13 @@ module.exports.showCart =
             var prodQty = cart.cartQuantity; // number of products in the cart
             var cartTotal = cart.cartTotal; // total price of products in the cart    
 
-            res.render('carts/showCart', { products: cartProducts, cartQuantity: prodQty, cartTotal: cartTotal});
+            // set cartItems to true to show checkout button
+            res.render('carts/showCart', { products: cartProducts, cartQuantity: prodQty, cartTotal: cartTotal, cartItems: true});
         }
         else {
-            // there are no products in the cart so pass null values to the view to avoid errors
-            res.render('carts/showCart', { products: null, cartQuantity: null, cartTotal: null })
+            // there are no products in the cart so pass null values to the view to avoid errors and hide buttons
+            // req.flash('errorMessage', "nothing in cart");
+            res.render('carts/showCart', { products: null, cartQuantity: null, cartTotal: null, cartItems: null })
         }
     };        
 
