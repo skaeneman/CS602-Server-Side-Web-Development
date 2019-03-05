@@ -137,10 +137,14 @@ router.get('/orders', showOrders);
 const restController = require('../controllers/rest_controller');
 const getProducts = restController.getProducts; 
 const getProductByName = restController.getProductByName; 
+const getProductByPriceRange = restController.getProductByPriceRange; 
 
 // GET products and return XML or JSON
 router.get('/rest/:formatType/products', getProducts);
+// GET a product by name and return XML or JSON
 router.get('/rest/:formatType/products/:name', getProductByName);
+// GET products that fall within a price range
+router.get('/rest/:formatType/products/:minimum/:maximum', getProductByPriceRange);
 
 /*******************************************************************
  *******************************************************************/
