@@ -30,28 +30,12 @@ module.exports.orderForm =
     };
 
 
-// save an order to the database
-module.exports.saveOrder = 
-    (req, res, next) => {
-    
-    // if there is a current user logged in
-    if (req.user) {
-        // // create a new order
-        // let order = new Order({
-        //     // get the shopping cart from the session
-        //     shoppingCart: req.session.cart, 
-        //     // get the user id from passport
-        //     userId: req.user.id,
-        //     orderTotal: Number(req.session.cart.cartTotal),
-        //     orderQuantity: Number(req.session.cart.cartQuantity)
-        // });
 
-        console.log('1');
+function updateQty(sessionCart) {
+    return new Promise((resolve, reject) => {
 
-        // get the shopping cart object from the session
-        // var cart = req.session.cart;
-        var cart = new Cart(req.session.cart);
-        console.log('session cart', req.session.cart);
+
+        var cart = new Cart(sessionCart);
          
         // get the products from the session cart
         var products = cart.products;
@@ -60,7 +44,6 @@ module.exports.saveOrder =
 
         // loop through the products in the cart
         for (var id in products) {
-            console.log('id...', id);
             // quantity the user selected for the product in their session cart
             prodSessionCartQty = Number(products[id].quantity);
 
@@ -109,13 +92,15 @@ module.exports.saveOrder =
                             cartProducts[i].prod.quantity = productDbQty;
                             cartProducts[i].prod.qtyCount = getQtyArr;
 
+                            console.log('cartProducts[i].prod.quantity', cartProducts[i].prod.quantity);
+
                             // push the products into an array
                             productsArray.push(cartProducts[i]);
                         };
                         // store the updated prod quantities back in the cart object
                         cart.products = productsArray;
-                        req.session.cart = cart;
 
+                        console.log('cart', cart);
                         console.log('7');
 
                         // save the new updated quantity to the database
@@ -128,27 +113,141 @@ module.exports.saveOrder =
                                 res.status(500).send('save failed');
                                 return;
                             }
+                            
+                            return cart;
                         });
 
                     }//if
             }); // Product   
         } //for
 
-        console.log('9');
+        // return cart;
 
+    });// end promise
+}
+
+
+
+
+
+
+
+
+// save an order to the database
+module.exports.saveOrder = async function
+    (req, res, next) {
+    
+    // if there is a current user logged in
+    if (req.user) {
         // create a new order
         let order = new Order({
             // get the shopping cart from the session
-            shoppingCart: req.session.cart,
+            shoppingCart: req.session.cart, 
             // get the user id from passport
             userId: req.user.id,
             orderTotal: Number(req.session.cart.cartTotal),
             orderQuantity: Number(req.session.cart.cartQuantity)
         });
-        console.log('10');
+
+        console.log('1');
+
+        // console.log('order', order);
+        var sessionCart = req.session.cart;
+        req.session.cart = await updateQty(sessionCart);
+        console.log("req.session.cart.......", req.session.cart);
+
+
+        // get the shopping cart object from the session
+        // var cart = req.session.cart;
+        // var cart = new Cart(req.session.cart);
+         
+        // // get the products from the session cart
+        // var products = cart.products;
+
+        // console.log('2');
+
+        // // loop through the products in the cart
+        // for (var id in products) {
+        //     // quantity the user selected for the product in their session cart
+        //     prodSessionCartQty = Number(products[id].quantity);
+
+        //     console.log('3');
+
+        //     // get the product model quantity and subtract
+        //     Product.findById(id, (err, prod) => {
+                
+        //         console.log('3.5');
+
+        //         if (err)
+        //             console.log("Error Selecting product: %s ", err);
+        //         if (!prod)
+        //             return res.render('404');
+                    
+        //             // the number of products in the product database collection
+        //             var productDbQty = Number(prod.quantity);
+
+        //             console.log('4');
+
+        //             // if their are enough products in the database
+        //             if (productDbQty >= prodSessionCartQty) {
+        //                 // subtract the product session cart quantity 
+        //                 productDbQty = productDbQty - prodSessionCartQty;
+        //                 prod.quantity = productDbQty;  // store the new quantity
+
+        //                 // update array of quantity count in product collection
+        //                 var qty = prod.quantity;
+        //                 var getQtyArr = ProductDb.getProductCount(qty);
+        //                 prod.qtyCount = getQtyArr;       
+                                    
+        //                 console.log('5');
+
+        //                 // get the products in the shopping cart
+        //                 var cartProducts = cart.products;
+
+        //                 // array to hold the products of an order
+        //                 var productsArray = [];
+                        
+        //                 // loop through the products in the cart
+        //                 for (var i in cartProducts) {
+
+        //                     console.log('6');
+
+        //                     // update quantities for prods in order collection
+        //                     cartProducts[i].prod.quantity = productDbQty;
+        //                     cartProducts[i].prod.qtyCount = getQtyArr;
+
+        //                     console.log('cartProducts[i].prod.quantity', cartProducts[i].prod.quantity);
+
+        //                     // push the products into an array
+        //                     productsArray.push(cartProducts[i]);
+        //                 };
+        //                 // store the updated prod quantities back in the cart object
+        //                 cart.products = productsArray;
+        //                 req.session.cart = cart;
+
+        //                 console.log('cart', cart);
+        //                 console.log('7');
+
+        //                 // save the new updated quantity to the database
+        //                 prod.save((err, updatedProd) => {
+
+        //                     console.log('8');
+
+        //                     console.log(err, updatedProd);
+        //                     if (err) {
+        //                         res.status(500).send('save failed');
+        //                         return;
+        //                     }
+        //                 });
+
+        //             }//if
+        //     }); // Product   
+        // } //for
+
+        console.log('9');
 
         order.save((err, resultCallback) => {
-            console.log('11');
+            console.log('10');
 
             // if an error occurs during checkout
             if (err) {
