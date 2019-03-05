@@ -31,109 +31,86 @@ module.exports.orderForm =
 
 
 
-function updateQty(sessionCart) {
-    return new Promise((resolve, reject) => {
+/*************************************************************
+ *  Update the session cart and product collection quantities
+ *************************************************************/
+async function updateQty(sessionCart){
 
+    // pass in the session cart
+    var cart = new Cart(sessionCart);
+        
+    // get the products from the session cart
+    var products = cart.products;
 
-        var cart = new Cart(sessionCart);
-         
-        // get the products from the session cart
-        var products = cart.products;
+    // loop through the products in the cart
+    for (var id in products) {
+        // quantity the user selected for the product in their session cart
+        prodSessionCartQty = Number(products[id].quantity);
 
-        console.log('2');
-
-        // loop through the products in the cart
-        for (var id in products) {
-            // quantity the user selected for the product in their session cart
-            prodSessionCartQty = Number(products[id].quantity);
-
-            console.log('3');
-
-            // get the product model quantity and subtract
-            Product.findById(id, (err, prod) => {
+        // get the product model quantity to subtract values
+        await Product.findById(id, (err, prod) => {
+            
+            if (err)
+                console.log("Error Selecting product: %s ", err);
+            if (!prod)
+                return res.render('404');
                 
-                console.log('3.5');
+                // the number of products in the product database collection
+                var productDbQty = Number(prod.quantity);
 
-                if (err)
-                    console.log("Error Selecting product: %s ", err);
-                if (!prod)
-                    return res.render('404');
+                // if their are enough products in the database
+                if (productDbQty >= prodSessionCartQty) {
+
+                    // subtract the product session cart quantity 
+                    productDbQty = productDbQty - prodSessionCartQty;
+                    prod.quantity = productDbQty;  // store the new quantity
+
+                    // update array of quantity count in product collection
+                    var qty = prod.quantity;
+                    var getQtyArr = ProductDb.getProductCount(qty);
+                    prod.qtyCount = getQtyArr;       
+                                
+                    // get the products in the shopping cart
+                    var cartProducts = cart.products;
+
+                    // array to hold the products of an order
+                    var productsArray = [];
                     
-                    // the number of products in the product database collection
-                    var productDbQty = Number(prod.quantity);
+                    // loop through the products in the cart
+                    for (var i in cartProducts) {
 
-                    console.log('4');
+                        // update quantities for prods in order collection
+                        cartProducts[i].prod.quantity = productDbQty;
+                        cartProducts[i].prod.qtyCount = getQtyArr;
 
-                    // if their are enough products in the database
-                    if (productDbQty >= prodSessionCartQty) {
-                        // subtract the product session cart quantity 
-                        productDbQty = productDbQty - prodSessionCartQty;
-                        prod.quantity = productDbQty;  // store the new quantity
+                        // push the products into an array
+                        productsArray.push(cartProducts[i]);
+                    };
+                    // store the updated prod quantities back in the cart object
+                    cart.products = productsArray;
 
-                        // update array of quantity count in product collection
-                        var qty = prod.quantity;
-                        var getQtyArr = ProductDb.getProductCount(qty);
-                        prod.qtyCount = getQtyArr;       
-                                    
-                        console.log('5');
+                    // save the new updated quantity to the database
+                    prod.save((err, updatedProd) => {
 
-                        // get the products in the shopping cart
-                        var cartProducts = cart.products;
+                        console.log(err, updatedProd);
+                        if (err) {
+                            res.status(500).send('save failed');
+                            return;
+                        }                
+                    });
 
-                        // array to hold the products of an order
-                        var productsArray = [];
-                        
-                        // loop through the products in the cart
-                        for (var i in cartProducts) {
+                }//if
+        }); // Product   
+    } //for
 
-                            console.log('6');
-
-                            // update quantities for prods in order collection
-                            cartProducts[i].prod.quantity = productDbQty;
-                            cartProducts[i].prod.qtyCount = getQtyArr;
-
-                            console.log('cartProducts[i].prod.quantity', cartProducts[i].prod.quantity);
-
-                            // push the products into an array
-                            productsArray.push(cartProducts[i]);
-                        };
-                        // store the updated prod quantities back in the cart object
-                        cart.products = productsArray;
-
-                        console.log('cart', cart);
-                        console.log('7');
-
-                        // save the new updated quantity to the database
-                        prod.save((err, updatedProd) => {
-
-                            console.log('8');
-
-                            console.log(err, updatedProd);
-                            if (err) {
-                                res.status(500).send('save failed');
-                                return;
-                            }
-                            
-                            return cart;
-                        });
-
-                    }//if
-            }); // Product   
-        } //for
-
-        // return cart;
-
-    });// end promise
+    // return the updated values for the prod object in the session cart
+    return cart;
 }
 
 
-
-
-
-
-
-
-// save an order to the database
+/*************************************
+ *  save an order to the database
+ *************************************/
 module.exports.saveOrder = async function
     (req, res, next) {
     
@@ -149,105 +126,14 @@ module.exports.saveOrder = async function
             orderQuantity: Number(req.session.cart.cartQuantity)
         });
 
-        console.log('1');
-
-        // console.log('order', order);
-        var sessionCart = req.session.cart;
+        // call function to update the product collection and session cart quantities
+        var sessionCart = req.session.cart;        
+        // store updated product count back to session
+        // keeps the product collection and prod object in order collection with same quantity
         req.session.cart = await updateQty(sessionCart);
-        console.log("req.session.cart.......", req.session.cart);
 
-
-        // get the shopping cart object from the session
-        // var cart = req.session.cart;
-        // var cart = new Cart(req.session.cart);
-         
-        // // get the products from the session cart
-        // var products = cart.products;
-
-        // console.log('2');
-
-        // // loop through the products in the cart
-        // for (var id in products) {
-        //     // quantity the user selected for the product in their session cart
-        //     prodSessionCartQty = Number(products[id].quantity);
-
-        //     console.log('3');
-
-        //     // get the product model quantity and subtract
-        //     Product.findById(id, (err, prod) => {
-                
-        //         console.log('3.5');
-
-        //         if (err)
-        //             console.log("Error Selecting product: %s ", err);
-        //         if (!prod)
-        //             return res.render('404');
-                    
-        //             // the number of products in the product database collection
-        //             var productDbQty = Number(prod.quantity);
-
-        //             console.log('4');
-
-        //             // if their are enough products in the database
-        //             if (productDbQty >= prodSessionCartQty) {
-        //                 // subtract the product session cart quantity 
-        //                 productDbQty = productDbQty - prodSessionCartQty;
-        //                 prod.quantity = productDbQty;  // store the new quantity
-
-        //                 // update array of quantity count in product collection
-        //                 var qty = prod.quantity;
-        //                 var getQtyArr = ProductDb.getProductCount(qty);
-        //                 prod.qtyCount = getQtyArr;       
-                                    
-        //                 console.log('5');
-
-        //                 // get the products in the shopping cart
-        //                 var cartProducts = cart.products;
-
-        //                 // array to hold the products of an order
-        //                 var productsArray = [];
-                        
-        //                 // loop through the products in the cart
-        //                 for (var i in cartProducts) {
-
-        //                     console.log('6');
-
-        //                     // update quantities for prods in order collection
-        //                     cartProducts[i].prod.quantity = productDbQty;
-        //                     cartProducts[i].prod.qtyCount = getQtyArr;
-
-        //                     console.log('cartProducts[i].prod.quantity', cartProducts[i].prod.quantity);
-
-        //                     // push the products into an array
-        //                     productsArray.push(cartProducts[i]);
-        //                 };
-        //                 // store the updated prod quantities back in the cart object
-        //                 cart.products = productsArray;
-        //                 req.session.cart = cart;
-
-        //                 console.log('cart', cart);
-        //                 console.log('7');
-
-        //                 // save the new updated quantity to the database
-        //                 prod.save((err, updatedProd) => {
-
-        //                     console.log('8');
-
-        //                     console.log(err, updatedProd);
-        //                     if (err) {
-        //                         res.status(500).send('save failed');
-        //                         return;
-        //                     }
-        //                 });
-
-        //             }//if
-        //     }); // Product   
-        // } //for
-
-        console.log('9');
-
-        order.save((err, resultCallback) => {
-            console.log('10');
+        // save the order to the database
+        await order.save((err, resultCallback) => {
 
             // if an error occurs during checkout
             if (err) {
@@ -272,11 +158,12 @@ module.exports.saveOrder = async function
     }
 };
 
-// show a users orders
+
+/*************************************
+ *  show a users orders
+ *************************************/
 module.exports.showOrders = 
     (req, res, next) => {
-
-        // console.log(req.user.id);
 
         // find the current users orders
         Order.find({userId: req.user.id}, (err, userOrders) => {
