@@ -59,6 +59,7 @@ async function updateQty(sessionCart){
                 var productDbQty = Number(prod.quantity);
 
                 // if their are enough products in the database
+                // make sure user can't order more products than are avilable
                 if (productDbQty >= prodSessionCartQty) {
 
                     // subtract the product session cart quantity 
@@ -132,7 +133,7 @@ module.exports.saveOrder = async function
         // keeps the product collection and prod object in order collection with same quantity
         req.session.cart = await updateQty(sessionCart);
 
-        // save the order to the database
+        // save the order to the database as last step
         await order.save((err, resultCallback) => {
 
             // if an error occurs during checkout
