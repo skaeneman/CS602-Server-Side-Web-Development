@@ -110,15 +110,15 @@ module.exports.removeProductsFromOrder = async (productId, currentProdQty, curre
     });
 }
 
-module.exports.addProductsToOrder = async function (productId, currentProdQty, currentProdPrice, newProdQty) {
+module.exports.addProductsToOrder = async function (productId, newProdQty) {
     const Product = mongoose.model("ProductModel", productSchema);
 
     console.log("greater than...");
     
-    // add the new product quantity to the order
-    var additionalItems = newProdQty - currentProdQty;
+    // // add the new product quantity to the order
+    // var additionalItems = newProdQty - currentProdQty;
 
-    console.log("additional items", additionalItems);
+    // console.log("additional items", additionalItems);
 
     // find the product to subtract the quantity from the product table
     Product.findById(productId, (err, product) => {
@@ -126,6 +126,17 @@ module.exports.addProductsToOrder = async function (productId, currentProdQty, c
             console.log("Error Selecting : %s ", err);
         if (!product)
             return res.render('404');
+        
+        //find current product quantuty
+        var currentProdQty = product.quantity;
+        // find current product price
+        var currentProdPrice = product.price;
+
+        // find how many items were added to the order
+        var additionalItems = newProdQty - currentProdQty;
+
+        console.log("additional items", additionalItems);
+
 
         // if passed in qty is <= product qty in database
         if (additionalItems <= product.quantity) {
