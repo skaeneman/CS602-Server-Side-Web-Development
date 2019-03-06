@@ -69,6 +69,49 @@ module.exports.getXmlProducts = (products) => {
 }
 
 
+// updates product quantities in the database when an admin is deleting products from a users cart
+module.exports.removeProductsFromOrder = (productId, currentProdQty, currentProdPrice, newProdQty) => {
+
+    // subtract the number of products to be removed from the order
+    currentProdQty = currentProdQty - newProdQty;
+    // order.orderQuantity = currentProdQty;
+
+    const Product = mongoose.model("ProductModel", productSchema);
+
+    // find the product to add the quantity deleted back to the product collection
+    Product.findById(productId, (err, product) => {
+        if (err)
+            console.log("Error Selecting : %s ", err);
+        if (!product)
+            return res.render('404');
+
+        // if passed in qty is <= product qty in database
+        if (newProdQty <= product.quantity) {
+            console.log('<= product.quantity', product.quantity, "newProdQty", newProdQty);
+
+            // add deleted items back to product table
+            product.quantity = product.quantity + currentProdQty;
+
+            // subtract deleted items from shopping cart prod object in order table
+            orderProd.quantity -= currentProdQty;
+
+            // price of the number of products remaining multiplied by the new quantity
+            currentProdPrice = newProdQty * currentProdPrice;
+
+            product.save((err) => {
+                console.log('product save...')
+                if (err)
+                    console.log("Error updating : %s ", err);
+            });
+        }
+        else {
+            console.log("Error updating 1: %s ", err);
+        }
+    });
+}
+
+
+
 module.exports.getProductModel =
     () => {
         if (connection == null) {
