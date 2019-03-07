@@ -48,24 +48,32 @@ module.exports.adminSaveProduct =
     (req, res, next) => {
 
         var qty = req.body.quantity;
+        var price = req.body.price;
         var getQtyCount = ProductDb.getProductCount(qty);
-        
-        let product = new Product({
-            // productId: req.body.productId,
-            name: req.body.name,
-            description: req.body.description,
-            price: req.body.price,
-            quantity: req.body.quantity,
-            qtyCount: getQtyCount
-        });
 
-        product.save((err) => {
-            if (err) {
-                console.log("Error : %s ", err);
-            }
-            res.redirect('/admin/products');
-        });
+        // input verification, check if Not A Number (NaN) or less than 0
+        if (qty < 0 || isNaN(qty) == true || price < 0 || isNaN(price) == true) {
+            req.flash('errorMessage', 'Invaid input - please enter a postive integer');
+            return res.redirect(`/admin/products/add`);
+        }
+        // input passes verification now it can be used
+        else {
+            let product = new Product({
+                // productId: req.body.productId,
+                name: req.body.name,
+                description: req.body.description,
+                price: price,
+                quantity: qty,
+                qtyCount: getQtyCount
+            });
 
+            product.save((err) => {
+                if (err) {
+                    console.log("Error : %s ", err);
+                }
+                res.redirect('/admin/products');
+            });
+        }            
     };
 
 // render the edit product form
@@ -99,24 +107,35 @@ module.exports.adminSaveAfterEdit =
     (req, res, next) => {
 
         let id = req.params.id;
+        var qty = req.body.quantity;
+        var price = req.body.price;
+        
+        // input verification, check if Not A Number (NaN) or less than 0
+        if (qty < 0 || isNaN(qty) == true || price < 0 || isNaN(price) == true) {
+            req.flash('errorMessage', 'Invaid input - please enter a postive integer');
+            return res.redirect(`/admin/products/edit/${id}`);
+        }
+        // input passes verification now it can be used
+        else {        
 
-        Product.findById(id, (err, product) => {
-            if (err)
-                console.log("Error Selecting : %s ", err);
-            if (!product)
-                return res.render('404');
-
-            product.name = req.body.name
-            product.description = req.body.description,
-            product.price = req.body.price,
-            product.quantity = req.body.quantity            
-
-            product.save((err) => {
+            Product.findById(id, (err, product) => {
                 if (err)
-                    console.log("Error updating : %s ", err);
-                res.redirect('/admin/products');
+                    console.log("Error Selecting : %s ", err);
+                if (!product)
+                    return res.render('404');
+
+                product.name = req.body.name
+                product.description = req.body.description,
+                product.price = price,
+                product.quantity = qty           
+
+                product.save((err) => {
+                    if (err)
+                        console.log("Error updating : %s ", err);
+                    res.redirect('/admin/products');
+                });
             });
-        });
+        }//else
     };
 
 // deletes a product
