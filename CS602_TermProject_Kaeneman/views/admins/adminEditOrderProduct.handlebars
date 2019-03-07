@@ -1,0 +1,59 @@
+
+<br />
+<div class="container">
+  <div class="row">
+    <div class="col-sm-12">
+
+      <!-- show message when admin deletes an order -->
+      {{#if successMessage}}
+        <div class="alert alert-success alert-dismissible fade show col-md-6 offset-md-3" role="alert">
+          {{successMessage}}
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <br>
+      {{/if}}
+
+      <!-- show error message -->
+      {{#if errorMessage}}
+        <div class="alert alert-danger alert-dismissible fade show col-md-6 offset-md-3" role="alert">
+          {{errorMessage}}
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <br>
+      {{/if}}
+
+
+test
+
+{{!-- 
+      <form method="post" action='/admin/orders/edit/{{data.id}}'>
+     
+            <div class="card">
+                <div class="card-body">
+                    <div class="form-group row">
+                        <label for="quantity" class="col-form-label col-sm-6"><strong>{{this.prod.name}}</strong></label>
+                        <div class="col-sm-6">
+                          <input type="text" class="form-control col-sm-2 float-right" name="quantity" value="{{this.quantity}}" required>
+                          <input type="hidden" name="prodId" value="{{this.prod._id}}" />  
+                          {{!-- <input type="hidden" name="test" value="{{this.quantity}}, {{this.prod._id}}" required> --}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br>
+     
+        <div class="float-right">
+            <input type="button" value="Cancel" class="btn btn-outline-danger" class="cancel" onclick="cancelOrder()">
+            <input type="submit" value="Save" class="btn btn-success">
+        </div>
+      </form> --}}
+
+
+    </div>
+  </div>
+</div>
+

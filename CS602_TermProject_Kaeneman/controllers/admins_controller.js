@@ -208,7 +208,7 @@ module.exports.adminDisplayOrders =
 
                     // array to hold the products of an order
                     var productsArray = [];
-
+        
                     // get the shopping cart object from the order
                     var cartOrder = order.shoppingCart;
 
@@ -346,8 +346,8 @@ module.exports.adminSaveAfterEditOrder = async function(req, res, next) {
                 var formProdId2 = prod.id;
                 var formProdQty2 = prod.newQuantity;
 
-                console.log('formProdId2', formProdId2);
-                console.log('formProdQty2', formProdQty2);
+                // console.log('formProdId2', formProdId2);
+                // console.log('formProdQty2', formProdQty2);
                 prodCount += 1;
                 updateUserOrder(formProdId2, formProdQty2, orderId, req, res, prodCount);
             });
@@ -394,9 +394,6 @@ module.exports.adminSaveAfterEditOrder = async function(req, res, next) {
                     if (!product)
                         return res.render('404');
 
-
-                        console.log('order with 1 product...');
-
                         var currentProdQty = product.quantity;
 
                         /******************************************************************************
@@ -411,9 +408,6 @@ module.exports.adminSaveAfterEditOrder = async function(req, res, next) {
                             var prodOrderQty = cartProducts[i].quantity;
 
                             if (prodId == formProdId) {
-
-                                console.log('formProdQty...', formProdQty);
-                                console.log('currentProdQty...', currentProdQty);
 
                                 /**********************************************************
                                 * user is adding items to order
@@ -455,9 +449,6 @@ module.exports.adminSaveAfterEditOrder = async function(req, res, next) {
                                         order.orderQuantity += additionalItems
                                         order.orderTotal += cartProducts[i].prod.price * additionalItems;
 
-                                        console.log('saving order._id', order._id);
-                                        console.log('prodCount', prodCount);
-
                                         // save the order back to the database to update it
                                         order.save((err) => {
                                             if (err)
@@ -470,18 +461,15 @@ module.exports.adminSaveAfterEditOrder = async function(req, res, next) {
                                             } else {
                                                 // more than one product in the order
                                                 req.flash('successMessage', `Order id ${order.id} successfully updated`);
+                                                return res.redirect(`/admin/orders/user/${order.userId}`);
+
                                             }
                                         });
                                     }
                                     else {
+                                        
+                                        return res.redirect(`/admin/orders/user/${order.userId}`);
 
-                                        if (prodCount === -1) {
-                                            req.flash('errorMessage', 'Could not update order');
-                                            return res.redirect(`/admin/orders/user/${order.userId}`);
-                                        } else {
-                                            // more than one product in the order
-                                            req.flash('errorMessage', 'Could not update order');
-                                        }                             
                                     }
 
                                 }//if formProdQty > currentProdQty
@@ -493,7 +481,6 @@ module.exports.adminSaveAfterEditOrder = async function(req, res, next) {
                                     console.log('deleteing items...')
                                     // find how many items are trying to be removed from the order
                                     var itemsToRemove = prodOrderQty - formProdQty;
-                                    console.log(itemsToRemove);
                                     // check if the new value is >= 0
                                     if (itemsToRemove >= 0) {
 
@@ -539,23 +526,25 @@ module.exports.adminSaveAfterEditOrder = async function(req, res, next) {
                                             } else {
                                                 // more than one product in the order
                                                 req.flash('successMessage', `Order id ${order.id} successfully updated`);
+                                                return res.redirect(`/admin/orders/user/${order.userId}`);
                                             }
                                         });
                                     }
                                     else {
-                                        if (prodCount === -1) {
-                                            req.flash('errorMessage', 'Could not update order');
-                                            return res.redirect(`/admin/orders/user/${order.userId}`);
-                                        } else {
-                                            // more than one product in the order
-                                            req.flash('errorMessage', 'Could not update order');
-                                        }                                          
+                                        // return res.redirect(`/admin/orders/user/${order.userId}`);      
+                                        // req.flash('errorMessage', 'Could not update order');
                                     }
 
                                 }//if formProdQty < currentProdQty
+
                                 else {
                                     // the product quantity did not change 
-                                    return res.redirect(`/admin/orders/user/${order.userId}`);
+                                    if (prodCount === -1) {
+                                        return res.redirect(`/admin/orders/user/${order.userId}`);
+                                    } else {
+                                        // more than one product in the order
+                                        // req.flash('errorMessage', 'Could not update order');
+                                    }                                     
                                 }
 
 
