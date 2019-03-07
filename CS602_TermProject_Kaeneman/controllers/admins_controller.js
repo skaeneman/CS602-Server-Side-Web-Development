@@ -332,220 +332,220 @@ module.exports.adminSaveAfterEditOrder = async function(req, res, next) {
         formProdQty = req.body.quantity;
         formProdId = req.body.prodId;     
       
+        var prodIdQtyArray = [];
+        if (Array.isArray(formProdQty) && Array.isArray(formProdId)) {
+            // an array was passed in so there is more than one product in the order
+            // take the 2 arrays from user input form and combine them into a key\value pair
+            prodIdQtyArray = formProdQty.map(function (x, i) {
+                return { "newQuantity": x, "id": formProdId[i] }
+            }.bind(this));  
+        } else {
+            // there is only one product to edit in the order, add it to the array
+            prodIdQtyArray.push({ "newQuantity": formProdQty, "id": formProdId });
+
+            updateUserOrder(formProdId, formProdQty, orderId, req, res);
+        }
+    };    
+
+
+
+    // update quantities in product and order collections when a user adds\removes items 
+    updateUserOrder = (formProdId, formProdQty, orderId, req, res) => {
 
         // input verification, check if Not A Number (NaN) or less than 0
         if (formProdQty < 0 || isNaN(formProdQty) == true) {
             req.flash('errorMessage', 'Invaid input - please enter a postive integer');
-            return res.redirect(`/admin/orders/edit/${orderId}`);            
+            return res.redirect(`/admin/orders/edit/${orderId}`);
         }
         // input passes verification now it can be used
         else {
 
-
-        
-        /******************************************************************************
-        * find the order that the user wants to edit
-        *******************************************************************************/
-        Order.findById(orderId, (err, order) => {
-            if (err)
-                console.log("Error Selecting : %s ", err);
-            if (!order)
-                return res.render('404');
-            
-            // get the cart object from the order in the database
-            var shoppingCart = order.shoppingCart;
-
-            // get the products from cart object
-            var cartProds = shoppingCart.products;
-
-
-            // see if it's 1 or more products in the order being edited
-            var productsArray = [];
-            for (var p in cartProds) {
-                productsArray.push(p);
-            }
-
-
-
-            // find the current product and return the quantity
-            Product.findById(formProdId, (err, product) => {
+            /******************************************************************************
+            * find the order that the user wants to edit
+            *******************************************************************************/
+            Order.findById(orderId, (err, order) => {
                 if (err)
                     console.log("Error Selecting : %s ", err);
-                if (!product)
+                if (!order)
                     return res.render('404');
 
-                // var qty = product.quantity;
+                // get the cart object from the order in the database
+                var shoppingCart = order.shoppingCart;
+
+                // get the products from cart object
+                var cartProds = shoppingCart.products;
+
+                // see if it's 1 or more products in the order being edited
+                var productsArray = [];
+                for (var p in cartProds) {
+                    productsArray.push(p);
+                }
+
+                // find the current product and return the quantity
+                Product.findById(formProdId, (err, product) => {
+                    if (err)
+                        console.log("Error Selecting : %s ", err);
+                    if (!product)
+                        return res.render('404');
+
+                    // var qty = product.quantity;
+
+
+                    // an order with only 1 product is being edited
+                    if (productsArray.length == 1) {
 
 
 
-                // an order with only 1 product is being edited
-                if (productsArray.length == 1) {
 
+                        console.log('order with 1 product...');
 
+                        var currentProdQty = product.quantity;
 
-                    console.log('order with 1 product...');
-                    
-                    var currentProdQty = product.quantity;
+                        /******************************************************************************
+                        * create a new shoppingCart object and initialize with values from the database
+                        *******************************************************************************/
+                        var cart = new Cart(shoppingCart);
+                        var cartProducts = cart.getProductList();  // get an array of products
 
+                        for (var i in cartProducts) {
 
+                            var prodId = cartProducts[i].prod._id;
+                            var prodOrderQty = cartProducts[i].quantity;
 
-                    /******************************************************************************
-                    * create a new shoppingCart object and initialize with values from the database
-                    *******************************************************************************/
-                    var cart = new Cart(shoppingCart);
-                    var cartProducts = cart.getProductList();  // get an array of products
+                            if (prodId == formProdId) {
 
-                    for (var i in cartProducts) {
+                                console.log('formProdQty...', formProdQty);
+                                console.log('currentProdQty...', currentProdQty);
 
-                        var prodId = cartProducts[i].prod._id;
-                        var prodOrderQty = cartProducts[i].quantity;
+                                /**********************************************************
+                                * user is adding items to order
+                                * ********************************************************/
+                                if (formProdQty > prodOrderQty) {
+                                    console.log('adding...')
+                                    // find how many items are trying to be added to the order
+                                    var additionalItems = formProdQty - prodOrderQty;
 
-                        if (prodId == formProdId) {
+                                    // check if the new value is <= product collection quantity
+                                    if (additionalItems <= product.quantity) {
 
+                                        // set the new product quantity in the order collection
+                                        cartProducts[i].quantity = cartProducts[i].quantity + additionalItems;
+                                        cartProducts[i].prod.quantity = formProdQty;
+                                        cartProducts[i].price += cartProducts[i].prod.price * additionalItems;
 
+                                        // update shoppingCart quantity and total in order collection
+                                        cart.cartQuantity += additionalItems;
+                                        cart.cartTotal += cartProducts[i].prod.price * additionalItems;
 
-                            console.log('formProdQty...', formProdQty);
-                            console.log('currentProdQty...', currentProdQty);
+                                        // save the updated product quantity back to the shopping cart object
+                                        order.shoppingCart = cart;
 
-                            /**********************************************************
-                            * user is adding items to order
-                            * ********************************************************/
-                            if (formProdQty > prodOrderQty) {
-                                console.log('adding...')
-                                // find how many items are trying to be added to the order
-                                var additionalItems = formProdQty - prodOrderQty;
+                                        // remove items from the product collection
+                                        product.quantity = product.quantity - additionalItems;
 
-                                // check if the new value is <= product collection quantity
-                                if (additionalItems <= product.quantity) {
+                                        // price of the number of products remaining multiplied by the new quantity
+                                        var currentProdPrice = product.price;
+                                        currentProdPrice = formProdQty * currentProdPrice;
 
-                                    // set the new product quantity in the order collection
-                                    cartProducts[i].quantity = cartProducts[i].quantity + additionalItems;
-                                    cartProducts[i].prod.quantity = formProdQty;
-                                    cartProducts[i].price += cartProducts[i].prod.price * additionalItems;
+                                        // save the product
+                                        product.save((err) => {
+                                            if (err)
+                                                console.log("Error updating : %s ", err);
+                                        });
 
-                                    // update shoppingCart quantity and total in order collection
-                                    cart.cartQuantity += additionalItems;
-                                    cart.cartTotal += cartProducts[i].prod.price * additionalItems;
+                                        // update order quantity and total
+                                        order.orderQuantity += additionalItems
+                                        order.orderTotal += cartProducts[i].prod.price * additionalItems;
 
-                                    // save the updated product quantity back to the shopping cart object
-                                    order.shoppingCart = cart;
+                                        // save the order back to the database to update it
+                                        order.save((err) => {
+                                            if (err)
+                                                console.log("Error deleting : %s ", err);
 
-                                    // remove items from the product collection
-                                    product.quantity = product.quantity - additionalItems;
+                                            // req.flash('successMessage', `Order id ${order.id} successfully updated`);
+                                            return res.redirect(`/admin/orders/user/${order.userId}`);
+                                        });
+                                    }
+                                    else {
+                                        req.flash('errorMessage', 'Could not update order');
+                                        console.log("Error updating order, quantity is more than what's in stock");
+                                        res.redirect(`/admin/orders/user/${order.userId}`);
+                                        return;
+                                    }
 
-                                    // price of the number of products remaining multiplied by the new quantity
-                                    var currentProdPrice = product.price;
-                                    currentProdPrice = formProdQty * currentProdPrice;
-                                 
-                                    // save the product
-                                    product.save((err) => {
-                                        if (err)
-                                            console.log("Error updating : %s ", err);
-                                    });
+                                }//if formProdQty > currentProdQty
 
-                                    // update order quantity and total
-                                    order.orderQuantity += additionalItems
-                                    order.orderTotal += cartProducts[i].prod.price * additionalItems;
+                                /**********************************************************
+                                * user is deleting items from order
+                                * ********************************************************/
+                                else if (formProdQty < prodOrderQty) {
+                                    console.log('deleteing items...')
+                                    // find how many items are trying to be removed from the order
+                                    var itemsToRemove = prodOrderQty - formProdQty;
+                                    console.log(itemsToRemove);
+                                    // check if the new value is >= 0
+                                    if (itemsToRemove >= 0) {
 
-                                    // save the order back to the database to update it
-                                    order.save((err) => {
-                                        if (err)
-                                            console.log("Error deleting : %s ", err);
+                                        // set the new product quantity in the order collection
+                                        cartProducts[i].quantity = cartProducts[i].quantity - itemsToRemove;
+                                        cartProducts[i].prod.quantity = formProdQty;
+                                        cartProducts[i].price -= cartProducts[i].prod.price * itemsToRemove;
 
-                                        // req.flash('successMessage', `Order id ${order.id} successfully updated`);
-                                        return res.redirect(`/admin/orders/user/${order.userId}`);
-                                    });
-                                }
+                                        // update shoppingCart object quantity and total in order collection
+                                        cart.cartQuantity -= itemsToRemove;
+                                        cart.cartTotal -= cartProducts[i].prod.price * itemsToRemove;
+
+                                        // save the updated product quantity back to the shopping cart object
+                                        order.shoppingCart = cart;
+
+                                        // add items to the product collection
+                                        product.quantity = product.quantity + itemsToRemove;
+
+                                        // price of the number of products remaining multiplied by the new quantity
+                                        var currentProdPrice = product.price;
+                                        currentProdPrice = formProdQty * currentProdPrice;
+
+                                        // save the product
+                                        product.save((err) => {
+                                            if (err)
+                                                console.log("Error updating : %s ", err);
+                                        });
+
+                                        // update order quantity and total
+                                        order.orderQuantity -= itemsToRemove
+                                        order.orderTotal -= cartProducts[i].prod.price * itemsToRemove;
+
+                                        // save the order back to the database to update it
+                                        order.save((err) => {
+                                            if (err)
+                                                console.log("Error deleting : %s ", err);
+
+                                            // req.flash('successMessage', `Order id ${order.id} successfully updated`);
+                                            return res.redirect(`/admin/orders/user/${order.userId}`);
+                                        });
+                                    }
+                                    else {
+                                        req.flash('errorMessage', 'Could not update order');
+                                        console.log("Error updating order, quantity must be greater than or equal to 0");
+                                        res.redirect(`/admin/orders/user/${order.userId}`);
+                                        return;
+                                    }
+
+                                }//if formProdQty < currentProdQty
                                 else {
-                                    req.flash('errorMessage', 'Could not update order');
-                                    console.log("Error updating order, quantity is more than what's in stock");
-                                    res.redirect(`/admin/orders/user/${order.userId}`);
-                                    return;
+                                    // the product quantity did not change 
+                                    return res.redirect(`/admin/orders/user/${order.userId}`);
                                 }
 
-                            }//if formProdQty > currentProdQty
 
-                            /**********************************************************
-                            * user is deleting items from order
-                            * ********************************************************/
-                            else if (formProdQty < prodOrderQty) {
-                                console.log('deleteing items...')
-                                // find how many items are trying to be removed from the order
-                                var itemsToRemove = prodOrderQty - formProdQty;
-                                console.log(itemsToRemove);
-                                // check if the new value is >= 0
-                                if (itemsToRemove >= 0) {
+                            }//if prodId == formProdId
+                        }//for
 
-                                    // set the new product quantity in the order collection
-                                    cartProducts[i].quantity = cartProducts[i].quantity - itemsToRemove;
-                                    cartProducts[i].prod.quantity = formProdQty;
-                                    cartProducts[i].price -= cartProducts[i].prod.price * itemsToRemove;
+                    }//if
 
-                                    // update shoppingCart object quantity and total in order collection
-                                    cart.cartQuantity -= itemsToRemove;
-                                    cart.cartTotal -= cartProducts[i].prod.price * itemsToRemove;
+                });//findById
 
-                                    // save the updated product quantity back to the shopping cart object
-                                    order.shoppingCart = cart;
-
-                                    // add items to the product collection
-                                    product.quantity = product.quantity + itemsToRemove;
-
-                                    // price of the number of products remaining multiplied by the new quantity
-                                    var currentProdPrice = product.price;
-                                    currentProdPrice = formProdQty * currentProdPrice;
-
-                                    // save the product
-                                    product.save((err) => {
-                                        if (err)
-                                            console.log("Error updating : %s ", err);
-                                    });
-
-                                    // update order quantity and total
-                                    order.orderQuantity -= itemsToRemove
-                                    order.orderTotal -= cartProducts[i].prod.price * itemsToRemove;
-
-                                    // save the order back to the database to update it
-                                    order.save((err) => {
-                                        if (err)
-                                            console.log("Error deleting : %s ", err);
-
-                                        // req.flash('successMessage', `Order id ${order.id} successfully updated`);
-                                        return res.redirect(`/admin/orders/user/${order.userId}`);
-                                    });
-                                }
-                                else {
-                                    req.flash('errorMessage', 'Could not update order');
-                                    console.log("Error updating order, quantity must be greater than or equal to 0");
-                                    res.redirect(`/admin/orders/user/${order.userId}`);
-                                    return;
-                                }
-
-                            }//if formProdQty < currentProdQty
-                            else {
-                                // the product quantity did not change 
-                                return res.redirect(`/admin/orders/user/${order.userId}`);     
-                            }
-
-
-
-
-
-
-                        }//if prodId == formProdId
-                    }//for
-
-
-
-
-
-
-                        }//if
-
-                    });//findById
-                   
-            
-
-        });
+            });
         }//input verification
-    };    
+
+    }//end updateUserOrder function
