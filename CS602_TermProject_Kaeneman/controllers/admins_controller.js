@@ -342,9 +342,6 @@ module.exports.adminSaveAfterEditOrder = async function(req, res, next) {
 
 
 
-
-
-
             // find the current product and return the quantity
             Product.findById(formProdId, (err, product) => {
                 if (err)
@@ -365,13 +362,6 @@ module.exports.adminSaveAfterEditOrder = async function(req, res, next) {
                     
                     var currentProdQty = qty; 
 
-                    /******************************************************************************
-                    * new quantity is less than current quantity, so user is deleting products
-                    *******************************************************************************/                        
-                    if (formProdQty < currentProdQty) {  
-                        deletingProd = true; // user is deleteing products
-                        ProductDb.removeProductsFromOrder(formProdId, formProdQty);
-                    }
 
 
                     /******************************************************************************
@@ -388,11 +378,14 @@ module.exports.adminSaveAfterEditOrder = async function(req, res, next) {
 
 
 
+                            console.log('formProdQty...', formProdQty);
+                            console.log('currentProdQty...', currentProdQty);
 
                             /**********************************************************
                             * user is adding items to order
                             * ********************************************************/
                             if (formProdQty > currentProdQty) {
+                                console.log('adding...')
                                 // find how many items are trying to be added to the order
                                 var additionalItems = formProdQty - currentProdQty;
 
@@ -450,6 +443,7 @@ module.exports.adminSaveAfterEditOrder = async function(req, res, next) {
                             * user is deleting items from order
                             * ********************************************************/
                             if (formProdQty < currentProdQty) {
+                                console.log('deleteing items...')
                                 // find how many items are trying to be removed from the order
                                 var itemsToRemove = currentProdQty - formProdQty;
 
@@ -459,6 +453,7 @@ module.exports.adminSaveAfterEditOrder = async function(req, res, next) {
                                     // set the new product quantity in the order collection
                                     cartProducts[i].quantity = cartProducts[i].quantity - itemsToRemove;
                                     cartProducts[i].prod.quantity = formProdQty;
+                                    cartProducts[i].price -= cartProducts[i].prod.price * itemsToRemove;
 
                                     // update shoppingCart object quantity and total in order collection
                                     cart.cartQuantity -= itemsToRemove;
@@ -468,7 +463,7 @@ module.exports.adminSaveAfterEditOrder = async function(req, res, next) {
                                     order.shoppingCart = cart;
 
                                     // add items to the product collection
-                                    product.quantity = product.quantity + itemsToRemove;
+                                    product.quantity = product.quantity - itemsToRemove;
 
                                     // price of the number of products remaining multiplied by the new quantity
                                     var currentProdPrice = product.price;
@@ -479,7 +474,11 @@ module.exports.adminSaveAfterEditOrder = async function(req, res, next) {
                                         if (err)
                                             console.log("Error updating : %s ", err);
                                     });
-                                    
+
+                                    // update order quantity and total
+                                    order.orderQuantity -= itemsToRemove
+                                    order.orderTotal -= cartProducts[i].prod.price * itemsToRemove;
+
                                     // save the order back to the database to update it
                                     order.save((err) => {
                                         if (err)
