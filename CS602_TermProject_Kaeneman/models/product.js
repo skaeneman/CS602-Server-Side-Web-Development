@@ -69,104 +69,104 @@ module.exports.getXmlProducts = (products) => {
 }
 
 
-// updates product quantities in the database when an admin is deleting products from a users cart
-module.exports.removeProductsFromOrder = async (productId, currentProdQty, currentProdPrice, newProdQty) => {
+// // updates product quantities in the database when an admin is deleting products from a users cart
+// module.exports.removeProductsFromOrder = async (productId, currentProdQty, currentProdPrice, newProdQty) => {
 
-    // subtract the number of products to be removed from the order
-    currentProdQty = currentProdQty - newProdQty;
-    // order.orderQuantity = currentProdQty;
+//     // subtract the number of products to be removed from the order
+//     currentProdQty = currentProdQty - newProdQty;
+//     // order.orderQuantity = currentProdQty;
 
-    const Product = mongoose.model("ProductModel", productSchema);
+//     const Product = mongoose.model("ProductModel", productSchema);
 
-    // find the product to add the quantity deleted back to the product collection
-    Product.findById(productId, (err, product) => {
-        if (err)
-            console.log("Error Selecting : %s ", err);
-        if (!product)
-            return res.render('404');
+//     // find the product to add the quantity deleted back to the product collection
+//     Product.findById(productId, (err, product) => {
+//         if (err)
+//             console.log("Error Selecting : %s ", err);
+//         if (!product)
+//             return res.render('404');
 
-        // if passed in qty is <= product qty in database
-        if (newProdQty <= product.quantity) {
-            console.log('<= product.quantity', product.quantity, "newProdQty", newProdQty);
+//         // if passed in qty is <= product qty in database
+//         if (newProdQty <= product.quantity) {
+//             console.log('<= product.quantity', product.quantity, "newProdQty", newProdQty);
 
-            // add deleted items back to product table
-            product.quantity = product.quantity + currentProdQty;
+//             // add deleted items back to product table
+//             product.quantity = product.quantity + currentProdQty;
 
-            // subtract deleted items from shopping cart prod object in order table
-            orderProd.quantity -= currentProdQty;
+//             // subtract deleted items from shopping cart prod object in order table
+//             orderProd.quantity -= currentProdQty;
 
-            // price of the number of products remaining multiplied by the new quantity
-            currentProdPrice = newProdQty * currentProdPrice;
+//             // price of the number of products remaining multiplied by the new quantity
+//             currentProdPrice = newProdQty * currentProdPrice;
 
-            product.save((err) => {
-                console.log('product save...')
-                if (err)
-                    console.log("Error updating : %s ", err);
-            });
-        }
-        else {
-            console.log("Error updating 1: %s ", err);
-        }
-    });
-}
+//             product.save((err) => {
+//                 console.log('product save...')
+//                 if (err)
+//                     console.log("Error updating : %s ", err);
+//             });
+//         }
+//         else {
+//             console.log("Error updating 1: %s ", err);
+//         }
+//     });
+// }
 
-module.exports.addProductsToOrder = async function (productId, newProdQty) {
-    const Product = mongoose.model("ProductModel", productSchema);
+// module.exports.addProductsToOrder = async function (productId, newProdQty) {
+//     const Product = mongoose.model("ProductModel", productSchema);
 
-    console.log("greater than...");
+//     console.log("greater than...");
     
-    // // add the new product quantity to the order
-    // var additionalItems = newProdQty - currentProdQty;
+//     // // add the new product quantity to the order
+//     // var additionalItems = newProdQty - currentProdQty;
 
-    // console.log("additional items", additionalItems);
+//     // console.log("additional items", additionalItems);
 
-    // find the product to subtract the quantity from the product table
-    Product.findById(productId, (err, product) => {
-        if (err)
-            console.log("Error Selecting : %s ", err);
-        if (!product)
-            return res.render('404');
+//     // find the product to subtract the quantity from the product table
+//     Product.findById(productId, (err, product) => {
+//         if (err)
+//             console.log("Error Selecting : %s ", err);
+//         if (!product)
+//             return res.render('404');
         
-        //find current product quantuty
-        var currentProdQty = product.quantity;
-        // find current product price
-        var currentProdPrice = product.price;
+//         //find current product quantuty
+//         var currentProdQty = product.quantity;
+//         // find current product price
+//         var currentProdPrice = product.price;
 
-        // find how many items were added to the order
-        var additionalItems = newProdQty - currentProdQty;
+//         // find how many items were added to the order
+//         var additionalItems = newProdQty - currentProdQty;
 
-        console.log("additional items", additionalItems);
-
-
-        // if passed in qty is <= product qty in database
-        if (additionalItems <= product.quantity) {
-            // subtract new order items from the product table
-            product.quantity = product.quantity - additionalItems;
-
-            console.log("subtracting new order items", product.quantity);
+//         console.log("additional items", additionalItems);
 
 
-            // add items to shopping cart prod object in order table
-            orderProd.quantity += additionalItems;
+//         // if passed in qty is <= product qty in database
+//         if (additionalItems <= product.quantity) {
+//             // subtract new order items from the product table
+//             product.quantity = product.quantity - additionalItems;
 
-            console.log('added items to cart', orderProd.quantity);
+//             console.log("subtracting new order items", product.quantity);
 
-            // price of the number of products remaining multiplied by the new quantity
-            currentProdPrice = newProdQty * currentProdPrice;
 
-            console.log('new prod price', currentProdPrice);
+//             // add items to shopping cart prod object in order table
+//             orderProd.quantity += additionalItems;
 
-            product.save((err) => {
-                if (err)
-                    console.log("Error updating : %s ", err);
-            });
+//             console.log('added items to cart', orderProd.quantity);
 
-        }
-        else {
-            console.log("Error updating 2: %s ", err);
-        }
-    });
-}
+//             // price of the number of products remaining multiplied by the new quantity
+//             currentProdPrice = newProdQty * currentProdPrice;
+
+//             console.log('new prod price', currentProdPrice);
+
+//             product.save((err) => {
+//                 if (err)
+//                     console.log("Error updating : %s ", err);
+//             });
+
+//         }
+//         else {
+//             console.log("Error updating 2: %s ", err);
+//         }
+//     });
+// }
 
 module.exports.getProductModel =
     () => {

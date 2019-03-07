@@ -413,7 +413,7 @@ module.exports.adminSaveAfterEditOrder = async function(req, res, next) {
                             if (formProdQty > prodOrderQty) {
                                 console.log('adding...')
                                 // find how many items are trying to be added to the order
-                                var additionalItems = formProdQty - currentProdQty;
+                                var additionalItems = formProdQty - prodOrderQty;
 
                                 // check if the new value is <= product collection quantity
                                 if (additionalItems <= product.quantity) {
