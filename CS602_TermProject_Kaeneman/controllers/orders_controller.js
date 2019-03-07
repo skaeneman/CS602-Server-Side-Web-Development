@@ -25,8 +25,9 @@ module.exports.orderForm =
 
             res.render('orders/orderForm', { title: "Order Total", products: cartProducts, cartQuantity: prodQty, cartTotal: cartTotal });            
         }
-        // res.render('orders/orderForm',
-        //     { title: "Order Total" });
+        else {            
+            res.redirect('/products');
+        }
     };
 
 
