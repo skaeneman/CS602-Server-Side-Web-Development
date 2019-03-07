@@ -109,7 +109,7 @@ module.exports.adminSaveAfterEdit =
         let id = req.params.id;
         var qty = req.body.quantity;
         var price = req.body.price;
-        
+
         // input verification, check if Not A Number (NaN) or less than 0
         if (qty < 0 || isNaN(qty) == true || price < 0 || isNaN(price) == true) {
             req.flash('errorMessage', 'Invaid input - please enter a postive integer');
@@ -430,7 +430,7 @@ module.exports.adminSaveAfterEditOrder = async function(req, res, next) {
                                     // save the updated product quantity back to the shopping cart object
                                     order.shoppingCart = cart;
 
-                                    // remove items from teh product collection
+                                    // remove items from the product collection
                                     product.quantity = product.quantity - additionalItems;
 
                                     // price of the number of products remaining multiplied by the new quantity
@@ -471,8 +471,8 @@ module.exports.adminSaveAfterEditOrder = async function(req, res, next) {
                             else if (formProdQty < prodOrderQty) {
                                 console.log('deleteing items...')
                                 // find how many items are trying to be removed from the order
-                                var itemsToRemove = currentProdQty - formProdQty;
-
+                                var itemsToRemove = prodOrderQty - formProdQty;
+                                console.log(itemsToRemove);
                                 // check if the new value is >= 0
                                 if (itemsToRemove >= 0) {
 
@@ -489,7 +489,7 @@ module.exports.adminSaveAfterEditOrder = async function(req, res, next) {
                                     order.shoppingCart = cart;
 
                                     // add items to the product collection
-                                    product.quantity = product.quantity - itemsToRemove;
+                                    product.quantity = product.quantity + itemsToRemove;
 
                                     // price of the number of products remaining multiplied by the new quantity
                                     var currentProdPrice = product.price;
