@@ -474,10 +474,14 @@ module.exports.adminSaveAfterEditOrder = async function(req, res, next) {
                                         });
                                     }
                                     else {
-                                        req.flash('errorMessage', 'Could not update order');
-                                        console.log("Error updating order, quantity is more than what's in stock");
-                                        res.redirect(`/admin/orders/user/${order.userId}`);
-                                        return;
+
+                                        if (prodCount === -1) {
+                                            req.flash('errorMessage', 'Could not update order');
+                                            return res.redirect(`/admin/orders/user/${order.userId}`);
+                                        } else {
+                                            // more than one product in the order
+                                            req.flash('errorMessage', 'Could not update order');
+                                        }                             
                                     }
 
                                 }//if formProdQty > currentProdQty
@@ -527,7 +531,7 @@ module.exports.adminSaveAfterEditOrder = async function(req, res, next) {
                                         order.save((err) => {
                                             if (err)
                                                 console.log("Error deleting : %s ", err);
-                                                
+
                                             // just one product in order so redirect     
                                             if (prodCount === -1) {
                                                 req.flash('successMessage', `Order id ${order.id} successfully updated`);
@@ -539,10 +543,13 @@ module.exports.adminSaveAfterEditOrder = async function(req, res, next) {
                                         });
                                     }
                                     else {
-                                        req.flash('errorMessage', 'Could not update order');
-                                        console.log("Error updating order, quantity must be greater than or equal to 0");
-                                        res.redirect(`/admin/orders/user/${order.userId}`);
-                                        return;
+                                        if (prodCount === -1) {
+                                            req.flash('errorMessage', 'Could not update order');
+                                            return res.redirect(`/admin/orders/user/${order.userId}`);
+                                        } else {
+                                            // more than one product in the order
+                                            req.flash('errorMessage', 'Could not update order');
+                                        }                                          
                                     }
 
                                 }//if formProdQty < currentProdQty
