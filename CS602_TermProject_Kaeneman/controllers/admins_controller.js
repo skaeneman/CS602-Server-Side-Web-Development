@@ -331,7 +331,9 @@ module.exports.adminSaveAfterEditOrder = async function(req, res, next) {
 
         formProdQty = req.body.quantity;
         formProdId = req.body.prodId;     
-      
+
+        let prodCount = 0;
+
         var prodIdQtyArray = [];
         if (Array.isArray(formProdQty) && Array.isArray(formProdId)) {
             // an array was passed in so there is more than one product in the order
@@ -339,18 +341,31 @@ module.exports.adminSaveAfterEditOrder = async function(req, res, next) {
             prodIdQtyArray = formProdQty.map(function (x, i) {
                 return { "newQuantity": x, "id": formProdId[i] }
             }.bind(this));  
-        } else {
-            // there is only one product to edit in the order, add it to the array
-            prodIdQtyArray.push({ "newQuantity": formProdQty, "id": formProdId });
 
-            updateUserOrder(formProdId, formProdQty, orderId, req, res);
+            prodIdQtyArray.forEach(prod => {
+                var formProdId2 = prod.id;
+                var formProdQty2 = prod.newQuantity;
+
+                console.log('formProdId2', formProdId2);
+                console.log('formProdQty2', formProdQty2);
+                prodCount += 1;
+                updateUserOrder(formProdId2, formProdQty2, orderId, req, res, prodCount);
+            });
+
+        } else {
+            // there is only one product to edit in the order
+            // prodIdQtyArray.push({ "newQuantity": formProdQty, "id": formProdId });
+            prodCount = -1;
+            updateUserOrder(formProdId, formProdQty, orderId, req, res, prodCount);
         }
     };    
 
 
 
-    // update quantities in product and order collections when a user adds\removes items 
-    updateUserOrder = (formProdId, formProdQty, orderId, req, res) => {
+    /*****************************************************************************************
+     * function update quantities in product & order collections when user adds\removes items
+     *****************************************************************************************/
+    updateUserOrder = async (formProdId, formProdQty, orderId, req, res, prodCount) => {
 
         // input verification, check if Not A Number (NaN) or less than 0
         if (formProdQty < 0 || isNaN(formProdQty) == true) {
@@ -372,29 +387,12 @@ module.exports.adminSaveAfterEditOrder = async function(req, res, next) {
                 // get the cart object from the order in the database
                 var shoppingCart = order.shoppingCart;
 
-                // get the products from cart object
-                var cartProds = shoppingCart.products;
-
-                // see if it's 1 or more products in the order being edited
-                var productsArray = [];
-                for (var p in cartProds) {
-                    productsArray.push(p);
-                }
-
                 // find the current product and return the quantity
                 Product.findById(formProdId, (err, product) => {
                     if (err)
                         console.log("Error Selecting : %s ", err);
                     if (!product)
                         return res.render('404');
-
-                    // var qty = product.quantity;
-
-
-                    // an order with only 1 product is being edited
-                    if (productsArray.length == 1) {
-
-
 
 
                         console.log('order with 1 product...');
@@ -457,13 +455,22 @@ module.exports.adminSaveAfterEditOrder = async function(req, res, next) {
                                         order.orderQuantity += additionalItems
                                         order.orderTotal += cartProducts[i].prod.price * additionalItems;
 
+                                        console.log('saving order._id', order._id);
+                                        console.log('prodCount', prodCount);
+
                                         // save the order back to the database to update it
                                         order.save((err) => {
                                             if (err)
                                                 console.log("Error deleting : %s ", err);
 
-                                            // req.flash('successMessage', `Order id ${order.id} successfully updated`);
-                                            return res.redirect(`/admin/orders/user/${order.userId}`);
+                                            // just one product in order so redirect     
+                                            if (prodCount === -1) {
+                                                req.flash('successMessage', `Order id ${order.id} successfully updated`);
+                                                return res.redirect(`/admin/orders/user/${order.userId}`);
+                                            } else {
+                                                // more than one product in the order
+                                                req.flash('successMessage', `Order id ${order.id} successfully updated`);
+                                            }
                                         });
                                     }
                                     else {
@@ -515,13 +522,20 @@ module.exports.adminSaveAfterEditOrder = async function(req, res, next) {
                                         order.orderQuantity -= itemsToRemove
                                         order.orderTotal -= cartProducts[i].prod.price * itemsToRemove;
 
+
                                         // save the order back to the database to update it
                                         order.save((err) => {
                                             if (err)
                                                 console.log("Error deleting : %s ", err);
-
-                                            // req.flash('successMessage', `Order id ${order.id} successfully updated`);
-                                            return res.redirect(`/admin/orders/user/${order.userId}`);
+                                                
+                                            // just one product in order so redirect     
+                                            if (prodCount === -1) {
+                                                req.flash('successMessage', `Order id ${order.id} successfully updated`);
+                                                return res.redirect(`/admin/orders/user/${order.userId}`);
+                                            } else {
+                                                // more than one product in the order
+                                                req.flash('successMessage', `Order id ${order.id} successfully updated`);
+                                            }
                                         });
                                     }
                                     else {
@@ -541,7 +555,7 @@ module.exports.adminSaveAfterEditOrder = async function(req, res, next) {
                             }//if prodId == formProdId
                         }//for
 
-                    }//if
+                    // }//if
 
                 });//findById
 
