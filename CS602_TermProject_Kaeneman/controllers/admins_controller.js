@@ -313,6 +313,14 @@ module.exports.adminSaveAfterEditOrder = async function(req, res, next) {
         formProdQty = req.body.quantity;
         formProdId = req.body.prodId;     
 
+        if (formProdQty < 0) {
+            req.flash('errorMessage', 'Please enter a postive integer');
+            res.redirect(`/admin/orders/edit/${orderId}`);            
+        }
+        // input passes verification now it can be used
+        else {
+
+
         
         /******************************************************************************
         * find the order that the user wants to edit
@@ -329,10 +337,6 @@ module.exports.adminSaveAfterEditOrder = async function(req, res, next) {
             // get the products from cart object
             var cartProds = shoppingCart.products;
 
-            // TESTING
-
-            console.log('formProdQty', formProdQty);
-            console.log('formProdId', formProdId);
 
             // see if it's 1 or more products in the order being edited
             var productsArray = [];
@@ -349,7 +353,7 @@ module.exports.adminSaveAfterEditOrder = async function(req, res, next) {
                 if (!product)
                     return res.render('404');
 
-                var qty = product.quantity;
+                // var qty = product.quantity;
 
 
 
@@ -360,7 +364,7 @@ module.exports.adminSaveAfterEditOrder = async function(req, res, next) {
 
                     console.log('order with 1 product...');
                     
-                    var currentProdQty = qty; 
+                    var currentProdQty = product.quantity;
 
 
 
@@ -373,6 +377,7 @@ module.exports.adminSaveAfterEditOrder = async function(req, res, next) {
                     for (var i in cartProducts) {
 
                         var prodId = cartProducts[i].prod._id;
+                        var prodOrderQty = cartProducts[i].quantity;
 
                         if (prodId == formProdId) {
 
@@ -384,7 +389,7 @@ module.exports.adminSaveAfterEditOrder = async function(req, res, next) {
                             /**********************************************************
                             * user is adding items to order
                             * ********************************************************/
-                            if (formProdQty > currentProdQty) {
+                            if (formProdQty > prodOrderQty) {
                                 console.log('adding...')
                                 // find how many items are trying to be added to the order
                                 var additionalItems = formProdQty - currentProdQty;
@@ -442,7 +447,7 @@ module.exports.adminSaveAfterEditOrder = async function(req, res, next) {
                             /**********************************************************
                             * user is deleting items from order
                             * ********************************************************/
-                            if (formProdQty < currentProdQty) {
+                            else if (formProdQty < prodOrderQty) {
                                 console.log('deleteing items...')
                                 // find how many items are trying to be removed from the order
                                 var itemsToRemove = currentProdQty - formProdQty;
@@ -496,7 +501,10 @@ module.exports.adminSaveAfterEditOrder = async function(req, res, next) {
                                 }
 
                             }//if formProdQty < currentProdQty
-
+                            else {
+                                // the product quantity did not change 
+                                return res.redirect(`/admin/orders/user/${order.userId}`);     
+                            }
 
 
 
@@ -518,4 +526,5 @@ module.exports.adminSaveAfterEditOrder = async function(req, res, next) {
             
 
         });
+        }//input verification
     };    
