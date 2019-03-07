@@ -49,7 +49,7 @@ module.exports.saveProductToCart =
                                       quantity: prodQty }
                 productInCart = cart.products[id];  // store the new product in variable 
                 req.session.cart = cart;  // store back to session
-                console.log('req.session.cart', cart.products[id].quantity);
+                // console.log('req.session.cart', cart.products[id].quantity);
                 alreadyAddedQty = true;
             }
 
@@ -103,7 +103,7 @@ module.exports.showCart =
     (req, res, next) => {
         // get the shopping cart from the session and store in a variable
         var productsInCart = req.session.cart;
-        console.log(productsInCart);
+        // console.log(productsInCart);
         // if there are products in the cart show them in the cart page
         if (productsInCart) {
             var cart = new Cart(productsInCart);  // create new cart object with existing products
