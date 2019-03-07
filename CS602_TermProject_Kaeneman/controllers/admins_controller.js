@@ -312,10 +312,12 @@ module.exports.adminSaveAfterEditOrder = async function(req, res, next) {
 
         formProdQty = req.body.quantity;
         formProdId = req.body.prodId;     
+      
 
-        if (formProdQty < 0) {
-            req.flash('errorMessage', 'Please enter a postive integer');
-            res.redirect(`/admin/orders/edit/${orderId}`);            
+        // input verification, check if Not A Number (NaN) or less than 0
+        if (formProdQty < 0 || isNaN(formProdQty) == true) {
+            req.flash('errorMessage', 'Invaid input - please enter a postive integer');
+            return res.redirect(`/admin/orders/edit/${orderId}`);            
         }
         // input passes verification now it can be used
         else {
