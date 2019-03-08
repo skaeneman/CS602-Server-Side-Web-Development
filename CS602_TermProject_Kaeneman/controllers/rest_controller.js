@@ -43,7 +43,7 @@ module.exports.getProductByName =
 
     formatType = formatType.toLowerCase();
     name = name.toLowerCase();
-        
+
     // find a product by name
     Product.find({name: name}, (err, products) => {
         if (err)

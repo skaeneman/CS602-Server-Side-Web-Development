@@ -413,7 +413,7 @@ module.exports.adminSaveAfterEditOrder = async function(req, res, next) {
                                 * user is adding items to order
                                 * ********************************************************/
                                 if (formProdQty > prodOrderQty) {
-                                    console.log('adding...')
+                                    // console.log('adding...')
                                     // find how many items are trying to be added to the order
                                     var additionalItems = formProdQty - prodOrderQty;
 
@@ -478,7 +478,7 @@ module.exports.adminSaveAfterEditOrder = async function(req, res, next) {
                                 * user is deleting items from order
                                 * ********************************************************/
                                 else if (formProdQty < prodOrderQty) {
-                                    console.log('deleteing items...')
+                                    // console.log('deleteing items...')
                                     // find how many items are trying to be removed from the order
                                     var itemsToRemove = prodOrderQty - formProdQty;
                                     // check if the new value is >= 0
