@@ -42,7 +42,7 @@ module.exports.getProductByName =
     var name = req.params.name;
 
     formatType = formatType.toLowerCase();
-    name = name.toLowerCase();
+    // name = name.toLowerCase();
 
     // find a product by name
     Product.find({name: name}, (err, products) => {
